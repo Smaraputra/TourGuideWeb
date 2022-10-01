@@ -1,10 +1,27 @@
 <template>
-  <nav>
+  <!-- <nav>
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
-  </nav>
+    <router-link to="/login">Login</router-link> |
+    <router-link to="/register">Register</router-link>
+  </nav> -->
+  <NavigationBar/>
   <router-view/>
+  <MyFooter/>
 </template>
+
+<script>
+import NavigationBar from "@/components/NavigationBar.vue";
+import MyFooter from "@/components/MyFooter.vue";
+
+export default {
+  name: "HomeView",
+  components: {
+    NavigationBar,
+    MyFooter,
+  },
+};
+</script>
 
 <style>
 #app {

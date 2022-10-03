@@ -1,10 +1,9 @@
 <template>
-  <!-- Footer Start -->
-  <div class="container-fluid bg-dark text-white-50 py-5 px-sm-3 px-lg-5" style="margin-top: 90px">
+  <div class="container-fluid bg-dark text-white-50 py-5 px-sm-3 px-lg-5">
     <div class="row pt-5">
       <div class="col-lg-3 col-md-6 mb-5">
-        <a href="" class="navbar-brand">
-          <h1 class="text-primary"><span class="text-white">SI</span>PENGUIDE</h1>
+        <a href="/" class="navbar-brand">
+          <h1 class="color-main"><span class="text-white">SI</span>PENGUIDE</h1>
         </a>
         <p>
           We provide the best services for both tour agents and guide to offer their product and services across the
@@ -16,12 +15,10 @@
           Usefull Links
         </h5>
         <div class="d-flex flex-column justify-content-start">
+          <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Destinations</a>
+          <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Tour Packages</a>
           <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>About</a>
-          <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Destination</a>
-          <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Services</a>
-          <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Packages</a>
-          <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Guides</a>
-          <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Testimonial</a>
+          <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Contact</a>
         </div>
       </div>
       <div class="col-lg-3 col-md-6 mb-5">
@@ -34,13 +31,16 @@
       </div>
     </div>
   </div>
-  <!-- Footer End -->
 </template>
 
 <script>
-export default {};
+export default {
+
+};
 </script>
 
 <style>
-
+.color-main {
+  color: #184fa7;
+}
 </style>

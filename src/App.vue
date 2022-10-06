@@ -1,9 +1,9 @@
 <template>
   <NavigationBar ></NavigationBar>
   <router-view/>
-  <MyFooter v-if="($route.name !== 'login') &&  ($route.name !== 'register')"></MyFooter>
+  <MyFooter ></MyFooter>
 </template>
-
+<!-- v-if="($route.name !== 'login') &&  ($route.name !== 'register')" -->
 <script>
 import NavigationBar from "@/components/NavigationBar.vue";
 import MyFooter from "@/components/MyFooter.vue";
@@ -20,5 +20,8 @@ export default {
 <style>
   .color-main {
     color: #184fa7;
+  }
+  .color-main-background {
+    background-color: #184fa7;
   }
 </style>

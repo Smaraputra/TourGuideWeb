@@ -11,30 +11,42 @@
                                         <!-- <img src="../assets/logo.png" href="/" style="width: 185px;" alt="logo"> -->
                                         <h1 class="mt-1 mb-5 pb-1 color-main"><strong>Login</strong></h1>
                                     </div>
-                                    <form>
+                                    <Form @submit="handleLogin" :validation-schema="schema">
                                         <h4>Welcome!</h4>
                                         <p>Please login using your account.</p>
-                                        <div class="form-outline mb-4" style="margin-top=5px">
-                                            <label class="form-label" for="form2Example11">Email Address</label>
-                                            <input type="email" id="form2Example11" class="form-control" placeholder="Your email" v-model="username"/>
+                                        
+                                        <div class="form-group">
+                                            <label for="email">Email</label>
+                                            <Field name="email" type="text" class="form-control" />
+                                            <ErrorMessage name="email" class="error-feedback" />
                                         </div>
-    
-                                        <div class="form-outline mb-4">
-                                            <label class="form-label" for="form2Example22">Password</label>
-                                            <input type="password" id="form2Example22" class="form-control" placeholder="Your password" v-model="password"/>
+
+                                        <div class="form-group pt-4">
+                                            <label for="password">Password</label>
+                                            <Field name="password" type="password" class="form-control" />
+                                            <ErrorMessage name="password" class="error-feedback" />
                                         </div>
-    
-                                        <div class="text-center pt-1 mb-5 pb-1">
-                                            <button class="btn btn-primary w-100 fa-lg gradient-custom-2 mb-3" @click="login" type="button">Login</button>
+
+                                        <div class="form-group pt-4">
+                                            <button class="btn btn-primary btn-block color-main-background" :disabled="loading">
+                                                <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+                                                <font-awesome-icon icon="sign-in-alt" /><span> Login</span>
+                                            </button>
                                         </div>
-    
-                                        <div class="d-flex align-items-center justify-content-center pb-4">
+                                    
+                                        <div class="form-group mt-2">
+                                            <div v-if="message" class="alert alert-danger" role="alert">
+                                                {{ message }}
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex align-items-center justify-content-center mt-4">
                                             <p class="mb-0 me-2">Don't have an account?</p>
                                             <a href="/register">
-                                                <button type="button"  class="btn btn-primary gradient-custom-2 text-white">Create Account</button>
+                                                <button type="button"  class="btn btn-primary text-white color-main-background">Create Account</button>
                                             </a>
                                         </div>
-                                    </form>
+                                    </Form>
                                 </div>
                             </div>
                             <div class="col-lg-6 rounded-3 d-flex align-items-center gradient-custom-2">
@@ -60,8 +72,11 @@
         background: -webkit-linear-gradient(to right, #5b82c1, #3866af, #0c3b85, #082d69);
         background: linear-gradient(to right, #5b82c1, #3866af, #0c3b85, #082d69);
     }
+    .color-main-background {
+        background-color: #184fa7;
+    }
 
-    @media (min-width: 768px) {
+    /* @media (min-width: 768px) {
         .gradient-form {
             height: 100vh !important;
         }
@@ -72,36 +87,61 @@
             border-top-right-radius: .3rem;
             border-bottom-right-radius: .3rem;
         }
-    }
+    } */
 </style>
 
 <script>
-    import AuthService from '@/services/AuthService.js';
+    import { Form, Field, ErrorMessage } from "vee-validate";
+    import * as yup from "yup";
+
     export default {
+        name: "LoginUser",
+        components: {
+            Form,
+            Field,
+            ErrorMessage,
+        },
         data() {
+            const schema = yup.object().shape({
+                email: yup.string().required("Email is required!"),
+                password: yup.string().required("Password is required!"),
+            });
+
             return {
-                username: '',
-                password: '',
-                msg: ''
+                loading: false,
+                message: "",
+                schema,
             };
         },
-        methods: {
-            async login() {
-                try {
-                    const credentials = {
-                        username: this.username,
-                        password: this.password
-                    };
-                    const response = await AuthService.login(credentials);
-                    this.msg = response.msg;
-                    const token = response.token;
-                    const user = response.user;
-                    this.$store.dispatch('login', { token, user });
-                    this.$router.push('/');
-                } catch (error) {
-                    this.msg = error.response.data.msg;
-                }
+        computed: {
+            loggedIn() {
+                return this.$store.state.auth.status.loggedIn;
+            },
+        },
+        created() {
+            if (this.loggedIn) {
+                this.$router.push("/");
             }
-        }
+        },
+        methods: {
+            handleLogin(user) {
+                this.loading = true;
+
+                this.$store.dispatch("login", user).then(
+                    () => {
+                        this.$router.push("/");
+                    },
+                    (error) => {
+                        this.loading = false;
+                        this.message =
+                            (error.response &&
+                                error.response.data &&
+                                error.response.data.message) ||
+                            error.message ||
+                            error.toString();
+                    }
+                );
+            },
+        },
     };
 </script>

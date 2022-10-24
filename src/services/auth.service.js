@@ -1,22 +1,32 @@
 import axios from 'axios';
+// import authHeader from "./auth-header";
 
 const API_URL = 'http://localhost:8000/api/';
 
 class AuthService {
-  login(user) {
-    return axios
+  async login(user) {
+    const response = await axios
       .post(API_URL + 'login', {
         email: user.email,
         password: user.password
-      })
-      .then(response => {
-        if (response.data) {
-          localStorage.setItem('user', JSON.stringify(response.data));
-        }
-
-        return response.data;
       });
+    if (response.data) {
+      localStorage.setItem('user', JSON.stringify(response.data));
+    }
+    return response.data;
   }
+
+
+  // async logout() {
+  //   const response = await axios
+  //     .post(API_URL + 'logout', {
+  //       headers: authHeader()
+  //     });
+  //   if (response.data) {
+  //     localStorage.removeItem('user');
+  //   }
+  //   return response.data;
+  // }
 
   logout() {
     localStorage.removeItem('user');

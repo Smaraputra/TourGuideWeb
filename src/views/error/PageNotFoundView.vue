@@ -50,8 +50,4 @@ body {
     line-height: 1;
     font-weight: 600;
 }
-
-.text-secondary {
-    color: #15395A !important;
-}
 </style>

@@ -7,7 +7,7 @@
         <h4 v-if="this.currentUser.role_id=='3'">Guide Panel</h4>
     </div>
     <ul class="list-group list-group-flush components" v-if="this.currentUser.role_id=='1'">
-        <li class="active">
+        <li>
             <router-link to="/dashboard/"><span>Dashboard</span></router-link>
         </li>
         <li>
@@ -24,7 +24,7 @@
         </li>
     </ul>
     <ul class="list-group list-group-flush components" v-if="this.currentUser.role_id=='2'">
-        <li class="active">
+        <li>
             <router-link to="/dashboard/"><span>Dashboard</span></router-link>
         </li>
         <li>
@@ -44,7 +44,7 @@
         </li>
     </ul>
     <ul class="list-group list-group-flush components" v-if="this.currentUser.role_id=='3'">
-        <li class="active">
+        <li>
             <router-link to="/dashboard/"><span>Dashboard</span></router-link>
         </li>
         <li>
@@ -100,7 +100,7 @@ a:focus {
 }
 
 #sidebar .sidebar-header {
-    height: 7vh;
+    height: 80px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -112,7 +112,7 @@ a:focus {
 }
 
 #sidebar ul p {
-    color: #fff;
+    color: #ffffff;
 }
 
 #sidebar ul li a {
@@ -123,8 +123,8 @@ a:focus {
 }
 
 #sidebar ul li a:hover {
-    color: #0c3b85;
-    background: #fff;
+    color: #ffffff;
+    background: #5b82c1;
 }
 
 #sidebar ul li.active>a,

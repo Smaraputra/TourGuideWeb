@@ -18,12 +18,13 @@ import {
   faArrowLeft,
   faArrowRight,
   faPlus,
-  faCheck
+  faCheck,
+  faEye
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faHome, faUser, faUserPlus, faSignInAlt, faSignOutAlt, 
   faCreditCard,faCreditCardAlt,faPlane,faStar,faCompass,faSearch,
   faPencil,faTrash,faAlignJustify,faArrowLeft,faArrowRight,faPlus,
-  faCheck);
+  faCheck,faEye);
 
 export { FontAwesomeIcon };

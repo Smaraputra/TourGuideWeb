@@ -9,6 +9,7 @@
                     cellspacing="0">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>Tour Agent Name</th>
                             <th>Description</th>
                             <th>Email</th>
@@ -20,6 +21,7 @@
                     </thead>
                     <tbody v-if="agents || agents.length">
                         <tr v-for="(agent, index) in agents" :key="index">
+                            <td style="width: 50px">{{index+1}}</td>
                             <td>{{agent.agent_name}}</td>
                             <td>{{agent.description}}</td>
                             <td>{{agent.email}}</td>
@@ -42,7 +44,7 @@
                     </tbody>
                     <tfoot v-if="!agents || !agents.length">
                         <tr>
-                            <td colspan="7" class="text-center">Empty Data.</td>
+                            <td colspan="8" class="text-center">Empty Data.</td>
                         </tr>
                     </tfoot>
                 </table>
@@ -81,6 +83,7 @@ export default {
         if (this.currentUser.role_id!=1) {
             this.$router.push("/dashboard");
         }
+        this.loadTourAgent()
     },
     methods: {
         deleteData(id) {
@@ -101,19 +104,7 @@ export default {
                                 'Tour agent successfully deleted.',
                                 'success'
                             )
-                            TourAgentService.getAll().then(
-                                (response) => {
-                                    this.agents = response.data.data
-                                },
-                                (error) => {
-                                    this.content =
-                                        (error.response &&
-                                            error.response.data &&
-                                            error.response.data.message) ||
-                                        error.message ||
-                                        error.toString();
-                                }
-                            )
+                            this.loadTourAgent()
                         },
                         () => {
                             this.$swal.fire(
@@ -149,19 +140,7 @@ export default {
                                 'Tour agent status successfully updated.',
                                 'success'
                             )
-                            TourAgentService.getAll().then(
-                                (response) => {
-                                    this.agents = response.data.data
-                                },
-                                (error) => {
-                                    this.content =
-                                        (error.response &&
-                                            error.response.data &&
-                                            error.response.data.message) ||
-                                        error.message ||
-                                        error.toString();
-                                }
-                            )
+                            this.loadTourAgent()
                         },
                         () => {
                             this.$swal.fire(
@@ -174,25 +153,33 @@ export default {
                 }
             })
         },
+        loadTourAgent(){
+            TourAgentService.getAll().then(
+                (response) => {
+                    this.agents = response.data.data
+                },
+                (error) => {
+                    this.content =
+                        (error.response &&
+                            error.response.data &&
+                            error.response.data.message) ||
+                        error.message ||
+                        error.toString();
+                }
+            )
+        }
     },
     mounted() {
-        TourAgentService.getAll().then(
-            (response) => {
-                this.agents = response.data.data
-            },
-            (error) => {
-                this.content =
-                    (error.response &&
-                        error.response.data &&
-                        error.response.data.message) ||
-                    error.message ||
-                    error.toString();
-            }
-        )
+
     },
 };
 </script>
 
 <style scoped>
-
+  .color-main-background {
+      background: #184fa7;
+  }
+  .color-main {
+    color: #184fa7;
+  }
 </style>

@@ -1,5 +1,3 @@
-module.exports = {
-  devServer: {
-    port: 8081,
-  },
+export const devServer = {
+  port: 8081,
 };

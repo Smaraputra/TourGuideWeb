@@ -9,6 +9,7 @@
                     cellspacing="0">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>Name</th>
                             <th>Description</th>
                             <th>Action</th>
@@ -16,6 +17,7 @@
                     </thead>
                     <tbody v-if="methods || methods.length">
                         <tr v-for="(method, index) in methods" :key="index">
+                            <td style="width: 50px">{{index+1}}</td>
                             <td>{{method.method}}</td>
                             <td>{{method.description}}</td>
                             <td>
@@ -34,7 +36,7 @@
                     </tbody>
                     <tfoot v-if="!methods || !methods.length">
                         <tr>
-                            <td colspan="3" class="text-center">Empty Data.</td>
+                            <td colspan="4" class="text-center">Empty Data.</td>
                         </tr>
                     </tfoot>
                 </table>
@@ -57,7 +59,7 @@
                     </div>
                     <div class="form-outline mb-4">
                         <label for="description">Description</label>
-                        <Field name="description" type="multiline" class="form-control" />
+                        <Field as="textarea" name="description" type="multiline" class="form-control" />
                         <ErrorMessage name="description" class="error-feedback" />
                     </div>
                     <div class="form-group">
@@ -123,6 +125,7 @@ export default {
         if (this.currentUser.role_id!=1) {
             this.$router.push("/dashboard");
         }
+        this.loadPaymentMethod()
     },
     methods: {
         deleteData(id) {
@@ -143,19 +146,7 @@ export default {
                                 'Payment method successfully deleted.',
                                 'success'
                             )
-                            PaymentMethodsService.getAll().then(
-                                (response) => {
-                                    this.methods = response.data.data
-                                },
-                                (error) => {
-                                    this.content =
-                                        (error.response &&
-                                            error.response.data &&
-                                            error.response.data.message) ||
-                                        error.message ||
-                                        error.toString();
-                                }
-                            )
+                            this.loadPaymentMethod()
                         },
                         () => {
                             this.$swal.fire(
@@ -183,19 +174,7 @@ export default {
                         'New payment method successfully created.',
                         'success'
                     )
-                    PaymentMethodsService.getAll().then(
-                        (response) => {
-                            this.methods = response.data.data
-                        },
-                        (error) => {
-                            this.content =
-                            (error.response &&
-                                error.response.data &&
-                                error.response.data.message) ||
-                            error.message ||
-                            error.toString();
-                        }
-                    )
+                    this.loadPaymentMethod()
                 },
                 (error) => {
                     this.message =
@@ -214,25 +193,33 @@ export default {
                 }
             );
         },
+        loadPaymentMethod(){
+            PaymentMethodsService.getAll().then(
+                (response) => {
+                    this.methods = response.data.data
+                },
+                (error) => {
+                    this.content =
+                        (error.response &&
+                            error.response.data &&
+                            error.response.data.message) ||
+                        error.message ||
+                        error.toString();
+                }
+            )
+        }
     },
     mounted() {
-        PaymentMethodsService.getAll().then(
-            (response) => {
-                this.methods = response.data.data
-            },
-            (error) => {
-                this.content =
-                    (error.response &&
-                        error.response.data &&
-                        error.response.data.message) ||
-                    error.message ||
-                    error.toString();
-            }
-        )
+
     },
 };
 </script>
 
 <style scoped>
-
+  .color-main-background {
+      background: #184fa7;
+  }
+  .color-main {
+    color: #184fa7;
+  }
 </style>

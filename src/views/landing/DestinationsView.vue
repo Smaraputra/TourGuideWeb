@@ -1,7 +1,7 @@
 <template>
   <section class="bg-light">
     <div class="text-center pt-4 pb-2">
-      <h2>Tour Destinations</h2>
+      <h2 class="color-main">Tour Destinations</h2>
       <p class="lead text-muted">See our tour packages destination.</p>
     </div>
     <iframe
@@ -11,15 +11,16 @@
   </section>
   <section>
     <div class="container">
-      <form class="d-flex searchitem"><input class="form-control mt-4" type="search" placeholder="Search" aria-label="Search"></form>
+      <form class="d-flex searchitem"><input class="form-control mt-4" type="search" placeholder="Search"
+          aria-label="Search"></form>
       <div class="row mt-4">
         <div class="col-md-4 mb-4" v-for="(destination, index) in destinations" :key="index">
-          <div class="card shadow border-0 h-100"><a href="#"><img src="../../assets/image/home/bedugul.jpg" alt=""
-                class="card-img-top"></a>
+          <div class="card shadow border-0 h-100"><img src="../../assets/image/home/bedugul.jpg" alt=""
+              class="card-img-top">
             <div class="card-body">
-              <h5><a href="#" class="text-dark">{{ destination.name }}</a></h5>
+              <h5>{{ destination.name }}</h5>
               <p class="text-muted card-text">{{ destination.description }}</p>
-              <p class="card-text"><a class="btn btn-primary" href="#">See more</a></p>
+              <p class="btn btn-primary btn-block color-main-background">See more</p>
             </div>
           </div>
         </div>
@@ -43,24 +44,38 @@ export default {
   computed: {
 
   },
+  created() {
+    this.loadTourDestination()
+  },
+  methods: {
+    loadTourDestination() {
+      TourDestinationService.getAll().then(
+        (response) => {
+          this.destinations = response.data.data
+        },
+        (error) => {
+          this.content =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      )
+    }
+  },
   mounted() {
-    TourDestinationService.getAll().then(
-      (response) => {
-        this.destinations = response.data.data
-      },
-      (error) => {
-        this.content =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-      }
-    );
+
   },
 };
 </script>
 
-<style>
+<style scoped>
+.color-main {
+  color: #184fa7;
+}
 
+.color-main-background {
+  background-color: #184fa7;
+}
 </style>

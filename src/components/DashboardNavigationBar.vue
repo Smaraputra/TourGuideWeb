@@ -1,9 +1,9 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light" style="height: 7vh;">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" style="height: 80px;">
     <div class="container-fluid">
-      <button type="button" id="sidebarCollapse" class="btn btn-primary color-main" @click="hideSidebar">
+      <button type="button" id="sidebarCollapse" class="btn btn-primary m-2 color-main-background">
         <font-awesome-icon icon="align-justify" />
-        <span> Toggle Sidebar</span>
+        <span></span>
       </button>
     </div>
   </nav>
@@ -12,14 +12,15 @@
 <script>
 export default {
   methods: {
-    hideSidebar(){
-      console.log("Close");
-    }
+
   }
 }
 </script>
 
 <style scoped>
+.color-main-background {
+  background-color: #184fa7;
+}
 .navbar {
   background: #fff;
   border: none;

@@ -5,7 +5,7 @@ const API_URL = 'http://localhost:8000/api/guide/';
 
 class TourGuideService {
   getAll() {
-    return axios.get(API_URL + "index", { headers: authHeader() });
+    return axios.get(API_URL + "indexTour", { headers: authHeader() });
   }
   checkTourGuide() {
     return axios.get(API_URL + "check", { headers: authHeader() });

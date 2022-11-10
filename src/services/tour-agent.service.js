@@ -31,6 +31,13 @@ class TourAgentService {
       }, { headers: authHeader() });
     return response.data;
   }
+  async getById(id) {
+    const response = await axios
+      .post(API_URL + 'getById', {
+        curid: id
+      }, { headers: authHeader() });
+    return response.data;
+  }
   createProfile(agent,id) {
     return axios.post(API_URL + 'store', {
       agent_name: agent.agent_name,

@@ -14,7 +14,7 @@
                                         <h4>Welcome!</h4>
                                         <p>Fill the form down below to finish creating your Tour Guide account.</p>
                                         <div>
-                                            <div class="form-outline mb-4">
+                                            <div class="form-outline mb-4" v-if="agents || agents.length">
                                                 <label for="id_tour_agents">Affiliated Tour Agent</label>
                                                 <Field name="id_tour_agents" as="select" class="form-select">
                                                     <option disabled selected value>-Affiliated Tour Agent-</option>

@@ -8,6 +8,7 @@
           <table class="table table-bordered table-condensed table-striped" id="dataTable" width="100%" cellspacing="0">
             <thead>
               <tr>
+                <th>#</th>
                 <th>Image</th>
                 <th>Name</th>
                 <th>Description</th>
@@ -19,6 +20,7 @@
             </thead>
             <tbody v-if="destinations || destinations.length">
               <tr v-for="(destination, index) in destinations" :key="index">
+                <td style="width: 50px">{{index+1}}</td>
                 <td><img src="../../../assets/image/home/image_placeholder.png" style="width: 100px"></td>
                 <!-- <td>{{destination.image_tourist_destination}}</td> -->
                 <td>{{destination.name}}</td>
@@ -38,7 +40,7 @@
             </tbody>
             <tfoot v-if="!destinations || !destinations.length">
                 <tr>
-                    <td colspan="6" class="text-center">Empty Data.</td>
+                    <td colspan="7" class="text-center">Empty Data.</td>
                 </tr>
             </tfoot>
           </table>
@@ -61,46 +63,30 @@
                 </div>
                 <div class="form-outline mb-4">
                     <label for="description">Description</label>
-                    <Field name="description" type="multiline" class="form-control" />
+                    <Field as="textarea" name="description" type="multiline" class="form-control" />
                     <ErrorMessage name="description" class="error-feedback" />
                 </div>
                 <div class="form-outline mb-4">
                     <label for="address">Address</label>
-                    <Field name="address" type="text" class="form-control" />
+                    <Field as="textarea" name="address" type="text" class="form-control" />
                     <ErrorMessage name="address" class="error-feedback" />
                 </div>
                 <GMapMap :center="center" :zoom="2" map-type-id="terrain" style="width: 100%; height: 500px" @click="mark">
                     <GMapMarker :key="index" v-for="(m, index) in markers" :position="m.position" :clickable="true" :draggable="true"
                         @click="center=m.position" />
                 </GMapMap>
-                <div class="row" v-if="!lat">
+                <div class="row">
                     <div class="col-md-6">
                         <div class="form-outline mb-4">
                             <label for="latitude">Latitude</label>
-                            <Field name="latitude" id="latIn" type="text" class="form-control" value="" disabled/>
+                            <Field name="latitude" id="latIn" type="text" class="form-control" v-model="lat" disabled/>
                             <ErrorMessage name="latitude" class="error-feedback" />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-outline mb-4">
                             <label for="longitude">Longitude</label>
-                            <Field name="longitude" id="longIn" type="text" class="form-control" value="" disabled/>
-                            <ErrorMessage name="longitude" class="error-feedback" />
-                        </div>
-                    </div>
-                </div>
-                <div class="row" v-if="lat">
-                    <div class="col-md-6">
-                        <div class="form-outline mb-4">
-                            <label for="latitude">Latitude</label>
-                            <Field name="latitude" id="latIn" type="text" class="form-control" :value="lat" disabled/>
-                            <ErrorMessage name="latitude" class="error-feedback" />
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-outline mb-4">
-                            <label for="longitude">Longitude</label>
-                            <Field name="longitude" id="longIn" type="text" class="form-control" :value="long" disabled/>
+                            <Field name="longitude" id="longIn" type="text" class="form-control" v-model="long" disabled/>
                             <ErrorMessage name="longitude" class="error-feedback" />
                         </div>
                     </div>
@@ -167,7 +153,7 @@ export default {
             center: {lat: -8.409518, lng: 115.188919},
             markers: [
                 {
-                    id: 'dfsldjl3r',
+                    id: 'thisMark',
                     position: {
                         lat: -8.409518, lng: 115.188919
                     },
@@ -190,12 +176,13 @@ export default {
         if (this.currentUser.role_id!=1) {
             this.$router.push("/dashboard");
         }
+        this.loadDestination()
     },
     methods: {
         mark(event) {
             this.markers=[
                 {
-                    id: 'dfsldjl3r',
+                    id: 'thisMark',
                     position: {
                         lat: event.latLng.lat(), lng: event.latLng.lng()
                     },
@@ -222,19 +209,7 @@ export default {
                                 'Destination successfully deleted.',
                                 'success'
                             )
-                            TourDestinationService.getAll().then(
-                                (response) => {
-                                    this.destinations = response.data.data
-                                },
-                                (error) => {
-                                    this.content =
-                                        (error.response &&
-                                            error.response.data &&
-                                            error.response.data.message) ||
-                                        error.message ||
-                                        error.toString();
-                                }
-                            )
+                            this.loadDestination()
                         },
                         () => {
                             this.$swal.fire(
@@ -262,19 +237,7 @@ export default {
                         'New destination successfully created.',
                         'success'
                     )
-                    TourDestinationService.getAll().then(
-                        (response) => {
-                            this.destinations = response.data.data
-                        },
-                        (error) => {
-                            this.content =
-                            (error.response &&
-                                error.response.data &&
-                                error.response.data.message) ||
-                            error.message ||
-                            error.toString();
-                        }
-                    )
+                    this.loadDestination()
                 },
                 (error) => {
                     this.message =
@@ -293,25 +256,33 @@ export default {
                 }
             );
         },
+        loadDestination(){
+            TourDestinationService.getAll().then(
+                (response) => {
+                    this.destinations = response.data.data
+                },
+                (error) => {
+                    this.content =
+                        (error.response &&
+                            error.response.data &&
+                            error.response.data.message) ||
+                        error.message ||
+                        error.toString();
+                }
+            )
+        }
     },
     mounted() {
-        TourDestinationService.getAll().then(
-            (response) => {
-                this.destinations = response.data.data
-            },
-            (error) => {
-                this.content =
-                    (error.response &&
-                        error.response.data &&
-                        error.response.data.message) ||
-                    error.message ||
-                    error.toString();
-            }
-        )
+
     },
 };
 </script>
 
 <style scoped>
-
+  .color-main-background {
+      background: #184fa7;
+  }
+  .color-main {
+    color: #184fa7;
+  }
 </style>

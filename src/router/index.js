@@ -3,7 +3,9 @@ import MainView from '../views/MainView.vue'
 import HomeView from '../views/landing/HomeView.vue'
 import DestinationsView from "../views/landing/DestinationsView.vue";
 import TourPackageView from "../views/landing/TourPackagesView.vue";
+import TourPackageDetailView from "../views/landing/TourPackageDetailView.vue";
 import ProfileView from "../views/landing/ProfileInformationView.vue";
+import TransactionView from "../views/landing/TransactionView.vue";
 
 import RegisterView from "../views/auth/RegisterView.vue";
 import LoginView from "../views/auth/LoginView.vue";
@@ -20,7 +22,11 @@ import PaymentMethodsAdminView from "../views/dashboard/admin/PaymentMethodsAdmi
 import TourAgentAdminView from "../views/dashboard/admin/TourAgentAdminView.vue"
 
 import TourPackageAgentView from "../views/dashboard/touragent/TourPackageAgentView.vue"
+import TourPackageDetailPriceAgentView from "../views/dashboard/touragent/TourPackageDetailPriceAgentView.vue"
+import TourPackageFacilitiesActivitiesAgentView from "../views/dashboard/touragent/TourPackageFacilitiesActivitiesAgentView.vue"
 import TourGuideAgentView from "../views/dashboard/touragent/TourGuideAgentView.vue"
+import TransactionAgentView from "../views/dashboard/touragent/TransactionAgentView.vue"
+import PickupFeeAgentView from "../views/dashboard/touragent/PickupFeeAgentView.vue"
 
 const routes = [
   {
@@ -42,6 +48,11 @@ const routes = [
         path: "packages",
         name: "packages",
         component: TourPackageView
+      },
+      {
+        path: "packages-detail/:id_tour_packages",
+        name: "packages-detail-see",
+        component: TourPackageDetailView
       },
       {
         path: "register",
@@ -67,6 +78,11 @@ const routes = [
         path: "profile",
         name: "profile",
         component: ProfileView,
+      },
+      {
+        path: "transactions",
+        name: "transactions",
+        component: TransactionView,
       },
     ],
   },
@@ -108,9 +124,29 @@ const routes = [
         component: TourPackageAgentView,
       },
       {
+        path: 'tour-package/:id_tour_packages',
+        name: "tour-package-see",
+        component: TourPackageDetailPriceAgentView,
+      },
+      {
+        path: 'tour-package-detail/:id_package_details',
+        name: "tour-package-detail-see",
+        component: TourPackageFacilitiesActivitiesAgentView,
+      },
+      {
         path: 'manage-tour-guide',
         name: "manage-tour-guide",
         component: TourGuideAgentView,
+      },
+      {
+        path: 'verify-transactions',
+        name: "verify-transactions",
+        component: TransactionAgentView,
+      },
+      {
+        path: 'pickup-fee',
+        name: "pickup-fee",
+        component: PickupFeeAgentView,
       },
     ],
   },

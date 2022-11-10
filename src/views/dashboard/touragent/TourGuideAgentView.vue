@@ -9,6 +9,7 @@
                     cellspacing="0">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>Photo</th>
                             <th>Tour Guide Name</th>
                             <th>Email</th>
@@ -22,6 +23,7 @@
                     </thead>
                     <tbody v-if="guides || guides.length">
                         <tr v-for="(guide, index) in guides" :key="index">
+                            <td style="width: 50px">{{index+1}}</td>
                             <td><img src="../../../assets/image/home/photo_placeholder.png" style="width: 100px"></td>
                             <td>{{guide.users.name}}</td>
                             <td>{{guide.users.email}}</td>
@@ -41,7 +43,7 @@
                     </tbody>
                     <tfoot v-if="!guides || !guides.length">
                         <tr>
-                            <td colspan="7" class="text-center">Empty Data.</td>
+                            <td colspan="10" class="text-center">Empty Data.</td>
                         </tr>
                     </tfoot>
                 </table>
@@ -81,6 +83,7 @@ export default {
         if (this.currentUser.role_id!=2) {
             this.$router.push("/dashboard");
         }
+        this.loadGuide()
     },
     methods: {
         verify(id,verified) {
@@ -109,19 +112,7 @@ export default {
                                 'Tour guide status successfully updated.',
                                 'success'
                             )
-                            TourGuideService.getAll().then(
-                                (response) => {
-                                    this.guides = response.data.data
-                                },
-                                (error) => {
-                                    this.content =
-                                        (error.response &&
-                                            error.response.data &&
-                                            error.response.data.message) ||
-                                        error.message ||
-                                        error.toString();
-                                }
-                            )
+                            this.loadGuide()
                         },
                         () => {
                             this.$swal.fire(
@@ -134,25 +125,33 @@ export default {
                 }
             })
         },
+        loadGuide(){
+            TourGuideService.getAll().then(
+                (response) => {
+                    this.guides = response.data.data
+                },
+                (error) => {
+                    this.content =
+                        (error.response &&
+                            error.response.data &&
+                            error.response.data.message) ||
+                        error.message ||
+                        error.toString();
+                }
+            )
+        }
     },
     mounted() {
-        TourGuideService.getAll().then(
-            (response) => {
-                this.guides = response.data.data
-            },
-            (error) => {
-                this.content =
-                    (error.response &&
-                        error.response.data &&
-                        error.response.data.message) ||
-                    error.message ||
-                    error.toString();
-            }
-        )
+
     },
 };
 </script>
 
 <style scoped>
-
+    .color-main-background {
+        background: #184fa7;
+    }
+    .color-main {
+    color: #184fa7;
+    }
 </style>

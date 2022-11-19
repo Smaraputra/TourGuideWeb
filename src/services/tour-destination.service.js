@@ -25,6 +25,13 @@ class TourDestinationService {
       }, { headers: authHeader() });
     return response.data;
   }
+  async searchFilter(searchname) {
+    const response = await axios
+      .post(API_URL + 'searchFilter', {
+        searchname: searchname,
+      }, { headers: authHeader() });
+    return response.data;
+  }
 }
 
 export default new TourDestinationService();

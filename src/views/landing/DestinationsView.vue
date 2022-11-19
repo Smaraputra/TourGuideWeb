@@ -1,32 +1,107 @@
 <template>
-  <section class="bg-light">
-    <div class="text-center pt-4 pb-2">
-      <h2 class="color-main">Tour Destinations</h2>
-      <p class="lead text-muted">See our tour packages destination.</p>
+  <Transition>
+    <div class="d-flex justify-content-center align-items-center" style="height: 90vh" v-if="!statusLoad">
+      <div class="loader">
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+      </div>
     </div>
-    <iframe
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d46607.41569979358!2d115.31990144532571!3d-8.605876063969824!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd21446b81f7d39%3A0x34b39c786c2e54ec!2sBali%20Safari%20%26%20Marine%20Park!5e0!3m2!1sid!2sid!4v1665846133250!5m2!1sid!2sid"
-      width="100%" height="600" style="border:0;" allowfullscreen="" loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade"></iframe>
-  </section>
-  <section>
-    <div class="container">
-      <form class="d-flex searchitem"><input class="form-control mt-4" type="search" placeholder="Search"
-          aria-label="Search"></form>
-      <div class="row mt-4">
-        <div class="col-md-4 mb-4" v-for="(destination, index) in destinations" :key="index">
-          <div class="card shadow border-0 h-100"><img src="../../assets/image/home/bedugul.jpg" alt=""
-              class="card-img-top">
-            <div class="card-body">
-              <h5>{{ destination.name }}</h5>
-              <p class="text-muted card-text">{{ destination.description }}</p>
-              <p class="btn btn-primary btn-block color-main-background">See more</p>
+    <div v-else>
+      <section class="bg-light">
+        <div class="text-center pt-4 pb-2">
+          <h2 class="color-main">Tour Destinations</h2>
+          <p class="lead text-muted">See our tour packages destination.</p>
+        </div>
+      </section>
+      <section class="p-4">
+        <div class="row">
+          <div class="col">
+            <nav aria-label="breadcrumb" class="bg-light rounded-3 p-4">
+              <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item">
+                  <router-link to="/">
+                    <strong>Home</strong>
+                  </router-link>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                  <strong>Tour Destination</strong>
+                </li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mt-4">
+            <div class="card shadow border-0">
+              <div class="card-body">
+                <h4 class="mb-4 color-main">Maps</h4>
+                <hr>
+                <GMapMap :center="center" :zoom="10" map-type-id="terrain" style="width: 100%; height: 500px"
+                  v-if="markers != null && markers.length">
+                  <GMapMarker :key="index" v-for="(m, index) in markers" :position="m.position" :clickable="true"
+                    :draggable="false" @click="openMarker(m.id)">
+                    <GMapInfoWindow :closeclick="true" @closeclick="openMarker(null)" :opened="openedMarkerID === m.id">
+                      <div>
+                        <h6>{{ destName }}</h6>
+                        <button class="btn btn-primary color-main-background"><span>
+                            <font-awesome-icon icon="eye" />
+                          </span> See More</button>
+                      </div>
+                    </GMapInfoWindow>
+                  </GMapMarker>
+                </GMapMap>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-8 mt-4">
+            <div class="card shadow border-0">
+              <div class="card-body">
+                <h4 class="mb-4 color-main">Destinations</h4>
+                <hr>
+                <div class="row">
+                  <div class="col-md-12 mx-auto">
+                    <div class="input-group">
+                      <input class="form-control border-end-0 border" type="search" placeholder="Destination name"
+                        id="example-search-input" v-model="package_name" @input="searchFilter">
+                      <span class="input-group-append">
+                        <button class="btn btn-primary border-start-0 border-bottom-0 border ms-n5" type="button"
+                          @input="searchFilter">
+                          <font-awesome-icon icon="search" />
+                        </button>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div v-if="destinations || destinations.length">
+                  <div class="row mt-4">
+                    <div class="col-md-4 mb-4" v-for="(destination, index) in destinations" :key="index">
+                      <div class="card shadow border-0 h-100"><img src="../../assets/image/home/bedugul.jpg" alt=""
+                          class="card-img-top">
+                        <div class="card-body">
+                          <h5>{{ destination.name }}</h5>
+                          <p class="text-muted card-text">{{ destination.description }}</p>
+                          <p class="btn btn-primary btn-block color-main-background"><span>
+                              <font-awesome-icon icon="eye" />
+                            </span> See more</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div v-if="!destinations || !destinations.length">
+                  <h6>0 tour destination found.</h6>
+                  <p>Please try another keyword.</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
-  </section>
+  </Transition>
 </template>
 
 <script>
@@ -38,7 +113,13 @@ export default {
   },
   data() {
     return {
+      openedMarkerID: null,
+      destName: null,
+      searcname: null,
       destinations: [],
+      center: { lat: -8.409518, lng: 115.188919 },
+      markers: [],
+      statusLoad: false,
     };
   },
   computed: {
@@ -48,10 +129,51 @@ export default {
     this.loadTourDestination()
   },
   methods: {
+    searchFilter() {
+      TourDestinationService.searchFilter(this.package_name).then(
+        (response) => {
+          this.destinations = response.data
+          this.markers = []
+          this.loadMarkerData()
+        },
+        (error) => {
+          this.content =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
+    },
+    openMarker(id) {
+      this.openedMarkerID = id
+      this.destinations.forEach(dest => {
+        if (dest.id_tourist_destinations == id) {
+          this.destName = dest.name
+        }
+      });
+    },
+    loadMarkerData() {
+      this.destinations.forEach(dest => {
+        const post = {
+          lat: dest.latitude,
+          lng: dest.longitude
+        }
+        const mark = {
+          id: dest.id_tourist_destinations,
+          position: post,
+        }
+        this.markers.push(mark);
+      });
+    },
     loadTourDestination() {
       TourDestinationService.getAll().then(
         (response) => {
           this.destinations = response.data.data
+          this.markers = []
+          this.loadMarkerData()
+          this.statusLoad = true
         },
         (error) => {
           this.content =
@@ -71,11 +193,8 @@ export default {
 </script>
 
 <style scoped>
-.color-main {
-  color: #184fa7;
-}
 
-.color-main-background {
-  background-color: #184fa7;
+.ms-n5 {
+  margin-left: -40px;
 }
 </style>

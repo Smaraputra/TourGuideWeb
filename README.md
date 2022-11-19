@@ -27,7 +27,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ```
 0. Copy Package Feature
 1. See Transaction Detail on Tour Agent
-2. Add Payment Detail (No Rekening dan Atas Nama) on Tour Agent
+2. Add Payment Detail (No Rekening dan Atas Nama) on Tour Agent v
 3. See Transaction Detail on User
 4. Upload Payment Proof on User
 5. Payment Approval and Transaction Status Change on Tour Agent

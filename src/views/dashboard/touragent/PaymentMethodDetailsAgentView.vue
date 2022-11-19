@@ -3,7 +3,7 @@
         <div class="col-md-6 mb-4">
             <div class="card shadow">
                 <div class="card-header p-3 text-center">
-                    <h5 class="m-0 font-weight-bold color-main">Manage Tour Package Pickup Fee</h5>
+                    <h5 class="m-0 font-weight-bold color-main">Manage Payment Method Details</h5>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -12,16 +12,17 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Distance (Km)</th>
-                                    <th>Fee (Rp)</th>
-                                    <th>Action</th>
+                                    <th>Payment Method</th>
+                                    <th>Payment Number/ID</th>
+                                    <th>Description</th>
                                 </tr>
                             </thead>
-                            <tbody v-if="fees || fees.length">
-                                <tr v-for="(fee, index) in fees" :key="index">
+                            <tbody v-if="details || details.length">
+                                <tr v-for="(detail, index) in details" :key="index">
                                     <td style="width: 50px">{{ index + 1 }}</td>
-                                    <td>{{ fee.distance }}</td>
-                                    <td>{{ fee.fee }}</td>
+                                    <td>{{ detail.payment_method.method }}</td>
+                                    <td>{{ detail.payment_number }}</td>
+                                    <td>{{ detail.description }}</td>
                                     <td>
                                         <div style="width: 50px; height: 50px;">
                                             <button class="btn btn-success">
@@ -29,14 +30,14 @@
                                             </button>
                                         </div>
                                         <div style="width: 50px; height: 50px;">
-                                            <button class="btn btn-danger" @click="deleteData(fee.id_pickup_fees)">
+                                            <button class="btn btn-danger" @click="deleteData(detail.id_payment_method_details)">
                                                 <font-awesome-icon icon="trash" />
                                             </button>
                                         </div>
                                     </td>
                                 </tr>
                             </tbody>
-                            <tfoot v-if="!fees || !fees.length">
+                            <tfoot v-if="!details || !details.length">
                                 <tr>
                                     <td colspan="4" class="text-center">Empty Data.</td>
                                 </tr>
@@ -52,18 +53,28 @@
                     <h5 class="m-0 font-weight-bold color-main">Add Pickup Fee</h5>
                 </div>
                 <div class="card-body">
-                    <Form @submit="addFee" :validation-schema="schema">
+                    <Form @submit="addDetail" :validation-schema="schema">
                         <p>Fill the form down below to add new pickup fee.</p>
                         <div>
-                            <div class="form-outline mb-4">
-                                <label for="distance">Distances in Kilometer(Km)</label>
-                                <Field name="distance" type="text" class="form-control" />
-                                <ErrorMessage name="distance" class="error-feedback" />
+                            <div class="form-outline mb-4" v-if="methods || methods.length">
+                                <label for="id_payment_methods">Payment Methods</label>
+                                <Field name="id_payment_methods" as="select" class="form-select">
+                                    <option disabled selected value>-Payment Methods-</option>
+                                    <option v-for="(method, index) in methods" :key="index"
+                                        :value="method.id_payment_methods">
+                                        {{ method.method }}
+                                    </option>
+                                </Field>
                             </div>
                             <div class="form-outline mb-4">
-                                <label for="fee">Additional Fee</label>
-                                <Field name="fee" type="multiline" class="form-control" />
-                                <ErrorMessage name="fee" class="error-feedback" />
+                                <label for="payment_number">Payment Number/ID</label>
+                                <Field name="payment_number" type="text" class="form-control" />
+                                <ErrorMessage name="payment_number" class="error-feedback" />
+                            </div>
+                            <div class="form-outline mb-4">
+                                <label for="description">Description</label>
+                                <Field as="textarea" name="description" type="multiline" class="form-control" />
+                                <ErrorMessage name="description" class="error-feedback" />
                             </div>
                             <div class="form-group">
                                 <button class="btn btn-primary btn-block color-main-background" :disabled="loading">
@@ -83,11 +94,12 @@
 </template>
 
 <script>
-import PickupFeeService from "../../../services/pickup-fee.service";
+import PaymentMethodsService from "../../../services/payment-method.service";
+import PaymentMethodDetailsService from "../../../services/payment-method-detail.service";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 export default {
-    name: "PickupFeeAgentView",
+    name: "PaymentMethodDetailAgentView",
     components: {
         Form,
         Field,
@@ -95,18 +107,24 @@ export default {
     },
     data() {
         const schema = yup.object().shape({
-            distance: yup
-                .number()
-                .required("Distance is required!")
-                .min(1, "Must be at least 1 Km!"),
-            fee: yup
-                .number()
-                .required("Fee is required!")
-                .min(1, "Must be at least 1 IDR!"),
+            id_payment_methods: yup
+                .string()
+                .required("Distance is required!"),
+            payment_number: yup
+                .string()
+                .required("Payment Number/ID is required!")
+                .min(3, "Must be at least 3 characters!")
+                .max(255, "Must be maximum 255 characters!"),
+            description: yup
+                .string()
+                .required("Description is required!")
+                .min(3, "Must be at least 3 characters!")
+                .max(255, "Must be maximum 255 characters!"),
         });
 
         return {
-            fees: [],
+            details: [],
+            methods: [],
             successful: false,
             loading: false,
             message: "",
@@ -128,7 +146,8 @@ export default {
         if (this.currentUser.role_id != 2) {
             this.$router.push("/dashboard");
         }
-        this.loadPickupFee()
+        this.loadPaymentMethodDetail()
+        this.loadMethod()
     },
     methods: {
         deleteData(id) {
@@ -142,19 +161,19 @@ export default {
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    PickupFeeService.delete(id).then(
+                    PaymentMethodDetailsService.delete(id).then(
                         () => {
                             this.$swal.fire(
                                 'Deleted!',
-                                'Pickup fee successfully deleted.',
+                                'Payment method detail successfully deleted.',
                                 'success'
                             )
-                            this.loadPickupFee()
+                            this.loadPaymentMethodDetail()
                         },
                         () => {
                             this.$swal.fire(
                                 'Fail!',
-                                'Pickup fee is not deleted.',
+                                'Payment method detail is not deleted.',
                                 'error'
                             )
                         }
@@ -162,22 +181,22 @@ export default {
                 }
             })
         },
-        addFee(schema) {
+        addDetail(schema) {
             this.message = "";
             this.successful = false;
             this.loading = true;
 
-            PickupFeeService.store(schema).then(
-                (data) => {
-                    this.message = "New pickup fee of Rp. " + data.data.fee + " for " + data.data.distance + "Km successfully created.";
+            PaymentMethodDetailsService.store(schema).then(
+                () => {
+                    this.message = "New payment method detail successfully created.";
                     this.successful = true;
                     this.loading = false;
                     this.$swal.fire(
                         'Success!',
-                        'New pickup fee successfully created.',
+                        'New payment method detail successfully created.',
                         'success'
                     )
-                    this.loadPickupFee()
+                    this.loadPaymentMethodDetail()
                 },
                 (error) => {
                     this.message =
@@ -190,16 +209,31 @@ export default {
                     this.loading = false;
                     this.$swal.fire(
                         'Fail!',
-                        'Pickup fee is not created.',
+                        'Payment method detail is not created.',
                         'error'
                     )
                 }
             );
         },
-        loadPickupFee() {
-            PickupFeeService.getById().then(
+        loadPaymentMethodDetail() {
+            PaymentMethodDetailsService.indexTourAgent().then(
                 (response) => {
-                    this.fees = response.data.data
+                    this.details = response.data.data
+                },
+                (error) => {
+                    this.content =
+                        (error.response &&
+                            error.response.data &&
+                            error.response.data.message) ||
+                        error.message ||
+                        error.toString();
+                }
+            )
+        },
+        loadMethod() {
+            PaymentMethodsService.getAll().then(
+                (response) => {
+                    this.methods = response.data.data
                 },
                 (error) => {
                     this.content =

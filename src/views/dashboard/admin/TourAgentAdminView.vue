@@ -1,7 +1,7 @@
 <template>
     <div class="card shadow">
         <div class="card-header p-3 text-center">
-            <h5 class="m-0 font-weight-bold text-primary">Manage Tour Agents</h5>
+            <h5 class="m-0 font-weight-bold color-main">Manage Tour Agents</h5>
         </div>
         <div class="card-body">
             <div class="table-responsive">

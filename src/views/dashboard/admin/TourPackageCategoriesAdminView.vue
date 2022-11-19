@@ -1,7 +1,7 @@
 <template>
     <div class="card shadow">
         <div class="card-header p-3 text-center">
-            <h5 class="m-0 font-weight-bold text-primary">Manage Tour Package Categories</h5>
+            <h5 class="m-0 font-weight-bold color-main">Manage Tour Package Categories</h5>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -12,6 +12,7 @@
                             <th>#</th>
                             <th>Name</th>
                             <th>Description</th>
+                            <th>Guide Included</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -20,6 +21,7 @@
                             <td style="width: 50px">{{index+1}}</td>
                             <td>{{category.category}}</td>
                             <td>{{category.description}}</td>
+                            <td>{{category.guide_included}}</td>
                             <td>
                                 <div style="width: 50px; height: 50px;">
                                     <button class="btn btn-success">
@@ -36,7 +38,7 @@
                     </tbody>
                     <tfoot v-if="!categories || !categories.length">
                         <tr>
-                            <td colspan="4" class="text-center">Empty Data.</td>
+                            <td colspan="5" class="text-center">Empty Data.</td>
                         </tr>
                     </tfoot>
                 </table>
@@ -46,7 +48,7 @@
 
     <div class="card shadow mt-4">
         <div class="card-header p-3 text-center">
-            <h5 class="m-0 font-weight-bold text-primary">Add Tour Package Category</h5>
+            <h5 class="m-0 font-weight-bold color-main">Add Tour Package Category</h5>
         </div>
         <div class="card-body">
             <Form @submit="addCategory" :validation-schema="schema">
@@ -61,6 +63,14 @@
                         <label for="description">Description</label>
                         <Field as="textarea" name="description" type="multiline" class="form-control" />
                         <ErrorMessage name="description" class="error-feedback" />
+                    </div>
+                    <div class="form-outline mb-4">
+                        <label for="guide_included">Guide Included</label>
+                        <Field name="guide_included" as="select" class="form-select">
+                            <option disabled selected value>-Select Guide Included Status-</option>
+                            <option value="Included">Included</option>
+                            <option value="Not Included">Not Included</option>
+                        </Field>
                     </div>
                     <div class="form-group">
                         <button class="btn btn-primary btn-block color-main-background" :disabled="loading">
@@ -98,6 +108,11 @@ export default {
             description: yup
                 .string()
                 .required("Description is required!")
+                .min(3, "Must be at least 3 characters!")
+                .max(255, "Must be maximum 255 characters!"),
+            guide_included: yup
+                .string()
+                .required("Guide included status is required!")
                 .min(3, "Must be at least 3 characters!")
                 .max(255, "Must be maximum 255 characters!"),
         });

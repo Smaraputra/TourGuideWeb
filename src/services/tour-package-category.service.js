@@ -12,6 +12,7 @@ class TourPackageCategoryService {
       .post(API_URL + 'store', {
         category: category.category,
         description: category.description,
+        guide_included: category.guide_included,
       }, { headers: authHeader() });
     return response.data;
   }

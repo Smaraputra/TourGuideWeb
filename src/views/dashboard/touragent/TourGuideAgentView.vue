@@ -1,7 +1,7 @@
 <template>
     <div class="card shadow">
         <div class="card-header p-3 text-center">
-            <h5 class="m-0 font-weight-bold text-primary">Manage Tour Guide</h5>
+            <h5 class="m-0 font-weight-bold color-main">Manage Tour Guide</h5>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -108,7 +108,7 @@ export default {
                     TourGuideService.verify(id,this.verified).then(
                         () => {
                             this.$swal.fire(
-                                'Deleted!',
+                                'Success!',
                                 'Tour guide status successfully updated.',
                                 'success'
                             )

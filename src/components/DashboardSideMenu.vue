@@ -34,10 +34,16 @@
             <router-link to="/dashboard/manage-tour-guide"><span>Tour Guide</span></router-link>
         </li>
         <li>
+            <router-link to="/dashboard/guide-job-approval"><span>Guide Job Approval</span></router-link>
+        </li>
+        <li>
             <router-link to="/dashboard/tour-package"><span>Tour Package</span></router-link>
         </li>
         <li>
             <router-link to="/dashboard/pickup-fee"><span>Pickup Fee</span></router-link>
+        </li>
+        <li>
+            <router-link to="/dashboard/payment-detail"><span>Payment Method Details</span></router-link>
         </li>
         <li>
             <router-link to="/dashboard/verify-transactions"><span>Check Transactions</span></router-link>

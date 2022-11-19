@@ -1,0 +1,230 @@
+:root{ 
+    --color: #184fa7;
+    --boxSize: 8px;
+    --gutter: 8px;
+}
+.loader{
+    width: calc((var(--boxSize) + var(--gutter)) * 5);
+    height: 64px;
+    margin: 50px auto;
+    position: relative;
+}
+.loader .box{
+    background: var(--color);
+    width: var(--boxSize);
+    height: 100%;
+    margin: 0 2px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 5px 0px var(--color);
+    display: inline-block;
+    transform: scaleY(.4);
+    animation: quiet 1.2s ease-in-out infinite;
+}
+.loader .box:nth-child(2){ animation: animate 1.2s ease-in-out infinite; }
+.loader .box:nth-child(4){ animation: loud 1.2s ease-in-out infinite; }
+@keyframes quiet{
+    25%{ transform: scaleY(.6); }
+    50%{ transform: scaleY(.4); }
+    75%{ transform: scaleY(.8); }
+}
+@keyframes animate{
+    25%{ transform: scaleY(1); }
+    50%{ transform: scaleY(.4); }
+    75%{ transform: scaleY(.6); }
+}
+@keyframes loud{
+    25%{ transform: scaleY(1); }
+    50%{ transform: scaleY(.4); }
+    75%{ transform: scaleY(1.2); }
+}
+
+/* @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #fff;
+} */
+
+.color-main {
+  color: #184fa7;
+}
+
+.color-main-background {
+  background-color: #184fa7;
+}
+
+.gradient-custom-2 {
+  background: #fccb90;
+  background: -webkit-linear-gradient(to right, #5b82c1, #3866af, #0c3b85, #082d69);
+  background: linear-gradient(to right, #5b82c1, #3866af, #0c3b85, #082d69);
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+
+body {
+  height: 100%;
+}
+
+.services-icon {
+  font-size: 100px;
+  margin-bottom: 20px;
+}
+
+.guide-photo {
+  height: 200px;
+  margin-bottom: 20px;
+  border-radius: 50%;
+  background: no-repeat center center scroll;
+}
+
+.carousel-item {
+  height: 80vh;
+  min-height: 350px;
+  width: 100%;
+  object-fit: cover;
+  background: no-repeat center center scroll;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+/*TIMELINE*/
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+    .profile-column {
+        width: 100%;
+    }
+}
+
+/* The actual timeline (the vertical ruler) */
+.main-timeline-2 {
+    position: relative;
+}
+
+/* The actual timeline (the vertical ruler) */
+.main-timeline-2::after {
+    content: "";
+    position: absolute;
+    width: 3px;
+    background-color: #184fa7;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -3px;
+}
+
+/* Container around content */
+.timeline-2 {
+    position: relative;
+    background-color: inherit;
+    width: 50%;
+}
+
+/* The circles on the timeline */
+.timeline-2::after {
+    content: "";
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    right: -11px;
+    background-color: #184fa7;
+    top: 15px;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+/* Place the container to the left */
+.left-2 {
+    padding: 0px 40px 20px 0px;
+    left: 0;
+}
+
+/* Place the container to the right */
+.right-2 {
+    padding: 0px 0px 20px 40px;
+    left: 50%;
+}
+
+/* Add arrows to the left container (pointing right) */
+.left-2::before {
+    content: " ";
+    position: absolute;
+    top: 18px;
+    z-index: 1;
+    right: 30px;
+    border: medium solid white;
+    border-width: 10px 0 10px 10px;
+    border-color: transparent transparent transparent white;
+}
+
+/* Add arrows to the right container (pointing left) */
+.right-2::before {
+    content: " ";
+    position: absolute;
+    top: 18px;
+    z-index: 1;
+    left: 30px;
+    border: medium solid white;
+    border-width: 10px 10px 10px 0;
+    border-color: transparent white transparent transparent;
+}
+
+/* Fix the circle for containers on the right side */
+.right-2::after {
+    left: -14px;
+}
+
+/* Media queries - Responsive timeline on screens less than 600px wide */
+@media screen and (max-width: 600px) {
+
+    /* Place the timelime to the left */
+    .main-timeline-2::after {
+        left: 31px;
+    }
+
+    /* Full-width containers */
+    .timeline-2 {
+        width: 100%;
+        padding-left: 70px;
+        padding-right: 25px;
+    }
+
+    /* Make sure that all arrows are pointing leftwards */
+    .timeline-2::before {
+        left: 60px;
+        border: medium solid white;
+        border-width: 10px 10px 10px 0;
+        border-color: transparent white transparent transparent;
+    }
+
+    /* Make sure all circles are at the same spot */
+    .left-2::after,
+    .right-2::after {
+        left: 18px;
+    }
+
+    .left-2::before {
+        right: auto;
+    }
+
+    /* Make all right containers behave like the left ones */
+    .right-2 {
+        left: 0%;
+    }
+}

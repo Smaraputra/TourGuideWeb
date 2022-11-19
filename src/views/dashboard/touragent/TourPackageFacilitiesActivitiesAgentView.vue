@@ -1,7 +1,7 @@
 <template>
     <div class="card shadow mt-4">
         <div class="card-header p-3 text-center">
-            <h5 class="m-0 font-weight-bold text-primary">Tour Package Detail</h5>
+            <h5 class="m-0 font-weight-bold color-main">Tour Package Detail</h5>
         </div>
         <div class="card-body">
             <div class="row">
@@ -40,19 +40,15 @@
                                     :value="tourpackagesdetails.duration" />
                                 <ErrorMessage name="duration" class="error-feedback" />
                             </div>
-                            <div class="form-group row">
-                                <div class="col-md-3 mb-4">
-                                    <button class="btn btn-primary btn-block color-main-background" :disabled="loading">
-                                        <span v-show="loading" class="spinner-border spinner-border-sm"></span>
-                                        <font-awesome-icon icon="check" /><span> Update </span>
-                                    </button>
-                                </div>
-                                <div class="col-md-3 mb-4">
-                                    <a class="btn btn-danger"
-                                        @click="deleteDataPackagesDetail(tourpackagesdetails.id_tour_packages)">
-                                        <font-awesome-icon icon="trash" /><span> Delete </span>
-                                    </a>
-                                </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary btn-block color-main-background me-2" :disabled="loading">
+                                    <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+                                    <font-awesome-icon icon="check" /><span> Update </span>
+                                </button>
+                                <a class="btn btn-danger me-2"
+                                    @click="deleteDataPackagesDetail(tourpackagesdetails.id_tour_packages)">
+                                    <font-awesome-icon icon="trash" /><span> Delete </span>
+                                </a>
                             </div>
                         </div>
                         <div v-if="message" class="alert mt-2" :class="successful ? 'alert-success' : 'alert-danger'">
@@ -67,7 +63,7 @@
         <div class="col-md-6 mt-4">
             <div class="card shadow">
                 <div class="card-header p-3 text-center">
-                    <h5 class="m-0 font-weight-bold text-primary">Manage Tour Packages Activities</h5>
+                    <h5 class="m-0 font-weight-bold color-main">Manage Tour Packages Activities</h5>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -119,7 +115,7 @@
         <div class="col-md-6 mt-4">
             <div class="card shadow">
                 <div class="card-header p-3 text-center">
-                    <h5 class="m-0 font-weight-bold text-primary">Add Tour Package Activitiy</h5>
+                    <h5 class="m-0 font-weight-bold color-main">Add Tour Package Activitiy</h5>
                 </div>
                 <div class="card-body">
                     <Form @submit="addPackageActivity" :validation-schema="schemaActivity">
@@ -162,7 +158,7 @@
         <div class="col-md-6 mt-4">
             <div class="card shadow">
                 <div class="card-header p-3 text-center">
-                    <h5 class="m-0 font-weight-bold text-primary">Manage Tour Packages Facility</h5>
+                    <h5 class="m-0 font-weight-bold color-main">Manage Tour Packages Facility</h5>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -209,7 +205,7 @@
         <div class="col-md-6 mt-4">
             <div class="card shadow">
                 <div class="card-header p-3 text-center">
-                    <h5 class="m-0 font-weight-bold text-primary">Add Tour Package Facility</h5>
+                    <h5 class="m-0 font-weight-bold color-main">Add Tour Package Facility</h5>
                 </div>
                 <div class="card-body">
                     <Form @submit="addPackageFacility" :validation-schema="schemaFacility">

@@ -1,7 +1,7 @@
 <template>
   <div class="card shadow">
     <div class="card-header p-3 text-center">
-      <h5 class="m-0 font-weight-bold text-primary">Tour Package</h5>
+      <h5 class="m-0 font-weight-bold color-main">Tour Package</h5>
     </div>
     <div class="card-body">
       <div class="row">
@@ -18,7 +18,8 @@
               </div>
               <div class="form-outline mb-4" v-if="categories || categories.length">
                 <label for="id_package_categories">Tour Packages Category</label>
-                <Field as="select" name="id_package_categories" class="form-select" v-model="tourpackages.id_package_categories">
+                <Field as="select" name="id_package_categories" class="form-select"
+                  v-model="tourpackages.id_package_categories">
                   <option disabled value>-Package Category-</option>
                   <option v-for="(category, index) in categories" :key="index" :value="category.id_package_categories"
                     :selected="tourpackages.id_package_categories">
@@ -36,18 +37,17 @@
                 <Field as="textarea" name="terms" type="text" class="form-control" :value=tourpackages.terms />
                 <ErrorMessage name="terms" class="error-feedback" />
               </div>
-              <div class="form-group row">
-                <div class="col-md-3 mb-4">
-                  <button class="btn btn-primary btn-block color-main-background" :disabled="loading">
-                    <span v-show="loading" class="spinner-border spinner-border-sm"></span>
-                    <font-awesome-icon icon="check" /><span> Update </span>
-                  </button>
-                </div>
-                <div class="col-md-3 mb-4">
-                  <a class="btn btn-danger" @click="deleteDataPackages(tourpackages.id_tour_packages)">
-                    <font-awesome-icon icon="trash" /><span> Delete </span>
-                  </a>
-                </div>
+              <div class="form-group ">
+                <button class="btn btn-primary btn-block color-main-background me-2" :disabled="loading">
+                  <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+                  <font-awesome-icon icon="check" /><span> Update </span>
+                </button>
+                <a class="btn btn-success me-2" @click="copyDataPackages(tourpackages.id_tour_packages)">
+                  <font-awesome-icon icon="copy" /><span> Copy </span>
+                </a>
+                <a class="btn btn-danger me-2" @click="deleteDataPackages(tourpackages.id_tour_packages)">
+                  <font-awesome-icon icon="trash" /><span> Delete </span>
+                </a>
               </div>
               <div v-if="message" class="alert mt-2" :class="successful ? 'alert-success' : 'alert-danger'">
                 {{ message }}
@@ -64,7 +64,7 @@
     <div class="col-md-6 mt-4">
       <div class="card shadow">
         <div class="card-header p-3 text-center">
-          <h5 class="m-0 font-weight-bold text-primary">Manage Tour Packages Detail</h5>
+          <h5 class="m-0 font-weight-bold color-main">Manage Tour Packages Detail</h5>
         </div>
         <div class="card-body">
           <div class="table-responsive">
@@ -121,7 +121,7 @@
     <div class="col-md-6 mt-4">
       <div class="card shadow">
         <div class="card-header p-3 text-center">
-          <h5 class="m-0 font-weight-bold text-primary">Add Tour Package Detail</h5>
+          <h5 class="m-0 font-weight-bold color-main">Add Tour Package Detail</h5>
         </div>
         <div class="card-body">
           <Form @submit="addDetail" :validation-schema="schemaDetail">
@@ -169,7 +169,7 @@
     <div class="col-md-6 mt-4">
       <div class="card shadow mt-4">
         <div class="card-header p-3 text-center">
-          <h5 class="m-0 font-weight-bold text-primary">Manage Tour Packages Pricing</h5>
+          <h5 class="m-0 font-weight-bold color-main">Manage Tour Packages Pricing</h5>
         </div>
         <div class="card-body">
           <div class="table-responsive">
@@ -228,7 +228,7 @@
     <div class="col-md-6 mt-4">
       <div class="card shadow mt-4">
         <div class="card-header p-3 text-center">
-          <h5 class="m-0 font-weight-bold text-primary">Add Tour Package Price</h5>
+          <h5 class="m-0 font-weight-bold color-main">Add Tour Package Price</h5>
         </div>
         <div class="card-body">
           <Form @submit="addPrice" :validation-schema="schemaPrice">
@@ -416,6 +416,13 @@ export default {
       ]
     };
   },
+  watch: {
+    "$route.params.id_tour_packages": {
+      handler: function () {
+        this.loadPackageId()
+      },
+    },
+  },
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
@@ -508,6 +515,39 @@ export default {
               this.$swal.fire(
                 'Fail!',
                 'Package is not deleted.',
+                'error'
+              )
+            }
+          );
+        }
+      })
+    },
+    copyDataPackages(id) {
+      this.$swal.fire({
+        title: 'Are you sure?',
+        text: "You will create another copy of this package!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, create a copy!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          TourPackageService.copyById(id).then(
+            (response) => {
+              this.$swal.fire(
+                'Copied!',
+                'Package successfully copied.',
+                'success'
+              )
+              console.log(response.data)
+              this.$router.push({ name: 'tour-package-see', params: { id_tour_packages: response.data["id_tour_packages"] } });
+              this.loadPackageId()
+            },
+            () => {
+              this.$swal.fire(
+                'Fail!',
+                'Package is not copied.',
                 'error'
               )
             }
@@ -649,7 +689,6 @@ export default {
       TourPackageService.getById(this.$route.params.id_tour_packages).then(
         (response) => {
           this.tourpackages = response.data
-          console.log(this.tourpackages)
         },
         (error) => {
           this.content =
@@ -729,11 +768,5 @@ export default {
 </script>
 
 <style scoped>
-.color-main-background {
-  background: #184fa7;
-}
 
-.color-main {
-  color: #184fa7;
-}
 </style>

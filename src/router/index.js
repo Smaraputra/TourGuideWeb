@@ -6,6 +6,7 @@ import TourPackageView from "../views/landing/TourPackagesView.vue";
 import TourPackageDetailView from "../views/landing/TourPackageDetailView.vue";
 import ProfileView from "../views/landing/ProfileInformationView.vue";
 import TransactionView from "../views/landing/TransactionView.vue";
+import TransactionDetailView from "../views/landing/TransactionDetailView.vue";
 
 import RegisterView from "../views/auth/RegisterView.vue";
 import LoginView from "../views/auth/LoginView.vue";
@@ -25,8 +26,13 @@ import TourPackageAgentView from "../views/dashboard/touragent/TourPackageAgentV
 import TourPackageDetailPriceAgentView from "../views/dashboard/touragent/TourPackageDetailPriceAgentView.vue"
 import TourPackageFacilitiesActivitiesAgentView from "../views/dashboard/touragent/TourPackageFacilitiesActivitiesAgentView.vue"
 import TourGuideAgentView from "../views/dashboard/touragent/TourGuideAgentView.vue"
+import GuideJobApprovalAgentView from "../views/dashboard/touragent/GuideJobApprovalAgentView.vue"
 import TransactionAgentView from "../views/dashboard/touragent/TransactionAgentView.vue"
 import PickupFeeAgentView from "../views/dashboard/touragent/PickupFeeAgentView.vue"
+import PaymentMethodDetailAgentView from "../views/dashboard/touragent/PaymentMethodDetailsAgentView.vue"
+import TransactionDetailAgentView from "../views/dashboard/touragent/TransactionDetailAgentView.vue"
+
+import GuideJobApprovalGuideView from "../views/dashboard/tourguide/GuideJobApprovalGuideView.vue"
 
 const routes = [
   {
@@ -84,6 +90,11 @@ const routes = [
         name: "transactions",
         component: TransactionView,
       },
+      {
+        path: 'transactions/:id_orders',
+        name: "transactions-see",
+        component: TransactionDetailView,
+      },
     ],
   },
   {
@@ -139,14 +150,35 @@ const routes = [
         component: TourGuideAgentView,
       },
       {
+        path: 'guide-job-approval',
+        name: "guide-job-approval",
+        component: GuideJobApprovalAgentView,
+      },
+      {
         path: 'verify-transactions',
         name: "verify-transactions",
         component: TransactionAgentView,
       },
       {
+        path: 'transactions/:id_orders',
+        name: "transactions-see-agent",
+        component: TransactionDetailAgentView,
+      },
+      {
         path: 'pickup-fee',
         name: "pickup-fee",
         component: PickupFeeAgentView,
+      },
+      {
+        path: 'payment-detail',
+        name: "payment-detail",
+        component: PaymentMethodDetailAgentView,
+      },
+
+      {
+        path: 'job-offer',
+        name: "job-offer",
+        component: GuideJobApprovalGuideView,
       },
     ],
   },

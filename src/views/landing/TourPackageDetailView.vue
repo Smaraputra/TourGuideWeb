@@ -1,4 +1,15 @@
 <template>
+    <Transition>
+        <div class="d-flex justify-content-center align-items-center" style="height: 90vh" v-if="!statusLoad">
+            <div class="loader">
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+            </div>
+        </div>
+        <div v-else>
     <section class="bg-light">
         <div class="text-center pt-4 pb-2">
             <h2 class="color-main">Package Detail</h2>
@@ -6,6 +17,27 @@
         </div>
     </section>
     <section class="p-4">
+        <div class="row">
+            <div class="col">
+                <nav aria-label="breadcrumb" class="bg-light rounded-3 p-4">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item">
+                            <router-link to="/">
+                                <strong>Home</strong>
+                            </router-link>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <router-link to="/packages">
+                                <strong>Tour Package</strong>
+                            </router-link>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            <strong>Package Detail</strong>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
         <div class="row" v-if="tourpackages">
             <div class="col-md-8 mt-4">
                 <div class="card shadow border-0">
@@ -41,7 +73,7 @@
                                 <hr class="hr" />
                                 <div class="collapse" id="collapseDetails">
                                     <div class="card card-body">
-                                        <div class="container py-5">
+                                        <div class="container">
                                             <div class="main-timeline-2">
                                                 <div v-for="(detail, index) in tourpackagesdetails" :key="index">
                                                     <div class="timeline-2 left-2" v-if="index % 2 == 0">
@@ -231,12 +263,12 @@
                                 <hr class="hr" />
                                 <p>Total price: Rp. <span v-if="total">{{ total }}</span><span v-else>0</span></p>
                                 <div class="form-outline mb-4" v-if="methods || methods.length">
-                                    <label for="id_payment_methods">Choose Your Payment Methods</label>
-                                    <Field name="id_payment_methods" as="select" class="form-select">
+                                    <label for="id_payment_method_details">Choose Your Payment Methods</label>
+                                    <Field name="id_payment_method_details" as="select" class="form-select">
                                         <option disabled selected value>-Payment Methods-</option>
                                         <option v-for="(method, index) in methods" :key="index"
-                                            :value="method.id_payment_methods">
-                                            {{ method.method }}
+                                            :value="method.id_payment_method_details">
+                                            {{ method.payment_method.method }} ({{method.payment_number}})
                                         </option>
                                     </Field>
                                 </div>
@@ -257,10 +289,11 @@
             </div>
         </div>
     </section>
+    </div></Transition>
 </template>
 
 <script>
-import PaymentMethodsService from "../../services/payment-method.service";
+import PaymentMethodDetailService from "../../services/payment-method-detail.service";
 import TourPackageService from "../../services/tour-package.service";
 import TourAgentService from "../../services/tour-agent.service";
 import OrderService from "../../services/order.service";
@@ -279,7 +312,7 @@ export default {
             id_package_prices: yup
                 .string()
                 .required("Package price is required!"),
-            id_payment_methods: yup
+            id_payment_method_details: yup
                 .string()
                 .required("Payment method is required!"),
             order_date: yup
@@ -319,7 +352,10 @@ export default {
                         lat: -8.409518, lng: 115.188919
                     },
                 }
-            ]
+            ],
+            statusLoad: false,
+            statusFee: false,
+            statusMethod: false,
         };
     },
     computed: {
@@ -332,7 +368,6 @@ export default {
     },
     created() {
         this.loadPackageId()
-        this.loadPaymentMethod()
     },
     methods: {
         setMinDate(){
@@ -452,7 +487,7 @@ export default {
                         'New order successfully created.',
                         'success'
                     )
-                    this.$router.push("/transaction")
+                    this.$router.push("/transactions")
                     },
                     (error) => {
                     this.message =
@@ -494,6 +529,27 @@ export default {
                     TourAgentService.getById(this.tourpackages.id_tour_agents).then(
                         (response) => {
                             this.fees = response.data.pickup_fee
+                            this.statusFee = true
+                            if(this.statusFee && this.statusMethod){
+                                this.statusLoad = true
+                            }
+                        },
+                        (error) => {
+                            this.content =
+                                (error.response &&
+                                    error.response.data &&
+                                    error.response.data.message) ||
+                                error.message ||
+                                error.toString();
+                        }
+                    )
+                    PaymentMethodDetailService.getAllById(this.tourpackages.id_tour_agents).then(
+                        (response) => {
+                            this.methods = response.data
+                            this.statusMethod = true
+                            if(this.statusFee && this.statusMethod){
+                                this.statusLoad = true
+                            }
                         },
                         (error) => {
                             this.content =
@@ -524,34 +580,12 @@ export default {
                 }
             )
         },
-        loadPaymentMethod(){
-            PaymentMethodsService.getAll().then(
-                (response) => {
-                    this.methods = response.data.data
-                },
-                (error) => {
-                    this.content =
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString();
-                }
-            )
-        }
     }
 };
 
 </script>
 
 <style scoped>
-.color-main {
-    color: #184fa7;
-}
-
-.color-main-background {
-    background-color: #184fa7;
-}
 
 /* The actual timeline (the vertical ruler) */
 .main-timeline-2 {

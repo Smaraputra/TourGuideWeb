@@ -23,6 +23,24 @@ class TourPackageService {
       }, { headers: authHeader() });
     return response.data;
   }
+  async searchFilter(package_name, id_package_categories) {
+    const response = await axios
+      .post(API_URL + 'searchFilter', {
+        id_package_categories: id_package_categories,
+        package_name: package_name,
+      }, { headers: authHeader() });
+    return response.data;
+  }
+  async copyById(id) {
+    const response = await axios.post(
+      API_URL + "copyById",
+      {
+        curid: id,
+      },
+      { headers: authHeader() }
+    );
+    return response.data;
+  }
   async getById(id) {
     const response = await axios.post(
       API_URL + "getById",

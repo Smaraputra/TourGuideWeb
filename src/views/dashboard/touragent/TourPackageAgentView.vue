@@ -1,7 +1,7 @@
 <template>
   <div class="card shadow">
     <div class="card-header p-3 text-center">
-      <h5 class="m-0 font-weight-bold text-primary">Manage Tour Packages</h5>
+      <h5 class="m-0 font-weight-bold color-main">Manage Tour Packages</h5>
     </div>
     <div class="card-body">
       <div class="table-responsive">
@@ -56,7 +56,7 @@
 
   <div class="card shadow mt-4">
     <div class="card-header p-3 text-center">
-      <h5 class="m-0 font-weight-bold text-primary">Add Tour Package</h5>
+      <h5 class="m-0 font-weight-bold color-main">Add Tour Package</h5>
     </div>
     <div class="card-body">
       <Form @submit="addPackage" :validation-schema="schema">

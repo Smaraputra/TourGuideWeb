@@ -1,8 +1,8 @@
 import axios from "axios";
 import authHeader from "./auth-header";
+import fileHeader from "./file-header";
 
 const API_URL = "http://localhost:8000/api/transaction/";
-
 class TourOrderService {
   getByIdAgent() {
     return axios.get(API_URL + "getByIdAgent", { headers: authHeader() });
@@ -33,10 +33,56 @@ class TourOrderService {
         order_date: order.order_date,
         additional_fee: addFee,
         total_price: total,
-        id_payment_methods: order.id_payment_methods,
+        id_payment_method_details: order.id_payment_method_details,
         location: order.location,
         latitude: order.latitude,
         longitude: order.longitude
+      },
+      { headers: authHeader() }
+    );
+    return response.data;
+  }
+
+  async uploadPayment(payment,id) {
+    const response = await axios.post(
+      API_URL + "uploadPayment",
+      {
+        payment_proof: payment,
+        id_orders: id,
+      },
+      { headers: fileHeader() }
+    );
+    return response.data;
+  }
+
+  async approvalAgent(conditions,id) {
+    const response = await axios.post(
+      API_URL + "approvalAgent",
+      {
+        condition: conditions,
+        id_orders: id,
+      },
+      { headers: authHeader() }
+    );
+    return response.data;
+  }
+
+  async cancelOrderByAgent(id) {
+    const response = await axios.post(
+      API_URL + "cancelOrderByAgent",
+      {
+        id_orders: id,
+      },
+      { headers: authHeader() }
+    );
+    return response.data;
+  }
+
+  async cancelOrderByCustomer(id) {
+    const response = await axios.post(
+      API_URL + "cancelOrderByCustomer",
+      {
+        id_orders: id,
       },
       { headers: authHeader() }
     );

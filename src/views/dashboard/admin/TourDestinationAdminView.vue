@@ -21,7 +21,10 @@
             <tbody v-if="destinations || destinations.length">
               <tr v-for="(destination, index) in destinations" :key="index">
                 <td style="width: 50px">{{index+1}}</td>
-                <td><img src="../../../assets/image/home/image_placeholder.png" style="width: 100px"></td>
+                <td style="width: 100px">
+                    <img v-if="destination.image_tourist_destination != null" :src="destination.image_tourist_destination" alt="" class="card-img-top mt-2 rounded imgSmallTabel">
+                    <img v-else src="../../../assets/image/home/image_placeholder.png" alt="" class="card-img-top mt-2 rounded imgSmallTabel">
+                </td>
                 <!-- <td>{{destination.image_tourist_destination}}</td> -->
                 <td>{{destination.name}}</td>
                 <td>{{destination.description}}</td>
@@ -30,10 +33,16 @@
                 <td>{{destination.longitude}}</td>
                 <td>
                     <div style="width: 50px; height: 50px;">
-                        <button class="btn btn-success"><font-awesome-icon icon="pencil" /></button>
+                        <router-link style="width: 50px; height: 50px;" :to="{ name: 'tour-destination-update', params: { id_tourist_destinations: destination.id_tourist_destinations }}">
+                            <button class="btn btn-success">
+                                <font-awesome-icon icon="pencil" />
+                            </button>
+                        </router-link>
                     </div>
                     <div style="width: 50px; height: 50px;">
-                        <button class="btn btn-danger" @click="deleteData(destination.id_tourist_destinations)"><font-awesome-icon icon="trash" /></button>
+                        <a class="btn btn-danger" @click="deleteData(destination.id_tourist_destinations)">
+                            <font-awesome-icon icon="trash" />
+                        </a>
                     </div>
                 </td>
               </tr>
@@ -54,52 +63,68 @@
       </div>
       <div class="card-body">
         <Form @submit="addDestination" :validation-schema="schema">
-            <p>Fill the form down below to add new tour destination.</p>
-            <div>
-                <div class="form-outline mb-4">
-                    <label for="name">Tour Destination Name</label>
-                    <Field name="name" type="text" class="form-control" />
-                    <ErrorMessage name="name" class="error-feedback" />
-                </div>
-                <div class="form-outline mb-4">
-                    <label for="description">Description</label>
-                    <Field as="textarea" name="description" type="multiline" class="form-control" />
-                    <ErrorMessage name="description" class="error-feedback" />
-                </div>
-                <div class="form-outline mb-4">
-                    <label for="address">Address</label>
-                    <Field as="textarea" name="address" type="text" class="form-control" />
-                    <ErrorMessage name="address" class="error-feedback" />
-                </div>
-                <GMapMap :center="center" :zoom="2" map-type-id="terrain" style="width: 100%; height: 500px" @click="mark">
-                    <GMapMarker :key="index" v-for="(m, index) in markers" :position="m.position" :clickable="true" :draggable="true"
-                        @click="center=m.position" />
-                </GMapMap>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-outline mb-4">
-                            <label for="latitude">Latitude</label>
-                            <Field name="latitude" id="latIn" type="text" class="form-control" v-model="lat" disabled/>
-                            <ErrorMessage name="latitude" class="error-feedback" />
+            <div class="row">
+                <div class="col-md-12">
+                    <p>Fill the form down below to add new tour destination.</p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-outline mb-4">
+                                <img v-if="urlImage" :src="urlImage" alt="" class="card-img-top mt-2 rounded img">
+                                <label for="image_tourist_destination" class="mt-2">Cover Image</label>
+                                <Field name="image_tourist_destination">
+                                    <input name="image_tourist_destination" type="file" v-on:change="onChange" class="form-control" accept="image/*" />
+                                </Field>
+                                <ErrorMessage name="image_tourist_destination" class="error-feedback" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-outline mb-4">
+                                <label for="name">Tour Destination Name</label>
+                                <Field name="name" type="text" class="form-control" />
+                                <ErrorMessage name="name" class="error-feedback" />
+                            </div>
+                            <div class="form-outline mb-4">
+                                <label for="description">Description</label>
+                                <Field as="textarea" name="description" type="multiline" class="form-control" />
+                                <ErrorMessage name="description" class="error-feedback" />
+                            </div>
+                            <div class="form-outline mb-4">
+                                <label for="address">Address</label>
+                                <Field as="textarea" name="address" type="text" class="form-control" />
+                                <ErrorMessage name="address" class="error-feedback" />
+                            </div>
+                        </div>
+                        <GMapMap :center="center" :zoom="2" map-type-id="terrain" style="width: 100%; height: 400px" @click="mark">
+                            <GMapMarker :key="index" v-for="(m, index) in markers" :position="m.position" :clickable="true" :draggable="true"
+                                @click="center=m.position" />
+                        </GMapMap>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-outline mb-4">
+                                    <label for="latitude">Latitude</label>
+                                    <Field name="latitude" id="latIn" type="text" class="form-control" v-model="lat" disabled/>
+                                    <ErrorMessage name="latitude" class="error-feedback" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-outline mb-4">
+                                    <label for="longitude">Longitude</label>
+                                    <Field name="longitude" id="longIn" type="text" class="form-control" v-model="long" disabled/>
+                                    <ErrorMessage name="longitude" class="error-feedback" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary btn-block color-main-background" :disabled="loading">
+                                <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+                                <font-awesome-icon icon="plus" /><span> Add New</span>
+                            </button>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-outline mb-4">
-                            <label for="longitude">Longitude</label>
-                            <Field name="longitude" id="longIn" type="text" class="form-control" v-model="long" disabled/>
-                            <ErrorMessage name="longitude" class="error-feedback" />
-                        </div>
+                    <div v-if="message" class="alert mt-2" :class="successful ? 'alert-success' : 'alert-danger'">
+                        {{ message }}
                     </div>
                 </div>
-                <div class="form-group">
-                    <button class="btn btn-primary btn-block color-main-background" :disabled="loading">
-                        <span v-show="loading" class="spinner-border spinner-border-sm"></span>
-                        <font-awesome-icon icon="plus" /><span> Add New</span>
-                    </button>
-                </div>
-            </div>
-            <div v-if="message" class="alert mt-2" :class="successful ? 'alert-success' : 'alert-danger'">
-                {{ message }}
             </div>
         </Form>
       </div>
@@ -107,6 +132,8 @@
 </template>
 
 <script>
+import moment from 'moment'
+import previewImage from "../../../assets/image/home/image_placeholder.png"
 import TourDestinationService from "../../../services/tour-destination.service";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
@@ -123,17 +150,17 @@ export default {
                 .string()
                 .required("Name is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(255, "Must be maximum 255 characters!"),
+                .max(1024, "Must be maximum 1024 characters!"),
             description: yup
                 .string()
                 .required("Description is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(255, "Must be maximum 255 characters!"),
+                .max(1024, "Must be maximum 1024 characters!"),
             address: yup
                 .string()
                 .required("Address is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(255, "Must be maximum 255 characters!"),
+                .max(1024, "Must be maximum 1024 characters!"),
             latitude: yup
                 .string()
                 .required("Latitude is required!"),
@@ -150,6 +177,8 @@ export default {
             destinations: [],
             lat: "",
             long: "",
+            file: null,
+            urlImage: previewImage,
             center: {lat: -8.409518, lng: 115.188919},
             markers: [
                 {
@@ -177,8 +206,13 @@ export default {
             this.$router.push("/dashboard");
         }
         this.loadDestination()
+        this.moment = moment
     },
     methods: {
+        onChange(e) {
+            this.file = e.target.files[0];
+            this.urlImage = URL.createObjectURL(this.file);
+        },
         mark(event) {
             this.markers=[
                 {
@@ -227,7 +261,7 @@ export default {
             this.successful = false;
             this.loading = true;
 
-            TourDestinationService.store(schema).then(
+            TourDestinationService.store(schema, this.file).then(
                 (data) => {
                     this.message = "New destination : " + data.data.name + " successfully created.";
                     this.successful = true;
@@ -279,10 +313,5 @@ export default {
 </script>
 
 <style scoped>
-  .color-main-background {
-      background: #184fa7;
-  }
-  .color-main {
-    color: #184fa7;
-  }
+
 </style>

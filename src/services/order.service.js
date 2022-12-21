@@ -14,6 +14,20 @@ class TourOrderService {
       }, { headers: authHeader() });
     return response.data;
   }
+  async getDetailJobGuide(id) {
+    const response = await axios
+      .post(API_URL + 'getDetailJobGuide', {
+        curid: id
+      }, { headers: authHeader() });
+    return response.data;
+  }
+  async getDetailJobAgent(id) {
+    const response = await axios
+      .post(API_URL + 'getDetailJobAgent', {
+        curid: id
+      }, { headers: authHeader() });
+    return response.data;
+  }
   getByIdUser() {
     return axios.get(API_URL + "getByIdUser", { headers: authHeader() });
   }
@@ -86,6 +100,22 @@ class TourOrderService {
       },
       { headers: authHeader() }
     );
+    return response.data;
+  }
+
+  async searchFilterAgent(order_status) {
+    const response = await axios
+      .post(API_URL + 'searchFilterAgent', {
+        order_status: order_status,
+      }, { headers: authHeader() });
+    return response.data;
+  }
+
+  async searchFilterUser(order_status) {
+    const response = await axios
+      .post(API_URL + 'searchFilterUser', {
+        order_status: order_status,
+      }, { headers: authHeader() });
     return response.data;
   }
 }

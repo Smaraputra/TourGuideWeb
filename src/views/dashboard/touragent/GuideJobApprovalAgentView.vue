@@ -71,6 +71,16 @@
                                         </button>
                                     </div>
                                 </div>
+                                <div>
+                                    <div style="width: 50px; height: 50px;">
+                                        <router-link
+                                            :to="{ name: 'guide-job-detail', params: { id_guide_selections: guide.id_guide_selections } }">
+                                            <button class="btn btn-primary color-main-background">
+                                                <font-awesome-icon icon="eye" />
+                                            </button>
+                                        </router-link>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
@@ -186,10 +196,5 @@ export default {
 </script>
 
 <style scoped>
-    .color-main-background {
-        background: #184fa7;
-    }
-    .color-main {
-    color: #184fa7;
-    }
+
 </style>

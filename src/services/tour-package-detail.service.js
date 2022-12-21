@@ -1,10 +1,11 @@
 import axios from "axios";
 import authHeader from "./auth-header";
+import fileHeader from "./file-header";
 
 const API_URL = "http://localhost:8000/api/package-detail/";
 
 class TourPackageDetailService {
-  async store(detail,id) {
+  async store(detail,image_package_detail,id) {
     const response = await axios
       .post(API_URL + 'store', {
         id_tour_packages: id,
@@ -12,10 +13,11 @@ class TourPackageDetailService {
         day: detail.day,
         tour_sequence: detail.tour_sequence,
         duration: detail.duration,
-      }, { headers: authHeader() });
+        image_package_detail:image_package_detail
+      }, { headers: fileHeader() });
     return response.data;
   }
-  async update(detail,id,packid) {
+  async update(detail,id,packid,image_package_detail) {
     const response = await axios
       .post(API_URL + 'update', {
         curid: id,
@@ -24,7 +26,8 @@ class TourPackageDetailService {
         day: detail.day,
         tour_sequence: detail.tour_sequence,
         duration: detail.duration,
-      }, { headers: authHeader() });
+        image_package_detail:image_package_detail
+      }, { headers: fileHeader() });
     return response.data;
   }
   async getById(id) {

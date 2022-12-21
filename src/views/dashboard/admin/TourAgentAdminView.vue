@@ -136,7 +136,7 @@ export default {
                     TourAgentService.verify(id,this.verified).then(
                         () => {
                             this.$swal.fire(
-                                'Deleted!',
+                                'Success!',
                                 'Tour agent status successfully updated.',
                                 'success'
                             )
@@ -176,10 +176,5 @@ export default {
 </script>
 
 <style scoped>
-  .color-main-background {
-      background: #184fa7;
-  }
-  .color-main {
-    color: #184fa7;
-  }
+
 </style>

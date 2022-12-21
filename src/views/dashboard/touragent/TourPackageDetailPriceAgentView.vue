@@ -1,16 +1,41 @@
 <template>
-  <div class="card shadow">
+  <div class="row">
+    <div class="col">
+      <nav aria-label="breadcrumb" class="bg-light rounded-3 p-4">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item">
+            <router-link to="/dashboard/tour-package">
+              <strong>Tour Package</strong>
+            </router-link>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">
+            <strong>Tour Package Detail</strong>
+          </li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+  <div class="card shadow mt-4">
     <div class="card-header p-3 text-center">
       <h5 class="m-0 font-weight-bold color-main">Tour Package</h5>
     </div>
     <div class="card-body">
-      <div class="row">
-        <div class="col-md-4">
-          <img src="../../../assets/image/home/image_placeholder.png" style="width: 100%">
-        </div>
-        <div class="col-md-8">
-          <Form @submit="updatePackage" :validation-schema="schemaPackage">
-            <div v-if="tourpackages">
+      <Form @submit="updatePackage" :validation-schema="schemaPackage">
+        <div class="row" v-if="tourpackages">
+          <div class="col-md-4">
+            <!-- <img src="../../../assets/image/home/image_placeholder.png" class="card-img-top mt-2 rounded"> -->
+            <img v-if="tourpackages.cover_image != null" :src="tourpackages.cover_image" alt="" class="card-img-top mt-2 rounded img">
+            <img v-else src="../../../assets/image/home/image_placeholder.png" alt="" class="card-img-top mt-2 rounded img">
+            <div class="form-outline mb-4">
+              <label for="cover_image" class="mt-2">Cover Image</label>
+              <Field name="cover_image">
+                <input name="cover_image" type="file" v-on:change="onChange" class="form-control" accept="image/*" />
+              </Field>
+              <ErrorMessage name="cover_image" class="error-feedback" />
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div>
               <div class="form-outline mb-4">
                 <label for="package_name">Tour Packages Name</label>
                 <Field name="package_name" type="text" class="form-control" :value="tourpackages.package_name" />
@@ -37,15 +62,22 @@
                 <Field as="textarea" name="terms" type="text" class="form-control" :value=tourpackages.terms />
                 <ErrorMessage name="terms" class="error-feedback" />
               </div>
-              <div class="form-group ">
-                <button class="btn btn-primary btn-block color-main-background me-2" :disabled="loading">
+              <div class="form-outline mb-4">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="published" id="flexCheckDefault" v-model="checkeds">
+                  <label class="form-check-label" for="flexCheckDefault" v-if="checkeds">Published</label>
+                  <label class="form-check-label" for="flexCheckDefault" v-else>Not Published</label>
+                </div>
+              </div>
+              <div class="form-group">
+                <button class="btn btn-primary btn-block color-main-background me-2 mt-2" :disabled="loading">
                   <span v-show="loading" class="spinner-border spinner-border-sm"></span>
                   <font-awesome-icon icon="check" /><span> Update </span>
                 </button>
-                <a class="btn btn-success me-2" @click="copyDataPackages(tourpackages.id_tour_packages)">
+                <a class="btn btn-success me-2 mt-2" @click="copyDataPackages(tourpackages.id_tour_packages)">
                   <font-awesome-icon icon="copy" /><span> Copy </span>
                 </a>
-                <a class="btn btn-danger me-2" @click="deleteDataPackages(tourpackages.id_tour_packages)">
+                <a class="btn btn-danger me-2 mt-2" @click="deleteDataPackages(tourpackages.id_tour_packages)">
                   <font-awesome-icon icon="trash" /><span> Delete </span>
                 </a>
               </div>
@@ -53,12 +85,11 @@
                 {{ message }}
               </div>
             </div>
-
-          </Form>
+          </div>
         </div>
-      </div>
+      </Form>
     </div>
-  </div>
+    </div>
 
   <div class="row">
     <div class="col-md-6 mt-4">
@@ -84,8 +115,10 @@
               <tbody v-if="tourpackagesdetails || tourpackagesdetails.length">
                 <tr v-for="(tourpackagesdetail, index) in tourpackagesdetails" :key="index">
                   <td>{{ index + 1 }}</td>
-                  <td><img src="../../../assets/image/home/image_placeholder.png" style="width: 100px"></td>
-                  <!-- <td>{{destination.image_tourist_destination}}</td> -->
+                  <td style="width: 150px">
+                    <img v-if="tourpackagesdetail.image_package_detail != null" :src="tourpackagesdetail.image_package_detail" alt="" class="card-img-top mt-2 rounded imgSmallTabel">
+                    <img v-else src="../../../assets/image/home/image_placeholder.png" alt="" class="card-img-top mt-2 rounded imgSmallTabel">
+                  </td>
                   <td>{{ tourpackagesdetail.tourist_destination.name }}</td>
                   <td>{{ tourpackagesdetail.day }}</td>
                   <td>{{ tourpackagesdetail.tour_sequence }}</td>
@@ -127,6 +160,14 @@
           <Form @submit="addDetail" :validation-schema="schemaDetail">
             <p>Fill the form down below to add new tour package detail.</p>
             <div>
+              <div class="form-outline mb-4">
+                <img v-if="urlImage" :src="urlImage" alt="" class="card-img-top mt-2 rounded img">
+                <label for="image_package_detail" class="mt-2">Package Detail Image</label>
+                <Field name="image_package_detail">
+                  <input name="image_package_detail" type="file" v-on:change="onChange2" class="form-control" accept="image/*" />
+                </Field>
+                <ErrorMessage name="image_package_detail" class="error-feedback" />
+              </div>
               <div class="form-outline mb-4" v-if="destinations || destinations.length">
                 <label for="id_tourist_destinations">Tour Destination</label>
                 <Field name="id_tourist_destinations" as="select" class="form-select">
@@ -298,6 +339,8 @@
 </template>
 
 <script>
+import moment from 'moment'
+import previewImage from "../../../assets/image/home/image_placeholder.png"
 import TourPackageService from "../../../services/tour-package.service";
 import TourPackageCategoryService from "../../../services/tour-package-category.service";
 import TourPackageDetailService from "../../../services/tour-package-detail.service";
@@ -318,7 +361,7 @@ export default {
         .string()
         .required("Package name is required!")
         .min(3, "Must be at least 3 characters!")
-        .max(255, "Must be maximum 255 characters!"),
+        .max(1024, "Must be maximum 1024 characters!"),
       id_package_categories: yup
         .string()
         .notOneOf(['-Package Category-'], 'Package category is required!'),
@@ -326,12 +369,12 @@ export default {
         .string()
         .required("Description is required!")
         .min(3, "Must be at least 3 characters!")
-        .max(255, "Must be maximum 255 characters!"),
+        .max(1024, "Must be maximum 1024 characters!"),
       terms: yup
         .string()
         .required("Terms and Conditions is required!")
         .min(3, "Must be at least 3 characters!")
-        .max(255, "Must be maximum 255 characters!"),
+        .max(1024, "Must be maximum 1024 characters!"),
     });
 
     const schemaPrice = yup.object().shape({
@@ -343,12 +386,12 @@ export default {
         .string()
         .required("Transportation is required!")
         .min(3, "Must be at least 3 characters!")
-        .max(255, "Must be maximum 255 characters!"),
+        .max(1024, "Must be maximum 1024 characters!"),
       pickup_location: yup
         .string()
         .required("Location is required!")
         .min(3, "Must be at least 3 characters!")
-        .max(255, "Must be maximum 255 characters!"),
+        .max(1024, "Must be maximum 1024 characters!"),
       price: yup
         .number()
         .required("Price is required!")
@@ -363,7 +406,7 @@ export default {
         .string()
         .required("Pickup time is required!")
         .min(3, "Must be at least 3 characters!")
-        .max(255, "Must be maximum 255 characters!"),
+        .max(1024, "Must be maximum 1024 characters!"),
     });
 
     const schemaDetail = yup.object().shape({
@@ -382,7 +425,7 @@ export default {
         .string()
         .required("Duration is required!")
         .min(3, "Must be at least 3 characters!")
-        .max(255, "Must be maximum 255 characters!"),
+        .max(1024, "Must be maximum 1024 characters!"),
     });
 
     return {
@@ -403,6 +446,10 @@ export default {
       categories: [],
       destinations: [],
       prices: [],
+      checkeds: null,
+      file: null,
+      file2: null,
+      urlImage: previewImage,
       lat: "",
       long: "",
       center: { lat: -8.409518, lng: 115.188919 },
@@ -416,13 +463,13 @@ export default {
       ]
     };
   },
-  watch: {
-    "$route.params.id_tour_packages": {
-      handler: function () {
-        this.loadPackageId()
-      },
-    },
-  },
+  // watch: {
+  //   "$route.params.id_tour_packages": {
+  //     handler: function () {
+  //       this.loadPackageId()
+  //     },
+  //   },
+  // },
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
@@ -439,12 +486,20 @@ export default {
       this.$router.push("/dashboard");
     }
     this.loadPackageId(),
-      this.loadCategory(),
-      this.loadDestination(),
-      this.loadPackageDetailId(),
-      this.loadPackagePriceId()
+    this.loadCategory(),
+    this.loadDestination(),
+    this.loadPackageDetailId(),
+    this.loadPackagePriceId(),
+    this.moment = moment
   },
   methods: {
+    onChange(e) {
+      this.file = e.target.files[0];
+    },
+    onChange2(e) {
+      this.file2 = e.target.files[0];
+      this.urlImage = URL.createObjectURL(this.file2);
+    },
     mark(event) {
       this.markers = [
         {
@@ -462,7 +517,7 @@ export default {
       this.successful = false;
       this.loading = true;
 
-      TourPackageService.update(schemaPackage, this.$route.params.id_tour_packages).then(
+      TourPackageService.update(schemaPackage, this.checkeds, this.file, this.$route.params.id_tour_packages).then(
         () => {
           this.message = "Package successfully updated.";
           this.successful = true;
@@ -540,7 +595,6 @@ export default {
                 'Package successfully copied.',
                 'success'
               )
-              console.log(response.data)
               this.$router.push({ name: 'tour-package-see', params: { id_tour_packages: response.data["id_tour_packages"] } });
               this.loadPackageId()
             },
@@ -560,7 +614,7 @@ export default {
       this.successful2 = false;
       this.loading2 = true;
 
-      TourPackageDetailService.store(schemaDetail, this.$route.params.id_tour_packages).then(
+      TourPackageDetailService.store(schemaDetail, this.file2, this.$route.params.id_tour_packages).then(
         () => {
           this.message2 = "New package detail successfully created.";
           this.successful2 = true;
@@ -603,6 +657,7 @@ export default {
           TourPackageDetailService.delete(id, this.$route.params.id_tour_packages).then(
             () => {
               this.loadPackageDetailId()
+              this.loadPackageId()
               this.$swal.fire(
                 'Deleted!',
                 'Package detail successfully deleted.',
@@ -668,6 +723,7 @@ export default {
           TourPackagePriceService.delete(id, this.$route.params.id_tour_packages).then(
             () => {
               this.loadPackagePriceId()
+              this.loadPackageId()
               this.$swal.fire(
                 'Deleted!',
                 'Package price successfully deleted.',
@@ -689,6 +745,11 @@ export default {
       TourPackageService.getById(this.$route.params.id_tour_packages).then(
         (response) => {
           this.tourpackages = response.data
+          if(this.tourpackages.published=='Yes'){
+            this.checkeds = true
+          }else if(this.tourpackages.published=='No'){
+            this.checkeds = false
+          }
         },
         (error) => {
           this.content =

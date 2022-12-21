@@ -82,12 +82,16 @@
             <div class="col-sm-6 col-lg-4 mb-3 text-center">
               <font-awesome-icon icon="plane" class="services-icon" />
               <h6>Provide Your Own Tour Packages as Tour Agent</h6>
-              <p class="text-muted">Tempor aute occaecat pariatur esse aute amet.</p>
+              <p class="text-muted">Ex cupidatat eu officia consequat incididunt labore occaecat ut veniam labore et
+                cillum
+                idet.</p>
             </div>
             <div class="col-sm-6 col-lg-4 mb-3 text-center">
               <font-awesome-icon icon="compass" class="services-icon" />
               <h6>Provide Guide Services as Tour Guide</h6>
-              <p class="text-muted">Voluptate ex irure ipsum ipsum ullamco ipsum reprehenderit non ut mollit commodo.
+              <p class="text-muted">Ex cupidatat eu officia consequat incididunt labore occaecat ut veniam labore et
+                cillum
+                idet.
               </p>
             </div>
           </div>
@@ -101,8 +105,9 @@
           </div>
           <div class="row">
             <div class="col-md-4 mb-4" v-for="(pack, index) in packages" :key="index">
-              <div class="card shadow border-0 h-100"><img src="../../assets/image/home/bedugul.jpg" alt=""
-                  class="card-img-top">
+              <div class="card shadow border-0 h-100">
+                <img v-if="pack.cover_image" :src="pack.cover_image" class="card-img-top rounded img" alt="">
+                <img v-else src="../../assets/image/home/image_placeholder.png" class="card-img-top rounded img" alt="">
                 <div class="card-body">
                   <h5 class="text-dark">{{ pack.package_name }}</h5>
                   <span v-if="pack.rating">
@@ -111,7 +116,9 @@
                   <span v-else>
                     <font-awesome-icon icon="star" /> No rating yet
                   </span>
-                  <p class="text-muted card-text mt-2">{{ pack.description }}</p>
+                  <read-more class="text-muted card-text" :more-str="null" :text="pack.description" link="#" :less-str="null" :max-chars="250">
+                  </read-more>
+                  <!-- <p class="text-muted card-text mt-2">{{ pack.description }}</p> -->
                   <router-link
                     :to="{ name: 'packages-detail-see', params: { id_tour_packages: pack.id_tour_packages } }">
                     <button class="btn btn-primary btn-block color-main-background">

@@ -34,12 +34,12 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-4 mt-4">
+          <div class="col-md-3 mt-4">
             <div class="card shadow border-0">
               <div class="card-body">
                 <h4 class="mb-4 color-main">Maps</h4>
                 <hr>
-                <GMapMap :center="center" :zoom="10" map-type-id="terrain" style="width: 100%; height: 500px"
+                <GMapMap :center="center" :zoom="9" map-type-id="terrain" style="width: 100%; height: 300px"
                   v-if="markers != null && markers.length">
                   <GMapMarker :key="index" v-for="(m, index) in markers" :position="m.position" :clickable="true"
                     :draggable="false" @click="openMarker(m.id)">
@@ -56,7 +56,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-8 mt-4">
+          <div class="col-md-9 mt-4">
             <div class="card shadow border-0">
               <div class="card-body">
                 <h4 class="mb-4 color-main">Destinations</h4>
@@ -78,14 +78,18 @@
                 <div v-if="destinations || destinations.length">
                   <div class="row mt-4">
                     <div class="col-md-4 mb-4" v-for="(destination, index) in destinations" :key="index">
-                      <div class="card shadow border-0 h-100"><img src="../../assets/image/home/bedugul.jpg" alt=""
-                          class="card-img-top">
+                      <div class="card shadow border-0 h-100">
+                        <img v-if="destination.image_tourist_destination != null"
+                          :src="destination.image_tourist_destination" alt="" class="card-img-top imgTourPackage">
+                        <img v-else src="../../assets/image/home/image_placeholder.png" alt=""
+                          class="card-img-top imgTourPackage">
                         <div class="card-body">
                           <h5>{{ destination.name }}</h5>
-                          <p class="text-muted card-text">{{ destination.description }}</p>
-                          <p class="btn btn-primary btn-block color-main-background"><span>
+                          <read-more class="text-muted card-text" :more-str="null" :text="destination.description"
+                            link="#" :less-str="null" :max-chars="250"></read-more>
+                          <div class="btn btn-primary btn-block color-main-background"><span>
                               <font-awesome-icon icon="eye" />
-                            </span> See more</p>
+                            </span> See more</div>
                         </div>
                       </div>
                     </div>
@@ -120,6 +124,7 @@ export default {
       center: { lat: -8.409518, lng: 115.188919 },
       markers: [],
       statusLoad: false,
+      package_name: null
     };
   },
   computed: {
@@ -193,6 +198,17 @@ export default {
 </script>
 
 <style scoped>
+.btn-primary {
+  background-color: #184fa7;
+  border-color: #184fa7;
+  outline-color: #184fa7;
+}
+
+.btn-outline-primary {
+  border-color: #184fa7;
+  outline-color: #184fa7;
+  color: #184fa7;
+}
 
 .ms-n5 {
   margin-left: -40px;

@@ -18,7 +18,9 @@ import PageNotFoundView from "../views/error/PageNotFoundView.vue";
 import DashboardMainView from "../views/DashboardMainView.vue";
 import DashboardHomeView from "../views/dashboard/DashboardHomeView.vue"
 import TourDestinationAdminView from "../views/dashboard/admin/TourDestinationAdminView.vue"
+import TourDestinationUpdateAdminView from "../views/dashboard/admin/TourDestinationUpdateAdminView.vue"
 import TourPackageCategoriesAdminView from "../views/dashboard/admin/TourPackageCategoriesAdminView.vue"
+import TourPackageCategoriesUpdateAdminView from "../views/dashboard/admin/TourPackageCategoriesUpdateAdminView.vue"
 import PaymentMethodsAdminView from "../views/dashboard/admin/PaymentMethodsAdminView.vue"
 import TourAgentAdminView from "../views/dashboard/admin/TourAgentAdminView.vue"
 
@@ -27,12 +29,14 @@ import TourPackageDetailPriceAgentView from "../views/dashboard/touragent/TourPa
 import TourPackageFacilitiesActivitiesAgentView from "../views/dashboard/touragent/TourPackageFacilitiesActivitiesAgentView.vue"
 import TourGuideAgentView from "../views/dashboard/touragent/TourGuideAgentView.vue"
 import GuideJobApprovalAgentView from "../views/dashboard/touragent/GuideJobApprovalAgentView.vue"
+import GuideJobDetailAgentView from "../views/dashboard/touragent/GuideJobDetailAgentView.vue"
 import TransactionAgentView from "../views/dashboard/touragent/TransactionAgentView.vue"
 import PickupFeeAgentView from "../views/dashboard/touragent/PickupFeeAgentView.vue"
 import PaymentMethodDetailAgentView from "../views/dashboard/touragent/PaymentMethodDetailsAgentView.vue"
 import TransactionDetailAgentView from "../views/dashboard/touragent/TransactionDetailAgentView.vue"
 
 import GuideJobApprovalGuideView from "../views/dashboard/tourguide/GuideJobApprovalGuideView.vue"
+import GuideJobDetailGuideView from "../views/dashboard/tourguide/GuideJobDetailGuideView.vue"
 
 const routes = [
   {
@@ -114,9 +118,19 @@ const routes = [
         component: TourDestinationAdminView,
       },
       {
+        path: 'tour-destination/:id_tourist_destinations',
+        name: "tour-destination-update",
+        component: TourDestinationUpdateAdminView,
+      },
+      {
         path: 'tour-category',
         name: "tour-category",
         component: TourPackageCategoriesAdminView,
+      },
+      {
+        path: 'tour-category/:id_package_categories',
+        name: "tour-category-detail",
+        component: TourPackageCategoriesUpdateAdminView,
       },
       {
         path: 'payment-method',
@@ -155,6 +169,11 @@ const routes = [
         component: GuideJobApprovalAgentView,
       },
       {
+        path: 'guide-job-detail/:id_guide_selections',
+        name: "guide-job-detail",
+        component: GuideJobDetailAgentView,
+      },
+      {
         path: 'verify-transactions',
         name: "verify-transactions",
         component: TransactionAgentView,
@@ -179,6 +198,11 @@ const routes = [
         path: 'job-offer',
         name: "job-offer",
         component: GuideJobApprovalGuideView,
+      },
+      {
+        path: 'job-offer-detail/:id_guide_selections',
+        name: "job-offer-detail",
+        component: GuideJobDetailGuideView,
       },
     ],
   },

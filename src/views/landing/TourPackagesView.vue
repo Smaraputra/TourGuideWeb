@@ -75,9 +75,10 @@
                 </div>
                 <div v-if="packages || packages.length">
                   <div class="row mt-4">
-                    <div class="col-md-4 col-sm-6 mb-4" v-for="(pack, index) in packages" :key="index">
-                      <div class="card shadow border-0 h-100"><img src="../../assets/image/home/bedugul.jpg" alt=""
-                          class="card-img-top">
+                    <div class="col-sm-12 col-md-4 mb-4" v-for="(pack, index) in packages" :key="index">
+                      <div class="card shadow border-0 h-100">
+                        <img v-if="pack.cover_image != null" :src="pack.cover_image" alt="" class="card-img-top imgTourPackage">
+                        <img v-else src="../../assets/image/home/image_placeholder.png" alt="" class="card-img-top imgTourPackage">
                         <div class="card-body">
                           <h5 class="text-dark">{{ pack.package_name }}</h5>
                           <span v-if="pack.rating">
@@ -86,7 +87,7 @@
                           <span v-else>
                             <font-awesome-icon icon="star" /> No rating yet
                           </span>
-                          <p class="text-muted card-text mt-2">{{ pack.description }}</p>
+                          <read-more class="text-muted card-text" :more-str="null" :text="pack.description" link="#" :less-str="null" :max-chars="250"></read-more>
                           <router-link
                             :to="{ name: 'packages-detail-see', params: { id_tour_packages: pack.id_tour_packages } }">
                             <button class="btn btn-primary btn-block color-main-background">

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="currentUser.role_id==1">
+  <div v-if="currentUser.role_id == 1">
     <div class="row">
       <div class="col-md-12">
         <div class="card shadow">
@@ -54,7 +54,7 @@
       </div>
     </div>
   </div>
-  <div v-if="currentUser.role_id==2">
+  <div v-if="currentUser.role_id == 2">
     <div class="row">
       <div class="col-md-12">
         <div class="card shadow">
@@ -109,7 +109,7 @@
       </div>
     </div>
   </div>
-  <div v-if="currentUser.role_id==3">
+  <div v-if="currentUser.role_id == 3">
     <div class="row">
       <div class="col-md-12">
         <div class="card shadow">
@@ -148,23 +148,21 @@
 
 <script>
 export default {
-    name: "DashboardHome",
-    components: {
-        
+  name: "DashboardHome",
+  components: {
+
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
     },
-    computed: {
-        loggedIn() {
-            return this.$store.state.auth.status.loggedIn;
-        },
-        currentUser() {
-            return this.$store.state.auth.user;
-        },
+    currentUser() {
+      return this.$store.state.auth.user;
     },
-    created() {
-        if (!this.loggedIn) {
-            this.$router.push("/login");
-        }
-    },
+  },
+  created() {
+
+  },
 };
 </script>
 

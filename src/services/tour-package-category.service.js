@@ -16,9 +16,26 @@ class TourPackageCategoryService {
       }, { headers: authHeader() });
     return response.data;
   }
+  async update(category, curid) {
+    const response = await axios
+      .post(API_URL + 'update', {
+        curid: curid,
+        category: category.category,
+        description: category.description,
+        guide_included: category.guide_included,
+      }, { headers: authHeader() });
+    return response.data;
+  }
   async delete(id) {
     const response = await axios
       .post(API_URL + 'delete', {
+        curid: id
+      }, { headers: authHeader() });
+    return response.data;
+  }
+  async getOneById(id) {
+    const response = await axios
+      .post(API_URL + 'getOneById', {
         curid: id
       }, { headers: authHeader() });
     return response.data;

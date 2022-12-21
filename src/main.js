@@ -12,11 +12,12 @@ import 'bootstrap/dist/css/bootstrap.css';
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import 'sweetalert2/dist/sweetalert2.min.css';
+import ReadMore from 'vue-read-more';
 window.$ = JQuery
 import './assets/css/main.css';
 Axios.defaults.headers.common['Authorization'] = `Bearer ${store.state.token}`;
 
-createApp(App).use(router).use(store).use(VueSweetalert2).use(VueGoogleMaps, {
+createApp(App).use(router).use(store).use(VueSweetalert2).use(ReadMore).use(VueGoogleMaps, {
     load: {
         key: 'AIzaSyB8F5su7oI3Be2PPgLVjXCeuP731I2N4kk',
         libraries: "places"

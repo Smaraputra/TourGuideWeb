@@ -1,5 +1,6 @@
 import axios from "axios";
 import authHeader from "./auth-header";
+import fileHeader from "./file-header";
 
 const API_URL = "http://localhost:8000/api/tour-package/";
 
@@ -13,14 +14,15 @@ class TourPackageService {
   getIndexTour() {
     return axios.get(API_URL + "indexTour", { headers: authHeader() });
   }
-  async store(packages) {
+  async store(packages, cover_image) {
     const response = await axios
       .post(API_URL + 'store', {
         id_package_categories: packages.id_package_categories,
         package_name: packages.package_name,
         description: packages.description,
         terms: packages.terms,
-      }, { headers: authHeader() });
+        cover_image: cover_image,
+      }, { headers: fileHeader() });
     return response.data;
   }
   async searchFilter(package_name, id_package_categories) {
@@ -71,15 +73,22 @@ class TourPackageService {
     );
     return response.data;
   }
-  async update(packages,id) {
+  async update(packages,published,cover_image,id) {
+    if(published==false){
+      published='No'
+    }else{
+      published='Yes'
+    }
     const response = await axios
       .post(API_URL + 'update', {
         curid: id,
+        published: published,
         id_package_categories: packages.id_package_categories,
         package_name: packages.package_name,
         description: packages.description,
         terms: packages.terms,
-      }, { headers: authHeader() });
+        cover_image:cover_image
+      }, { headers: fileHeader() });
     return response.data;
   }
   async delete(id) {

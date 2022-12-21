@@ -1,5 +1,21 @@
 <template>
-    <div class="row" v-if="transaction">
+    <div class="row">
+        <div class="col">
+            <nav aria-label="breadcrumb" class="bg-light rounded-3 p-4">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item">
+                        <router-link to="/dashboard/verify-transactions">
+                            <strong>Transaction</strong>
+                        </router-link>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        <strong>Transaction Detail</strong>
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <div class="row mt-4" v-if="transaction">
         <div class="col-md-8">
             <div class="card shadow mb-4">
                 <div class="card-header p-3">
@@ -57,10 +73,10 @@
                             class="form-control" disabled />
                         <ErrorMessage name="total_price" class="error-feedback" />
                     </div>
-                    <div class="form-outline mb-4">
-                        <label for="total_price">Rating</label>
-                        <Field name="total_price" type="text" class="form-control" disabled />
-                        <ErrorMessage name="total_price" class="error-feedback" />
+                    <div class="form-outline mb-4" v-if="transaction['rating_package'] != null && transaction['rating_package'] > 0">
+                        <label for="rating_package">Rating</label>
+                        <Field name="rating_package" type="text" class="form-control" :value="transaction['rating_package'] + ' Stars'" disabled/>
+                        <ErrorMessage name="rating_package" class="error-feedback" />
                     </div>
                 </div>
             </div>
@@ -89,42 +105,39 @@
                         <h6>Start - End Date</h6>
                         <p>{{ transaction.order_date }} to {{ enddate }}</p>
                     </div>
-                    <div id="myGroup">
-                        <button class="btn btn-primary color-main-background me-2 mb-2" type="button"
-                            data-bs-toggle="collapse" data-bs-target="#collapseDetails" aria-expanded="false"
-                            aria-controls="collapseDetails">
-                            Tour Rundown
-                        </button>
-                        <button class="btn btn-primary color-main-background me-2 mb-2" type="button"
-                            data-bs-toggle="collapse" data-bs-target="#collapseGuide" aria-expanded="false"
-                            aria-controls="collapseGuide">
-                            Tour Guide
-                        </button>
-                        <div class="collapse" id="collapseDetails" data-bs-parent="#myGroup">
-                            <div class="card card-body">
-                                <div class="container">
+                    <div class="accordion">
+                        <div class="accordion-item" v-if="tourpackagesdetails">
+                            <h2 class="accordion-header" id="headingDetail">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseDetail" aria-expanded="true" aria-controls="collapseDetail">
+                                    <strong>Tour Details</strong>
+                                </button>
+                            </h2>
+                            <div id="collapseDetail" class="accordion-collapse collapse" aria-labelledby="headingDetail">
+                                <div class="accordion-body">
                                     <div class="main-timeline-2">
                                         <div v-for="(detail, index) in tourpackagesdetails" :key="index">
                                             <div class="timeline-2 left-2" v-if="index % 2 == 0">
                                                 <div class="card">
-                                                    <img src="../../../assets/image/home/image_placeholder.png"
-                                                        class="card-img-top img2" alt="Responsive image">
+                                                    <img v-if="detail.image_package_detail" :src="detail.image_package_detail"
+                                                        class="card-img-top img2" alt="">
+                                                    <img v-else src="../../../assets/image/home/image_placeholder.png"
+                                                        class="card-img-top img2" alt="">
                                                     <div class="card-body p-4">
                                                         <h4 class="fw-bold">
                                                             {{ detail.tourist_destination.name }}</h4>
-                                                        <p class="text-muted">Day {{ detail.day }} | Duration {{
-                                                                detail.duration
-                                                        }}</p>
+                                                        <p class="text-muted">Day {{ detail.day }} |
+                                                            Duration {{
+                                                            detail.duration
+                                                            }}</p>
                                                         <h6 class="mt-4">Facility</h6>
                                                         <hr class="hr" />
-                                                        <div v-for="(facility, index2) in detail.package_facilities"
-                                                            :key="index2">
+                                                        <div v-for="(facility, index2) in detail.package_facilities" :key="index2">
                                                             <p>- {{ facility.facilities }}</p>
                                                         </div>
                                                         <h6 class="mt-4">Activity</h6>
                                                         <hr class="hr" />
-                                                        <div v-for="(act, index2) in detail.tour_activity"
-                                                            :key="index2">
+                                                        <div v-for="(act, index2) in detail.tour_activity" :key="index2">
                                                             <p>- {{ act.activity }} |
                                                                 {{ act.start_time }}-{{ act.end_time }}</p>
                                                         </div>
@@ -133,24 +146,25 @@
                                             </div>
                                             <div class="timeline-2 right-2" v-else>
                                                 <div class="card">
-                                                    <img src="../../../assets/image/home/image_placeholder.png"
-                                                        class="card-img-top img2" alt="Responsive image">
+                                                    <img v-if="detail.image_package_detail" :src="detail.image_package_detail"
+                                                        class="card-img-top img2" alt="">
+                                                    <img v-else src="../../../assets/image/home/image_placeholder.png"
+                                                        class="card-img-top img2" alt="">
                                                     <div class="card-body p-4">
                                                         <h4 class="fw-bold">
                                                             {{ detail.tourist_destination.name }}</h4>
-                                                        <p class="text-muted">Day {{ detail.day }} | Duration {{
-                                                                detail.duration
-                                                        }}</p>
+                                                        <p class="text-muted">Day {{ detail.day }} |
+                                                            Duration {{
+                                                            detail.duration
+                                                            }}</p>
                                                         <h6 class="mt-4">Facility</h6>
                                                         <hr class="hr" />
-                                                        <div v-for="(facility, index2) in detail.package_facilities"
-                                                            :key="index2">
+                                                        <div v-for="(facility, index2) in detail.package_facilities" :key="index2">
                                                             <p>- {{ facility.facilities }}</p>
                                                         </div>
                                                         <h6 class="mt-4">Activity</h6>
                                                         <hr class="hr" />
-                                                        <div v-for="(act, index2) in detail.tour_activity"
-                                                            :key="index2">
+                                                        <div v-for="(act, index2) in detail.tour_activity" :key="index2">
                                                             <p>- {{ act.activity }} |
                                                                 {{ act.start_time }}-{{ act.end_time }}</p>
                                                         </div>
@@ -162,9 +176,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="collapse" id="collapseGuide" data-bs-parent="#myGroup">
-                            <div class="card card-body">
-                                <div class="container h-100">
+                    </div>
+                    <div class="accordion mt-2">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingGuide">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseGuide" aria-expanded="true" aria-controls="collapseGuide">
+                                    <strong>Tour Guide</strong>
+                                </button>
+                            </h2>
+                            <div id="collapseGuide" class="accordion-collapse collapse" aria-labelledby="headingGuide">
+                                <div class="accordion-body">
                                     <div class="row">
                                         <div class="col-md-12 col-lg-12 col-xl-12">
                                             <div class="card border-0" style="border-radius: 15px;" v-if="tourpackage">
@@ -530,6 +552,7 @@ export default {
             OrderService.getOneByIdAgent(this.$route.params.id_orders).then(
                 (response) => {
                     this.transaction = response.data
+                    console.log(this.transaction)
                     TourPackageService.getByIdDetail(this.transaction.tour_packages.id_tour_packages).then(
                         (response) => {
                             this.tourpackage = response.data
@@ -541,7 +564,6 @@ export default {
                             GuideSelectionService.getAvailableGuide(this.$route.params.id_orders, this.transaction.order_date, this.enddate).then(
                                 (response) => {
                                     this.guidelist = response.data
-                                    console.log(this.guidelist)
                                 },
                                 (error) => {
                                     this.content =
@@ -555,7 +577,6 @@ export default {
                             GuideSelectionService.getAllAssigned(this.$route.params.id_orders).then(
                                 (response) => {
                                     this.alreadyAssigned = response.data
-                                    console.log(this.alreadyAssigned)
                                 },
                                 (error) => {
                                     this.content =
@@ -569,7 +590,6 @@ export default {
                             GuideSelectionService.getChosenGuide(this.$route.params.id_orders).then(
                                 (response) => {
                                     this.choosen = response.data
-                                    console.log(this.transaction)
                                 },
                                 (error) => {
                                     this.content =
@@ -605,7 +625,6 @@ export default {
             this.message3 = "";
             this.successful3 = false;
             this.loading3 = true;
-            console.log(slt_guide_end);
             GuideSelectionService.store(this.$route.params.id_orders, slt_guide_end, this.transaction.order_date, this.enddate).then(
                 (response) => {
                     this.message3 = response.message;
@@ -643,170 +662,5 @@ export default {
 </script>
 
 <style scoped>
-.profile-column {
-    float: left;
-    padding: 10px;
-}
 
-.left {
-    width: 25%;
-}
-
-.right {
-    width: 75%;
-}
-
-/* Clear floats after the columns */
-.row:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
-/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 600px) {
-    .profile-column {
-        width: 100%;
-    }
-}
-
-.color-main {
-    color: #184fa7;
-}
-
-.color-main-background {
-    background-color: #184fa7;
-}
-
-/* The actual timeline (the vertical ruler) */
-.main-timeline-2 {
-    position: relative;
-}
-
-/* The actual timeline (the vertical ruler) */
-.main-timeline-2::after {
-    content: "";
-    position: absolute;
-    width: 3px;
-    background-color: #184fa7;
-    top: 0;
-    bottom: 0;
-    left: 50%;
-    margin-left: -3px;
-}
-
-/* Container around content */
-.timeline-2 {
-    position: relative;
-    background-color: inherit;
-    width: 50%;
-}
-
-/* The circles on the timeline */
-.timeline-2::after {
-    content: "";
-    position: absolute;
-    width: 25px;
-    height: 25px;
-    right: -11px;
-    background-color: #184fa7;
-    top: 15px;
-    border-radius: 50%;
-    z-index: 1;
-}
-
-/* Place the container to the left */
-.left-2 {
-    padding: 0px 40px 20px 0px;
-    left: 0;
-}
-
-/* Place the container to the right */
-.right-2 {
-    padding: 0px 0px 20px 40px;
-    left: 50%;
-}
-
-/* Add arrows to the left container (pointing right) */
-.left-2::before {
-    content: " ";
-    position: absolute;
-    top: 18px;
-    z-index: 1;
-    right: 30px;
-    border: medium solid white;
-    border-width: 10px 0 10px 10px;
-    border-color: transparent transparent transparent white;
-}
-
-/* Add arrows to the right container (pointing left) */
-.right-2::before {
-    content: " ";
-    position: absolute;
-    top: 18px;
-    z-index: 1;
-    left: 30px;
-    border: medium solid white;
-    border-width: 10px 10px 10px 0;
-    border-color: transparent white transparent transparent;
-}
-
-/* Fix the circle for containers on the right side */
-.right-2::after {
-    left: -14px;
-}
-
-/* Media queries - Responsive timeline on screens less than 600px wide */
-@media screen and (max-width: 600px) {
-
-    /* Place the timelime to the left */
-    .main-timeline-2::after {
-        left: 31px;
-    }
-
-    /* Full-width containers */
-    .timeline-2 {
-        width: 100%;
-        padding-left: 70px;
-        padding-right: 25px;
-    }
-
-    /* Make sure that all arrows are pointing leftwards */
-    .timeline-2::before {
-        left: 60px;
-        border: medium solid white;
-        border-width: 10px 10px 10px 0;
-        border-color: transparent white transparent transparent;
-    }
-
-    /* Make sure all circles are at the same spot */
-    .left-2::after,
-    .right-2::after {
-        left: 18px;
-    }
-
-    .left-2::before {
-        right: auto;
-    }
-
-    /* Make all right containers behave like the left ones */
-    .right-2 {
-        left: 0%;
-    }
-}
-
-.img {
-    border-radius: 10px;
-    width: 100%;
-    height: 400px;
-    object-fit: cover;
-    object-position: bottom;
-}
-
-.img2 {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    object-position: bottom;
-}
 </style>

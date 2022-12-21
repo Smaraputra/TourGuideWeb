@@ -15,19 +15,33 @@
               <th>Description</th>
               <th>Terms</th>
               <th>Rating</th>
+              <th>Published</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody v-if="tourpackages || tourpackages.length">
             <tr v-for="(tourpackage, index) in tourpackages" :key="index">
               <td style="width: 50px">{{index+1}}</td>
-              <td><img src="../../../assets/image/home/image_placeholder.png" style="width: 100px"></td>
-              <!-- <td>{{destination.image_tourist_destination}}</td> -->
+              <td style="width: 100px">
+                <img v-if="tourpackage.cover_image != null" :src="tourpackage.cover_image" alt="" class="card-img-top mt-2 rounded imgSmallTabel">
+                <img v-else src="../../../assets/image/home/image_placeholder.png" alt="" class="card-img-top mt-2 rounded imgSmallTabel">
+              </td>
               <td>{{ tourpackage.package_name }}</td>
               <td>{{ tourpackage.package_category.category}}</td>
               <td>{{ tourpackage.description }}</td>
               <td>{{ tourpackage.terms }}</td>
-              <td>{{ tourpackage.rating }}</td>   
+              <td>
+                <span v-if="tourpackage.rating != null">{{tourpackage.rating}}</span>
+                <span v-else>-</span>
+              </td>
+              <td>
+                <button v-if="tourpackage.published === 'Yes'" style="float: right;" class="btn btn-success w-100">
+                  {{tourpackage.published}}
+                </button>
+                <button v-else-if="tourpackage.published === 'No'" style="float: right;" class="btn btn-danger w-100">
+                  {{tourpackage.published}}
+                </button>
+              </td>
               <td>
                 <div style="width: 50px; height: 50px;">
                   <router-link :to="{ name: 'tour-package-see', params: { id_tour_packages: tourpackage.id_tour_packages }}">
@@ -46,7 +60,7 @@
           </tbody>
           <tfoot v-if="!tourpackages || !tourpackages.length">
             <tr>
-              <td colspan="8" class="text-center">Empty Data.</td>
+              <td colspan="9" class="text-center">Empty Data.</td>
             </tr>
           </tfoot>
         </table>
@@ -59,42 +73,54 @@
       <h5 class="m-0 font-weight-bold color-main">Add Tour Package</h5>
     </div>
     <div class="card-body">
-      <Form @submit="addPackage" :validation-schema="schema">
-        <p>Fill the form down below to add new tour package.</p>
-        <div>
+      <Form @submit="addPackage" :validation-schema="schema" class="row">
+        <div class="col-md-4">
           <div class="form-outline mb-4">
-            <label for="package_name">Tour Packages Name</label>
-            <Field name="package_name" type="text" class="form-control" />
-            <ErrorMessage name="package_name" class="error-feedback" />
-          </div>
-          <div class="form-outline mb-4" v-if="categories || categories.length">
-            <label for="id_package_categories">Affiliated Tour Agent</label>
-            <Field name="id_package_categories" as="select" class="form-select">
-              <option disabled selected value>-Package Category-</option>
-              <option v-for="(category, index) in categories" :key="index" :value="category.id_package_categories">
-                {{category.category}}
-              </option>
+            <img v-if="urlImage" :src="urlImage" alt="" class="card-img-top mt-2 rounded img">
+            <label for="cover_image" class="mt-2">Cover Image</label>
+            <Field name="cover_image">
+              <input name="cover_image" type="file" v-on:change="onChange" class="form-control" accept="image/*" />
             </Field>
-          </div>
-          <div class="form-outline mb-4">
-            <label for="description">Description</label>
-            <Field as="textarea" name="description" type="multiline" class="form-control" />
-            <ErrorMessage name="description" class="error-feedback" />
-          </div>
-          <div class="form-outline mb-4">
-            <label for="terms">Terms and Conditions</label>
-            <Field as="textarea" name="terms" type="text" class="form-control" />
-            <ErrorMessage name="terms" class="error-feedback" />
-          </div>
-          <div class="form-group">
-            <button class="btn btn-primary btn-block color-main-background" :disabled="loading">
-              <span v-show="loading" class="spinner-border spinner-border-sm"></span>
-              <font-awesome-icon icon="plus" /><span> Add New</span>
-            </button>
+            <ErrorMessage name="cover_image" class="error-feedback" />
           </div>
         </div>
-        <div v-if="message" class="alert mt-2" :class="successful ? 'alert-success' : 'alert-danger'">
-          {{ message }}
+        <div class="col-md-8">
+          <p>Fill the form down below to add new tour package.</p>
+          <div>
+            <div class="form-outline mb-4">
+              <label for="package_name">Tour Packages Name</label>
+              <Field name="package_name" type="text" class="form-control" />
+              <ErrorMessage name="package_name" class="error-feedback" />
+            </div>
+            <div class="form-outline mb-4" v-if="categories || categories.length">
+              <label for="id_package_categories">Tour Package Category</label>
+              <Field name="id_package_categories" as="select" class="form-select">
+                <option disabled selected value>-Package Category-</option>
+                <option v-for="(category, index) in categories" :key="index" :value="category.id_package_categories">
+                  {{category.category}}
+                </option>
+              </Field>
+            </div>
+            <div class="form-outline mb-4">
+              <label for="description">Description</label>
+              <Field as="textarea" name="description" type="multiline" class="form-control" />
+              <ErrorMessage name="description" class="error-feedback" />
+            </div>
+            <div class="form-outline mb-4">
+              <label for="terms">Terms and Conditions</label>
+              <Field as="textarea" name="terms" type="text" class="form-control" />
+              <ErrorMessage name="terms" class="error-feedback" />
+            </div>
+            <div class="form-group">
+              <button class="btn btn-primary btn-block color-main-background" :disabled="loading">
+                <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+                <font-awesome-icon icon="plus" /><span> Add New</span>
+              </button>
+            </div>
+          </div>
+          <div v-if="message" class="alert mt-2" :class="successful ? 'alert-success' : 'alert-danger'">
+            {{ message }}
+          </div>
         </div>
       </Form>
     </div>
@@ -102,6 +128,8 @@
 </template>
 
 <script>
+import moment from 'moment'
+import previewImage from "../../../assets/image/home/image_placeholder.png"
 import TourPackageService from "../../../services/tour-package.service";
 import TourPackageCategoryService from "../../../services/tour-package-category.service";
 import { Form, Field, ErrorMessage } from "vee-validate";
@@ -119,7 +147,7 @@ export default {
         .string()
         .required("Package name is required!")
         .min(3, "Must be at least 3 characters!")
-        .max(255, "Must be maximum 255 characters!"),
+        .max(1024, "Must be maximum 1024 characters!"),
       id_package_categories: yup
         .string()
         .notOneOf(['-Package Category-'], 'Package category is required!'),
@@ -127,12 +155,12 @@ export default {
         .string()
         .required("Description is required!")
         .min(3, "Must be at least 3 characters!")
-        .max(255, "Must be maximum 255 characters!"),
+        .max(1024, "Must be maximum 1024 characters!"),
       terms: yup
         .string()
         .required("Terms and Conditions is required!")
         .min(3, "Must be at least 3 characters!")
-        .max(255, "Must be maximum 255 characters!"),
+        .max(1024, "Must be maximum 1024 characters!"),
     });
 
     return {
@@ -142,6 +170,8 @@ export default {
       schema,
       tourpackages: [],
       categories: [],
+      file: null,
+      urlImage: previewImage
     };
   },
   computed: {
@@ -161,8 +191,13 @@ export default {
     }
     this.loadPackage(),
     this.loadCategory()
+    this.moment = moment
   },
   methods: {
+    onChange(e) {
+      this.file = e.target.files[0];
+      this.urlImage = URL.createObjectURL(this.file);
+    },
     deleteData(id) {
       this.$swal.fire({
         title: 'Are you sure?',
@@ -199,7 +234,7 @@ export default {
       this.successful = false;
       this.loading = true;
 
-      TourPackageService.store(schema).then(
+      TourPackageService.store(schema, this.file).then(
         (data) => {
           this.message = "New package : " + data.data.package_name + " successfully created.";
           this.successful = true;
@@ -266,10 +301,5 @@ export default {
 </script>
 
 <style scoped>
-  .color-main-background {
-      background: #184fa7;
-  }
-  .color-main {
-    color: #184fa7;
-  }
+
 </style>

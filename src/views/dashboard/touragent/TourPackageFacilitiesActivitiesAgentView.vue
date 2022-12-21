@@ -1,62 +1,89 @@
 <template>
+    <div class="row" v-if="tourpackagesdetails">
+        <div class="col">
+        <nav aria-label="breadcrumb" class="bg-light rounded-3 p-4">
+            <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item">
+                <router-link to="/dashboard/tour-package">
+                <strong>Tour Package</strong>
+                </router-link>
+            </li>
+            <li class="breadcrumb-item">
+                <router-link :to="{ name: 'tour-package-see', params: { id_tour_packages: this.tourpackagesdetails.id_tour_packages }}">
+                <strong>Tour Package Detail</strong>
+                </router-link>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                <strong>Tour Package Detail</strong>
+            </li>
+            </ol>
+        </nav>
+        </div>
+    </div>
     <div class="card shadow mt-4">
         <div class="card-header p-3 text-center">
             <h5 class="m-0 font-weight-bold color-main">Tour Package Detail</h5>
         </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col-md-4">
-                    <img src="../../../assets/image/home/image_placeholder.png" style="width: 100%">
-                </div>
-                <div class="col-md-8">
-                    <Form @submit="updatePackageDetail" :validation-schema="schemaDetail">
-                        <div v-if="tourpackagesdetails">
-                            <div class="form-outline mb-4" v-if="destinations || destinations.length">
-                                <label for="id_tourist_destinations">Tour Destination</label>
-                                <Field name="id_tourist_destinations" as="select" class="form-select" v-model="tourpackagesdetails.id_tourist_destinations">
-                                    <option disabled selected value>-Tour Destinations-</option>
-                                    <option v-for="(destination, index) in destinations" :key="index"
-                                        :value="destination.id_tourist_destinations"
-                                        :selected="destination.id_tourist_destinations">
-                                        {{ destination.name }}
-                                    </option>
-                                </Field>
-                            </div>
-                            <div class="form-outline mb-4">
-                                <label for="day">Day (Number)</label>
-                                <Field name="day" type="number" class="form-control" 
-                                    :value="tourpackagesdetails.day" />
-                                <ErrorMessage name="day" class="error-feedback" />
-                            </div>
-                            <div class="form-outline mb-4">
-                                <label for="tour_sequence">Tour Sequence</label>
-                                <Field name="tour_sequence" type="number" class="form-control"
-                                    :value="tourpackagesdetails.tour_sequence" />
-                                <ErrorMessage name="tour_sequence" class="error-feedback" />
-                            </div>
-                            <div class="form-outline mb-4">
-                                <label for="duration">Duration</label>
-                                <Field name="duration" type="time" class="form-control"
-                                    :value="tourpackagesdetails.duration" />
-                                <ErrorMessage name="duration" class="error-feedback" />
-                            </div>
-                            <div class="form-group">
-                                <button class="btn btn-primary btn-block color-main-background me-2" :disabled="loading">
-                                    <span v-show="loading" class="spinner-border spinner-border-sm"></span>
-                                    <font-awesome-icon icon="check" /><span> Update </span>
-                                </button>
-                                <a class="btn btn-danger me-2"
-                                    @click="deleteDataPackagesDetail(tourpackagesdetails.id_tour_packages)">
-                                    <font-awesome-icon icon="trash" /><span> Delete </span>
-                                </a>
-                            </div>
+            <Form @submit="updatePackageDetail" :validation-schema="schemaDetail" >
+                <div v-if="tourpackagesdetails" class="row">
+                    <div class="col-md-4">
+                        <img v-if="tourpackagesdetails.image_package_detail != null" :src="tourpackagesdetails.image_package_detail" alt="" class="card-img-top mt-2 rounded img">
+                        <img v-else src="../../../assets/image/home/image_placeholder.png" alt="" class="card-img-top mt-2 rounded img">
+                        <div class="form-outline mb-4">
+                        <label for="image_package_detail " class="mt-2">Package Detail Image</label>
+                        <Field name="image_package_detail ">
+                            <input name="image_package_detail " type="file" v-on:change="onChange" class="form-control" accept="image/*" />
+                        </Field>
+                        <ErrorMessage name="image_package_detail " class="error-feedback" />
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-outline mb-4" v-if="destinations || destinations.length">
+                            <label for="id_tourist_destinations">Tour Destination</label>
+                            <Field name="id_tourist_destinations" as="select" class="form-select" v-model="tourpackagesdetails.id_tourist_destinations">
+                                <option disabled selected value>-Tour Destinations-</option>
+                                <option v-for="(destination, index) in destinations" :key="index"
+                                    :value="destination.id_tourist_destinations"
+                                    :selected="destination.id_tourist_destinations">
+                                    {{ destination.name }}
+                                </option>
+                            </Field>
+                        </div>
+                        <div class="form-outline mb-4">
+                            <label for="day">Day (Number)</label>
+                            <Field name="day" type="number" class="form-control" 
+                                :value="tourpackagesdetails.day" />
+                            <ErrorMessage name="day" class="error-feedback" />
+                        </div>
+                        <div class="form-outline mb-4">
+                            <label for="tour_sequence">Tour Sequence</label>
+                            <Field name="tour_sequence" type="number" class="form-control"
+                                :value="tourpackagesdetails.tour_sequence" />
+                            <ErrorMessage name="tour_sequence" class="error-feedback" />
+                        </div>
+                        <div class="form-outline mb-4">
+                            <label for="duration">Duration</label>
+                            <Field name="duration" type="time" class="form-control"
+                                :value="tourpackagesdetails.duration" />
+                            <ErrorMessage name="duration" class="error-feedback" />
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary btn-block color-main-background me-2" :disabled="loading">
+                                <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+                                <font-awesome-icon icon="check" /><span> Update </span>
+                            </button>
+                            <a class="btn btn-danger me-2"
+                                @click="deleteDataPackagesDetail(tourpackagesdetails.id_tour_packages)">
+                                <font-awesome-icon icon="trash" /><span> Delete </span>
+                            </a>
                         </div>
                         <div v-if="message" class="alert mt-2" :class="successful ? 'alert-success' : 'alert-danger'">
                             {{ message }}
                         </div>
-                    </Form>
+                    </div>
                 </div>
-            </div>
+            </Form>
         </div>
     </div>
     <div class="row">
@@ -234,6 +261,7 @@
 </template>
 
 <script>
+import moment from "moment";
 import TourPackageDetailService from "../../../services/tour-package-detail.service";
 import TourDestinationService from "../../../services/tour-destination.service";
 import TourPackageActivitiesService from "../../../services/tour-package-activities.service";
@@ -264,7 +292,7 @@ export default {
                 .string()
                 .required("Duration is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(255, "Must be maximum 255 characters!"),
+                .max(1024, "Must be maximum 1024 characters!"),
         });
 
         const schemaFacility = yup.object().shape({
@@ -272,7 +300,7 @@ export default {
                 .string()
                 .required("Facility is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(255, "Must be maximum 255 characters!"),
+                .max(1024, "Must be maximum 1024 characters!"),
         });
 
         const schemaActivity = yup.object().shape({
@@ -280,22 +308,22 @@ export default {
                 .string()
                 .required("Start time is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(255, "Must be maximum 255 characters!"),
+                .max(1024, "Must be maximum 1024 characters!"),
             end_time: yup
                 .string()
                 .required("End time is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(255, "Must be maximum 255 characters!"),
+                .max(1024, "Must be maximum 1024 characters!"),
             location: yup
                 .string()
                 .required("Location is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(255, "Must be maximum 255 characters!"),
+                .max(1024, "Must be maximum 1024 characters!"),
             activity: yup
                 .string()
                 .required("Activity is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(255, "Must be maximum 255 characters!"),
+                .max(1024, "Must be maximum 1024 characters!"),
         });
 
         return {
@@ -311,6 +339,7 @@ export default {
             schemaActivity,
             schemaDetail,
             schemaFacility,
+            file: null,
             tourpackagesdetails: null,
             tourpackagesfacilities: [],
             tourpackagesactivities: [],
@@ -336,8 +365,12 @@ export default {
         this.loadPackageDetailId()
         this.loadPackageActivitiyId(),
         this.loadPackageFacilitiesId()
+        this.moment = moment
     },
     methods: {
+        onChange(e) {
+            this.file = e.target.files[0];
+        },
         addPackageActivity(schemaActivity) {
             this.message2 = "";
             this.successful2 = false;
@@ -410,7 +443,7 @@ export default {
             this.message = "";
             this.successful = false;
             this.loading = true;
-            TourPackageDetailService.update(schemaDetail, this.tourpackagesdetails.id_package_details ,this.tourpackagesdetails.id_tour_packages).then(
+            TourPackageDetailService.update(schemaDetail, this.tourpackagesdetails.id_package_details ,this.tourpackagesdetails.id_tour_packages, this.file).then(
                 () => {
                 this.message = "Package detail successfully updated.";
                 this.successful = true;
@@ -600,11 +633,5 @@ export default {
 </script>
 
 <style scoped>
-.color-main-background {
-    background: #184fa7;
-}
 
-.color-main {
-    color: #184fa7;
-}
 </style>

@@ -37,19 +37,14 @@
                     <div class="card shadow border-0">
                         <div class="card-body">
                             <h4 class="mb-4 color-main">Transaction Type</h4>
-                            <input type="checkbox" class="btn-check w-100" name="type[]" id="active"
-                                autocomplete="off" />
+                            <input type="checkbox" value="Active" v-model="slt_status" @change="searchFilter" class="btn-check w-100" id="active" autocomplete="off" />
                             <label class="btn btn-outline-primary w-100 mb-2" for="active">Active</label>
-                            <input type="checkbox" class="btn-check w-100" name="type[]" id="finished"
-                                autocomplete="off" />
+                            <input type="checkbox" value="Finished" v-model="slt_status" @change="searchFilter" class="btn-check w-100" id="finished" autocomplete="off" />
                             <label class="btn btn-outline-primary w-100 mb-2" for="finished">Finished</label>
-                            <input type="checkbox" class="btn-check w-100" name="type[]" id="cancelled"
-                                autocomplete="off" />
+                            <input type="checkbox" value="Cancelled" v-model="slt_status" @change="searchFilter" class="btn-check w-100" id="cancelled" autocomplete="off" />
                             <label class="btn btn-outline-primary w-100 mb-2" for="cancelled">Cancelled</label>
-                            <input type="checkbox" class="btn-check w-100" name="type[]" id="waiting_payment"
-                                autocomplete="off" />
-                            <label class="btn btn-outline-primary w-100 mb-2" for="waiting_payment">Waiting
-                                Payment</label>
+                            <input type="checkbox" value="Waiting Payment" v-model="slt_status" @change="searchFilter" class="btn-check w-100" id="waiting_payment" autocomplete="off" />
+                            <label class="btn btn-outline-primary w-100 mb-2" for="waiting_payment">Waiting Payment</label>
                         </div>
                     </div>
                 </div>
@@ -142,6 +137,7 @@ export default {
             message: "",
             transacts: [],
             statusLoad: false,
+            slt_status: [],
         };
     },
     computed: {
@@ -177,7 +173,22 @@ export default {
                         error.toString();
                 }
             )
-        }
+        },
+        searchFilter() {
+            OrderService.searchFilterUser(this.slt_status).then(
+                (response) => {
+                    this.transacts = response.data
+                },
+                (error) => {
+                    this.content =
+                        (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                        error.message ||
+                        error.toString();
+                }
+            );
+        },
     },
     mounted() {
 
@@ -186,5 +197,15 @@ export default {
 </script>
 
 <style scoped>
+.btn-primary {
+    background-color: #184fa7;
+    border-color: #184fa7;
+    outline-color: #184fa7;
+}
 
+.btn-outline-primary {
+    border-color: #184fa7;
+    outline-color: #184fa7;
+    color: #184fa7;
+}
 </style>

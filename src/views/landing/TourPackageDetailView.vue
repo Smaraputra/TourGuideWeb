@@ -43,7 +43,8 @@
                 <div class="card shadow border-0">
                     <div class="card-body p-4">
                         <div class="col-md-12">
-                            <img src="../../assets/image/home/bedugul.jpg" alt="" class="card-img-top img">
+                            <img v-if="tourpackages.cover_image != null" :src="tourpackages.cover_image" alt="" class="card-img-top img">
+                            <img v-else src="../../assets/image/home/image_placeholder.png" alt="" class="card-img-top img">
                         </div>
                         <div class="col-md-12 mt-4">
                             <h3 class="mb-2 color-main">{{ tourpackages.package_name }}</h3>
@@ -63,23 +64,24 @@
                             <hr class="hr" />
                             <p>{{ tourpackages.description }}</p>
                         </div>
-                        <div>
-                            <div class="mt-4">
-                                <button class="btn btn-primary color-main-background mb-2" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#collapseDetails" aria-expanded="false"
-                                    aria-controls="collapseDetails">
-                                    Tour Details
-                                </button>
-                                <hr class="hr" />
-                                <div class="collapse" id="collapseDetails">
-                                    <div class="card card-body">
-                                        <div class="container">
+                        <div class="accordion" id="accordionDetail">
+                            <div v-if="tourpackagesdetails" class="mb-4">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingDetail">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDetail"
+                                            aria-expanded="true" aria-controls="collapseDetail">
+                                            <strong>Tour Details</strong>
+                                        </button>
+                                    </h2>
+                                    <div id="collapseDetail" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                                        data-bs-parent="#accordionDetail">
+                                        <div class="accordion-body">
                                             <div class="main-timeline-2">
                                                 <div v-for="(detail, index) in tourpackagesdetails" :key="index">
                                                     <div class="timeline-2 left-2" v-if="index % 2 == 0">
                                                         <div class="card">
-                                                            <img src="../../assets/image/home/image_placeholder.png"
-                                                                class="card-img-top img2" alt="Responsive image">
+                                                            <img v-if="detail.image_package_detail" :src="detail.image_package_detail" class="card-img-top img2" alt="">
+                                                            <img v-else src="../../assets/image/home/image_placeholder.png" class="card-img-top img2" alt="">
                                                             <div class="card-body p-4">
                                                                 <h4 class="fw-bold">
                                                                     {{ detail.tourist_destination.name }}</h4>
@@ -104,8 +106,8 @@
                                                     </div>
                                                     <div class="timeline-2 right-2" v-else>
                                                         <div class="card">
-                                                            <img src="../../assets/image/home/image_placeholder.png"
-                                                                class="card-img-top img2" alt="Responsive image">
+                                                            <img v-if="detail.image_package_detail" :src="detail.image_package_detail" class="card-img-top img2" alt="">
+                                                            <img v-else src="../../assets/image/home/image_placeholder.png" class="card-img-top img2" alt="">
                                                             <div class="card-body p-4">
                                                                 <h4 class="fw-bold">
                                                                     {{ detail.tourist_destination.name }}</h4>
@@ -134,44 +136,36 @@
                                     </div>
                                 </div>
                             </div>
-
+                        </div>
+                        <div>
                             <div class="mt-4">
-                                <button class="btn btn-primary color-main-background mb-2" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#collapsePrice" aria-expanded="false"
-                                    aria-controls="collapsePrice">
-                                    Tour Pricing
-                                </button>
+                                <h6 class="mt-4">Package Pricing</h6>
                                 <hr class="hr" />
-                                <div class="collapse" id="collapsePrice">
-                                    <div class="card card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered table-condensed table-striped"
-                                                id="dataTable" width="100%" cellspacing="0">
-                                                <thead>
-                                                    <tr>
-                                                        <th>#</th>
-                                                        <th>Pax Total</th>
-                                                        <th>Transportation</th>
-                                                        <th>Price</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr v-for="(price, index) in tourpackages.package_price"
-                                                        :key="index">
-                                                        <td>{{ index + 1 }}</td>
-                                                        <td>{{ price.pax_total }}</td>
-                                                        <td>{{ price.transportation }}</td>
-                                                        <td>Rp. {{ price.price }}</td>
-                                                    </tr>
-                                                </tbody>
-                                                <tfoot
-                                                    v-if="!tourpackages.package_price || !tourpackages.package_price.length">
-                                                    <tr>
-                                                        <td colspan="4" class="text-center">Empty Data.</td>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
-                                        </div>
+                                <div class="card card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-condensed table-striped" id="dataTable" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Pax Total</th>
+                                                    <th>Transportation</th>
+                                                    <th>Price</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(price, index) in tourpackages.package_price" :key="index">
+                                                    <td>{{ index + 1 }}</td>
+                                                    <td>{{ price.pax_total }}</td>
+                                                    <td>{{ price.transportation }}</td>
+                                                    <td>Rp. {{ price.price }}</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot v-if="!tourpackages.package_price || !tourpackages.package_price.length">
+                                                <tr>
+                                                    <td colspan="4" class="text-center">Empty Data.</td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -209,46 +203,47 @@
                                     <Field as="textarea" name="note" type="text" class="form-control" />
                                     <ErrorMessage name="note" class="error-feedback" />
                                 </div>
-                                <div v-if="fees.length" class="mb-4">
-                                    <button class="btn btn-primary btn-block color-main-background mb-2" type="button"
-                                        data-bs-toggle="collapse" data-bs-target="#collapseMap" aria-expanded="false"
-                                        aria-controls="collapseMap">
-                                        Custom Pickup Location
-                                    </button>
-                                    <hr class="hr" />
-                                    <div class="collapse" id="collapseMap">
-                                        <div class="card card-body">
-                                            <div class="form-outline mb-4">
-                                                <label for="location">Location</label>
-                                                <Field as="textarea" name="location" type="text" class="form-control" />
-                                                <ErrorMessage name="location" class="error-feedback" />
-                                            </div>
-                                            <div class="form-outline" id="form_custom">
-                                                <GMapMap :center="center" :zoom="2" map-type-id="terrain"
-                                                    style="width: 100%; height: 500px" @click="mark">
-                                                    <GMapMarker :key="index" v-for="(m, index) in markers"
-                                                        :position="m.position" :clickable="true" :draggable="true"
-                                                        @click="center = m.position" />
-                                                </GMapMap>
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-outline mb-4">
-                                                            <label for="latitude">Latitude</label>
-                                                            <Field name="latitude" id="latIn" type="text"
-                                                                class="form-control" v-model="lat" disabled />
-                                                            <ErrorMessage name="latitude" class="error-feedback" />
-                                                        </div>
+                                <div class="accordion">
+                                    <div v-if="fees.length" class="mb-4">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingPickup">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                                    data-bs-target="#collapsePickup" aria-expanded="true"
+                                                    aria-controls="collapsePickup">
+                                                    Custom Pickup Location (Incur Additional Fee)
+                                                </button>
+                                            </h2>
+                                            <div id="collapsePickup" class="accordion-collapse collapse" aria-labelledby="headingPickup">
+                                                <div class="accordion-body">
+                                                    <div class="form-outline mb-4">
+                                                        <label for="location">Location</label>
+                                                        <Field as="textarea" name="location" type="text" class="form-control" />
+                                                        <ErrorMessage name="location" class="error-feedback" />
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-outline mb-4">
-                                                            <label for="longitude">Longitude</label>
-                                                            <Field name="longitude" id="longIn" type="text"
-                                                                class="form-control" v-model="long" disabled />
-                                                            <ErrorMessage name="longitude" class="error-feedback" />
+                                                    <div class="form-outline" id="form_custom">
+                                                        <GMapMap :center="center" :zoom="2" map-type-id="terrain" style="width: 100%; height: 500px" @click="mark">
+                                                            <GMapMarker :key="index" v-for="(m, index) in markers" :position="m.position" :clickable="true"
+                                                                :draggable="true" @click="center = m.position" />
+                                                        </GMapMap>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-outline mb-4">
+                                                                    <label for="latitude">Latitude</label>
+                                                                    <Field name="latitude" id="latIn" type="text" class="form-control" v-model="lat" disabled />
+                                                                    <ErrorMessage name="latitude" class="error-feedback" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-outline mb-4">
+                                                                    <label for="longitude">Longitude</label>
+                                                                    <Field name="longitude" id="longIn" type="text" class="form-control" v-model="long" disabled />
+                                                                    <ErrorMessage name="longitude" class="error-feedback" />
+                                                                </div>
+                                                            </div>
                                                         </div>
+                                                        <a class="btn btn-primary btn-block color-main-background" @click="clearLatLong">Clear Custom Pickup Location</a>
                                                     </div>
                                                 </div>
-                                                <a class="btn btn-primary btn-block color-main-background" @click="clearLatLong">Clear Custom Pickup Location</a>
                                             </div>
                                         </div>
                                     </div>
@@ -322,7 +317,7 @@ export default {
                 .string()
                 .required("Note is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(255, "Must be maximum 255 characters!"),
+                .max(1024, "Must be maximum 1024 characters!"),
         });
 
         return {
@@ -587,135 +582,4 @@ export default {
 
 <style scoped>
 
-/* The actual timeline (the vertical ruler) */
-.main-timeline-2 {
-    position: relative;
-}
-
-/* The actual timeline (the vertical ruler) */
-.main-timeline-2::after {
-    content: "";
-    position: absolute;
-    width: 3px;
-    background-color: #184fa7;
-    top: 0;
-    bottom: 0;
-    left: 50%;
-    margin-left: -3px;
-}
-
-/* Container around content */
-.timeline-2 {
-    position: relative;
-    background-color: inherit;
-    width: 50%;
-}
-
-/* The circles on the timeline */
-.timeline-2::after {
-    content: "";
-    position: absolute;
-    width: 25px;
-    height: 25px;
-    right: -11px;
-    background-color: #184fa7;
-    top: 15px;
-    border-radius: 50%;
-    z-index: 1;
-}
-
-/* Place the container to the left */
-.left-2 {
-    padding: 0px 40px 20px 0px;
-    left: 0;
-}
-
-/* Place the container to the right */
-.right-2 {
-    padding: 0px 0px 20px 40px;
-    left: 50%;
-}
-
-/* Add arrows to the left container (pointing right) */
-.left-2::before {
-    content: " ";
-    position: absolute;
-    top: 18px;
-    z-index: 1;
-    right: 30px;
-    border: medium solid white;
-    border-width: 10px 0 10px 10px;
-    border-color: transparent transparent transparent white;
-}
-
-/* Add arrows to the right container (pointing left) */
-.right-2::before {
-    content: " ";
-    position: absolute;
-    top: 18px;
-    z-index: 1;
-    left: 30px;
-    border: medium solid white;
-    border-width: 10px 10px 10px 0;
-    border-color: transparent white transparent transparent;
-}
-
-/* Fix the circle for containers on the right side */
-.right-2::after {
-    left: -14px;
-}
-
-/* Media queries - Responsive timeline on screens less than 600px wide */
-@media screen and (max-width: 600px) {
-
-    /* Place the timelime to the left */
-    .main-timeline-2::after {
-        left: 31px;
-    }
-
-    /* Full-width containers */
-    .timeline-2 {
-        width: 100%;
-        padding-left: 70px;
-        padding-right: 25px;
-    }
-
-    /* Make sure that all arrows are pointing leftwards */
-    .timeline-2::before {
-        left: 60px;
-        border: medium solid white;
-        border-width: 10px 10px 10px 0;
-        border-color: transparent white transparent transparent;
-    }
-
-    /* Make sure all circles are at the same spot */
-    .left-2::after,
-    .right-2::after {
-        left: 18px;
-    }
-
-    .left-2::before {
-        right: auto;
-    }
-
-    /* Make all right containers behave like the left ones */
-    .right-2 {
-        left: 0%;
-    }
-}
-
-.img {
-    border-radius: 10px;
-    width: 100%;
-    height: 400px;
-    object-fit: cover;
-    object-position: bottom;
-}
-
-.img2 {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    object-position: bottom;
-}
 </style>

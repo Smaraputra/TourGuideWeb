@@ -30,7 +30,12 @@
                             <td>{{guide.description}}</td>
                             <td>{{guide.users.phone}}</td>
                             <td>{{guide.users.address}}</td>
-                            <td>{{guide.rating}}</td>
+                            <td v-if="guide.rating != null">
+                                <font-awesome-icon icon="star" />{{ guide.rating }}
+                            </td>
+                            <td v-else>
+                                <font-awesome-icon icon="star" />No rating yet
+                            </td>
                             <td>{{guide.status}}</td>
                             <td>
                                 <div style="width: 50px; height: 50px;">
@@ -148,10 +153,5 @@ export default {
 </script>
 
 <style scoped>
-    .color-main-background {
-        background: #184fa7;
-    }
-    .color-main {
-    color: #184fa7;
-    }
+ 
 </style>

@@ -95,10 +95,15 @@
                                         class="form-control" disabled />
                                     <ErrorMessage name="total_price" class="error-feedback" />
                                 </div>
-                                <div class="form-outline mb-4">
-                                    <label for="total_price">Rating</label>
-                                    <Field name="total_price" type="text" class="form-control" disabled />
-                                    <ErrorMessage name="total_price" class="error-feedback" />
+                                <div class="form-outline mb-4" v-if="transaction['rating_package'] != null && transaction['rating_package'] > 0">
+                                    <label for="rating_package">Rating</label>
+                                    <Field name="rating_package" type="text" class="form-control" :value="transaction['rating_package'] + ' Stars'" disabled/>
+                                    <ErrorMessage name="rating_package" class="error-feedback" />
+                                </div>
+                                <div class="form-outline mb-4" v-else-if="transaction['rating_package'] == null && transaction['order_status'] == 'Finished'">
+                                    <label for="rating_package">Rating</label>
+                                    <Field name="rating_package" type="number" class="form-control"/>
+                                    <ErrorMessage name="rating_package" class="error-feedback" />
                                 </div>
                             </div>
                         </div>
@@ -128,43 +133,40 @@
                                     <h6>Start - End Date</h6>
                                     <p>{{ transaction.order_date }} to {{ enddate }}</p>
                                 </div>
-                                <div id="myGroup">
-                                    <button class="btn btn-primary color-main-background me-2 mb-2" type="button"
-                                        data-bs-toggle="collapse" data-bs-target="#collapseDetails"
-                                        aria-expanded="false" aria-controls="collapseDetails">
-                                        Tour Rundown
-                                    </button>
-                                    <button class="btn btn-primary color-main-background me-2 mb-2" type="button"
-                                        data-bs-toggle="collapse" data-bs-target="#collapseGuide" aria-expanded="false"
-                                        aria-controls="collapseGuide">
-                                        Tour Guide
-                                    </button>
-                                    <div class="collapse" id="collapseDetails" data-bs-parent="#myGroup">
-                                        <div class="card card-body">
-                                            <div class="container">
+                                <div class="accordion">
+                                    <div class="accordion-item" v-if="tourpackagesdetails">
+                                        <h2 class="accordion-header" id="headingDetail">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#collapseDetail" aria-expanded="true"
+                                                aria-controls="collapseDetail">
+                                                <strong>Tour Details</strong>
+                                            </button>
+                                        </h2>
+                                        <div id="collapseDetail" class="accordion-collapse collapse"
+                                            aria-labelledby="headingDetail">
+                                            <div class="accordion-body">
                                                 <div class="main-timeline-2">
                                                     <div v-for="(detail, index) in tourpackagesdetails" :key="index">
                                                         <div class="timeline-2 left-2" v-if="index % 2 == 0">
                                                             <div class="card">
-                                                                <img src="../../assets/image/home/image_placeholder.png"
-                                                                    class="card-img-top img2" alt="Responsive image">
+                                                                <img v-if="detail.image_package_detail" :src="detail.image_package_detail" class="card-img-top img2"
+                                                                    alt="">
+                                                                <img v-else src="../../assets/image/home/image_placeholder.png" class="card-img-top img2" alt="">
                                                                 <div class="card-body p-4">
                                                                     <h4 class="fw-bold">
                                                                         {{ detail.tourist_destination.name }}</h4>
                                                                     <p class="text-muted">Day {{ detail.day }} |
                                                                         Duration {{
-                                                                                detail.duration
+                                                                        detail.duration
                                                                         }}</p>
                                                                     <h6 class="mt-4">Facility</h6>
                                                                     <hr class="hr" />
-                                                                    <div v-for="(facility, index2) in detail.package_facilities"
-                                                                        :key="index2">
+                                                                    <div v-for="(facility, index2) in detail.package_facilities" :key="index2">
                                                                         <p>- {{ facility.facilities }}</p>
                                                                     </div>
                                                                     <h6 class="mt-4">Activity</h6>
                                                                     <hr class="hr" />
-                                                                    <div v-for="(act, index2) in detail.tour_activity"
-                                                                        :key="index2">
+                                                                    <div v-for="(act, index2) in detail.tour_activity" :key="index2">
                                                                         <p>- {{ act.activity }} |
                                                                             {{ act.start_time }}-{{ act.end_time }}</p>
                                                                     </div>
@@ -173,25 +175,24 @@
                                                         </div>
                                                         <div class="timeline-2 right-2" v-else>
                                                             <div class="card">
-                                                                <img src="../../assets/image/home/image_placeholder.png"
-                                                                    class="card-img-top img2" alt="Responsive image">
+                                                                <img v-if="detail.image_package_detail" :src="detail.image_package_detail" class="card-img-top img2"
+                                                                    alt="">
+                                                                <img v-else src="../../assets/image/home/image_placeholder.png" class="card-img-top img2" alt="">
                                                                 <div class="card-body p-4">
                                                                     <h4 class="fw-bold">
                                                                         {{ detail.tourist_destination.name }}</h4>
                                                                     <p class="text-muted">Day {{ detail.day }} |
                                                                         Duration {{
-                                                                                detail.duration
+                                                                        detail.duration
                                                                         }}</p>
                                                                     <h6 class="mt-4">Facility</h6>
                                                                     <hr class="hr" />
-                                                                    <div v-for="(facility, index2) in detail.package_facilities"
-                                                                        :key="index2">
+                                                                    <div v-for="(facility, index2) in detail.package_facilities" :key="index2">
                                                                         <p>- {{ facility.facilities }}</p>
                                                                     </div>
                                                                     <h6 class="mt-4">Activity</h6>
                                                                     <hr class="hr" />
-                                                                    <div v-for="(act, index2) in detail.tour_activity"
-                                                                        :key="index2">
+                                                                    <div v-for="(act, index2) in detail.tour_activity" :key="index2">
                                                                         <p>- {{ act.activity }} |
                                                                             {{ act.start_time }}-{{ act.end_time }}</p>
                                                                     </div>
@@ -203,33 +204,37 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="collapse" id="collapseGuide" data-bs-parent="#myGroup">
-                                        <div class="card card-body">
-                                            <div class="container h-100">
+                                </div>
+                                <div class="accordion mt-2">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingGuide">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#collapseGuide" aria-expanded="true"
+                                                aria-controls="collapseGuide">
+                                                <strong>Tour Guide</strong>
+                                            </button>
+                                        </h2>
+                                        <div id="collapseGuide" class="accordion-collapse collapse"
+                                            aria-labelledby="headingGuide">
+                                            <div class="accordion-body">
                                                 <div class="row">
                                                     <div class="col-md-12 col-lg-12 col-xl-12">
                                                         <div class="card border-0" style="border-radius: 15px;">
-                                                            <div class="card-body"
-                                                                v-if="tourpackage.package_category['guide_included'] === 'Included'">
-                                                                <div v-if="selectedGuide != null">
-                                                                    <div class="profile-column left">
-                                                                        <img v-if="selectedGuide.users.photo != null"
-                                                                            :src="selectedGuide.users.photo" alt="Guide"
-                                                                            class="img-fluid"
-                                                                            style="height: 200px;border-radius: 10px;">
-                                                                        <img v-else
-                                                                            src="../../assets/image/home/photo_placeholder.png"
-                                                                            alt="Guide" class="img-fluid"
-                                                                            style="height: 200px;border-radius: 10px;">
+                                                            <div class="card-body" v-if="tourpackage.package_category['guide_included'] === 'Included'">
+                                                                <div v-if="selectedGuide != null" class="row">
+                                                                    <div class="col-sm-12 col-md-3 text-center">
+                                                                        <img v-if="selectedGuide.users.photo != null" :src="selectedGuide.users.photo" alt="Guide"
+                                                                            class="img-fluid" style="height: 200px;border-radius: 10px;">
+                                                                        <img v-else src="../../assets/image/home/photo_placeholder.png" alt="Guide"
+                                                                            class="img-fluid" style="height: 200px;border-radius: 10px;">
                                                                     </div>
-                                                                    <div class="profile-column right mt-2">
+                                                                    <div class="col-sm-12 col-md-9 mt-2">
                                                                         <h5 class="mb-1">{{ selectedGuide.users.name }}
                                                                         </h5>
                                                                         <p class="mb-2 pb-1" style="color: #2b2a2a;">
                                                                             Affiliated with
                                                                             {{ selectedGuide.tour_agents.agent_name }}</p>
-                                                                        <div class="rounded-3 p-2 mb-2"
-                                                                            style="background-color: #efefef;">
+                                                                        <div class="rounded-3 p-2 mb-2" style="background-color: #efefef;">
                                                                             <p>{{ selectedGuide.guides.description }}</p>
                                                                         </div>
                                                                     </div>
@@ -275,13 +280,15 @@
                                     class="card-img-top mt-2 rounded">
                                 <img v-else src="../../assets/image/home/image_placeholder.png" alt=""
                                     class="card-img-top mt-2 rounded">
-                                <hr>
-                                <p class="mt-2"><strong>Total Payment : </strong><span> Rp. {{ transaction.total_price
-                                }} </span>
-                                </p>
-                                <p class="mt-2"><strong>Complete Your Payment before : </strong><span>
-                                        {{ transaction.payments[0].payment_date }} </span></p>
-                                <hr>
+                                <div v-if="transaction.payments[0].payment_status != 'Paid'">
+                                    <hr>
+                                    <p class="mt-2"><strong>Total Payment : </strong><span> Rp. {{ transaction.total_price
+                                            }} </span>
+                                    </p>
+                                    <p class="mt-2"><strong>Complete Your Payment before : </strong><span>
+                                            {{ transaction.payments[0].payment_date }} </span></p>
+                                    <hr>
+                                </div> 
                                 <Form @submit="uploadPayment" enctype="multipart/form-data"
                                     v-if="transaction.payments[0].payment_status != 'Cancelled' && transaction.payments[0].payment_status != 'Paid'">
                                     <div class="form-outline mb-4">
@@ -370,7 +377,9 @@ export default {
         },
     },
     mounted() {
-
+        if (!this.currentUser) {
+            this.$router.push('/login');
+        }
     },
     created() {
         this.loadTransaction()
@@ -521,23 +530,5 @@ export default {
 </script>
 
 <style scoped>
-.profile-column {
-    float: left;
-    padding: 10px;
-}
 
-.left {
-    width: 25%;
-}
-
-.right {
-    width: 75%;
-}
-
-.img2 {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    object-position: bottom;
-}
 </style>

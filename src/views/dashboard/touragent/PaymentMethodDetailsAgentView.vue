@@ -114,12 +114,12 @@ export default {
                 .string()
                 .required("Payment Number/ID is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(255, "Must be maximum 255 characters!"),
+                .max(1024, "Must be maximum 1024 characters!"),
             description: yup
                 .string()
                 .required("Description is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(255, "Must be maximum 255 characters!"),
+                .max(1024, "Must be maximum 1024 characters!"),
         });
 
         return {
@@ -253,11 +253,5 @@ export default {
 </script>
 
 <style scoped>
-.color-main-background {
-    background: #184fa7;
-}
 
-.color-main {
-    color: #184fa7;
-}
 </style>

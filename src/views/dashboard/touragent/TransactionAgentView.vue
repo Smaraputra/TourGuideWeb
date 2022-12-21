@@ -6,14 +6,13 @@
                     <h5 class="m-0 font-weight-bold color-main">Transaction Type</h5>
                 </div>
                 <div class="card-body">
-                    <input type="checkbox" class="btn-check w-100" name="type[]" id="active" autocomplete="off" />
+                    <input type="checkbox" value="Active" v-model="slt_status" @change="searchFilter" class="btn-check w-100" id="active" autocomplete="off" />
                     <label class="btn btn-outline-primary w-100 mb-2" for="active">Active</label>
-                    <input type="checkbox" class="btn-check w-100" name="type[]" id="finished" autocomplete="off" />
+                    <input type="checkbox" value="Finished" v-model="slt_status" @change="searchFilter" class="btn-check w-100" id="finished" autocomplete="off" />
                     <label class="btn btn-outline-primary w-100 mb-2" for="finished">Finished</label>
-                    <input type="checkbox" class="btn-check w-100" name="type[]" id="cancelled" autocomplete="off" />
+                    <input type="checkbox" value="Cancelled" v-model="slt_status" @change="searchFilter" class="btn-check w-100" id="cancelled" autocomplete="off" />
                     <label class="btn btn-outline-primary w-100 mb-2" for="cancelled">Cancelled</label>
-                    <input type="checkbox" class="btn-check w-100" name="type[]" id="waiting_payment"
-                        autocomplete="off" />
+                    <input type="checkbox" value="Waiting Payment" v-model="slt_status" @change="searchFilter" class="btn-check w-100" id="waiting_payment" autocomplete="off" />
                     <label class="btn btn-outline-primary w-100 mb-2" for="waiting_payment">Waiting Payment</label>
                 </div>
             </div>
@@ -97,6 +96,7 @@ export default {
             successful: false,
             loading: false,
             message: "",
+            slt_status: [],
             transacts: [],
         };
     },
@@ -118,6 +118,21 @@ export default {
         this.loadTransaction()
     },
     methods: {
+        searchFilter() {
+            OrderService.searchFilterAgent(this.slt_status).then(
+                (response) => {
+                    this.transacts = response.data
+                },
+                (error) => {
+                    this.content =
+                        (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                        error.message ||
+                        error.toString();
+                }
+            );
+        },
         loadTransaction() {
             OrderService.getByIdAgent().then(
                 (response) => {
@@ -141,11 +156,16 @@ export default {
 </script>
 
 <style scoped>
-.color-main-background {
-    background: #184fa7;
+
+.btn-primary {
+    background-color: #184fa7;
+    border-color: #184fa7;
+    outline-color: #184fa7;
 }
 
-.color-main {
+.btn-outline-primary {
+    border-color: #184fa7;
+    outline-color: #184fa7;
     color: #184fa7;
 }
 </style>

@@ -75,24 +75,17 @@
             <div class="col-sm-6 col-lg-4 mb-3 text-center">
               <font-awesome-icon icon="credit-card-alt" class="services-icon" />
               <h6>Find & Get Tour Packages as Customer</h6>
-              <p class="text-muted">Ex cupidatat eu officia consequat incididunt labore occaecat ut veniam labore et
-                cillum
-                idet.</p>
+              <p class="text-muted">Find the best tour packages available on the system.</p>
             </div>
             <div class="col-sm-6 col-lg-4 mb-3 text-center">
               <font-awesome-icon icon="plane" class="services-icon" />
               <h6>Provide Your Own Tour Packages as Tour Agent</h6>
-              <p class="text-muted">Ex cupidatat eu officia consequat incididunt labore occaecat ut veniam labore et
-                cillum
-                idet.</p>
+              <p class="text-muted">Provide and sell your tour packages on the system.</p>
             </div>
             <div class="col-sm-6 col-lg-4 mb-3 text-center">
               <font-awesome-icon icon="compass" class="services-icon" />
               <h6>Provide Guide Services as Tour Guide</h6>
-              <p class="text-muted">Ex cupidatat eu officia consequat incididunt labore occaecat ut veniam labore et
-                cillum
-                idet.
-              </p>
+              <p class="text-muted">Sell your guiding services as a tour guide on the system.</p>
             </div>
           </div>
         </div>
@@ -139,23 +132,24 @@
           </div>
           <div class="row">
             <div class="col-sm-6 col-lg-4 mb-3 text-center">
-              <img src="../../assets/image/home/photo_placeholder.png" class="guide-photo">
-              <h6>Ex cupidatat eu</h6>
-              <p class="text-muted">Ex cupidatat eu officia consequat incididunt labore occaecat ut veniam labore et
-                cillum
-                id
-                et.</p>
+              <img v-if="guides[0].users.photo" :src="guides[0].users.photo" class="guide-photo" alt="">
+              <img v-else src="../../assets/image/home/image_placeholder.png" class="guide-photo" alt="">
+              <h6>{{ guides[0].users.name }}</h6>
+              <p class="text-muted">{{ guides[0].description }}</p>
             </div>
+
             <div class="col-sm-6 col-lg-4 mb-3 text-center">
-              <img src="../../assets/image/home/photo_placeholder.png" class="guide-photo">
-              <h6>Tempor aute occaecat</h6>
-              <p class="text-muted">Tempor aute occaecat pariatur esse aute amet.</p>
+              <img v-if="guides[1].users.photo" :src="guides[1].users.photo" class="guide-photo" alt="">
+              <img v-else src="../../assets/image/home/image_placeholder.png" class="guide-photo" alt="">
+              <h6>{{ guides[1].users.name }}</h6>
+              <p class="text-muted">{{ guides[1].description }}</p>
             </div>
+
             <div class="col-sm-6 col-lg-4 mb-3 text-center">
-              <img src="../../assets/image/home/photo_placeholder.png" class="guide-photo">
-              <h6>Voluptate ex irure</h6>
-              <p class="text-muted">Voluptate ex irure ipsum ipsum ullamco ipsum reprehenderit non ut mollit commodo.
-              </p>
+              <img v-if="guides[2].users.photo" :src="guides[2].users.photo" class="guide-photo" alt="">
+              <img v-else src="../../assets/image/home/image_placeholder.png" class="guide-photo" alt="">
+              <h6>{{ guides[2].users.name }}</h6>
+              <p class="text-muted">{{ guides[2].description }}</p>
             </div>
           </div>
         </div>
@@ -163,13 +157,25 @@
       <section class="bg-light p-4">
         <div class="container">
           <div class="text-center">
-            <h2>See Our Tour Packages on Map</h2>
-            <p class="lead text-muted mb-4">See the our tour packages provided based on the location.</p>
+            <h2>See Tour Destinations on Map</h2>
+            <p class="lead text-muted mb-4">See the our tour destinations that is available.</p>
           </div>
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d46607.41569979358!2d115.31990144532571!3d-8.605876063969824!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd21446b81f7d39%3A0x34b39c786c2e54ec!2sBali%20Safari%20%26%20Marine%20Park!5e0!3m2!1sid!2sid!4v1665846133250!5m2!1sid!2sid"
-            width="100%" height="600" style="border:0;" allowfullscreen="" loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <div class="card-body">
+            <GMapMap :center="center" :zoom="9" map-type-id="terrain" style="width: 100%; height: 600px"
+              v-if="markers != null && markers.length">
+              <GMapMarker :key="index" v-for="(m, index) in markers" :position="m.position" :clickable="true"
+                :draggable="false" @click="openMarker(m.id)">
+                <GMapInfoWindow :closeclick="true" @closeclick="openMarker(null)" :opened="openedMarkerID === m.id">
+                  <div>
+                    <h6>{{ destName }}</h6>
+                    <button class="btn btn-primary color-main-background"><span>
+                      <font-awesome-icon icon="eye" />
+                    </span> See More</button>
+                  </div>
+                </GMapInfoWindow>
+              </GMapMarker>
+            </GMapMap>
+          </div>
         </div>
       </section>
     </div>
@@ -177,7 +183,9 @@
 </template>
 
 <script>
+import TourDestinationService from "../../services/tour-destination.service";
 import TourPackageService from "../../services/tour-package.service";
+import TourGuideService from "../../services/tour-guide.service";
 export default {
   name: "HomeView",
   components: {
@@ -186,32 +194,67 @@ export default {
   data() {
     return {
       packages: [],
-      statusLoad: false
+      guides: [],
+      statusLoad: false,
+
+      openedMarkerID: null,
+      destName: null,
+      searcname: null,
+      destinations: [],
+      center: { lat: -8.409518, lng: 115.188919 },
+      markers: [],
+      package_name: null
     };
   },
   computed: {
 
   },
   created() {
-    this.loadTopSix()
+    this.loadData()
   },
   methods: {
-    loadTopSix() {
-      TourPackageService.getTopSix().then(
-        (response) => {
-          this.packages = response.data.data
-          this.statusLoad = true
-        },
-        (error) => {
-          this.content =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
+    loadData() {
+      Promise.all([
+        TourPackageService.getTopSix(),
+        TourGuideService.getTopThree(),
+        TourDestinationService.getAll()
+      ]).then((response) => {
+        this.statusLoad = true
+        const [pack, guide, dest] = response
+        if(pack.status == 201){
+          this.packages = pack.data.data
         }
-      )
-    }
+        if(guide.status == 201){
+          this.guides = guide.data.data
+        }
+        if(dest.status == 201){
+          this.destinations = dest.data.data
+          this.markers = []
+          this.loadMarkerData()
+        }
+      })
+    },
+    loadMarkerData() {
+      this.destinations.forEach(dest => {
+        const post = {
+          lat: dest.latitude,
+          lng: dest.longitude
+        }
+        const mark = {
+          id: dest.id_tourist_destinations,
+          position: post,
+        }
+        this.markers.push(mark);
+      });
+    },
+    openMarker(id) {
+      this.openedMarkerID = id
+      this.destinations.forEach(dest => {
+        if (dest.id_tourist_destinations == id) {
+          this.destName = dest.name
+        }
+      });
+    },
   },
   mounted() {
 

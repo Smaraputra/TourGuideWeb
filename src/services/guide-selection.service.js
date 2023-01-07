@@ -30,6 +30,15 @@ class GuideSelectionService {
     return response.data;
   }
 
+  async getSingleAssigned(id_orders, id_guides) {
+    const response = await axios
+      .post(API_URL + 'getSingleAssigned', {
+        curid: id_orders,
+        curid_guides: id_guides
+      }, { headers: authHeader() });
+    return response.data;
+  }
+
   getAllByIdAgent() {
     return axios.get(API_URL + "getAllByIdAgent", { headers: authHeader() });
   }

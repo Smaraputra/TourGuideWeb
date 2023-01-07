@@ -7,6 +7,9 @@ class TourGuideService {
   getAll() {
     return axios.get(API_URL + "indexTour", { headers: authHeader() });
   }
+  getTopThree() {
+    return axios.get(API_URL + "top", { headers: authHeader() });
+  }
   checkTourGuide() {
     return axios.get(API_URL + "check", { headers: authHeader() });
   }

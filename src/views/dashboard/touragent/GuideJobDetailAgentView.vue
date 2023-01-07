@@ -208,6 +208,22 @@
                             </div>
                         </div>
                     </div>
+                    <template v-if="guide">
+                        <div class="row" v-if="guide.guide_approval == 'Waiting Approval' && guide.status == 'Waiting Approval'">
+                            <div class="col-md-3 mt-2">
+                                <button class="btn btn-success" @click="approval(guide.id_guide_selections, 'Approved')">
+                                    <font-awesome-icon icon="check" style="width: 20px; height: 20px;" />
+                                    Approve
+                                </button>
+                            </div>
+                            <div class="col-md-3 mt-2">
+                                <button class="btn btn-danger" @click="approval(guide.id_guide_selections, 'Rejected')">
+                                    <font-awesome-icon icon="times" style="width: 20px; height: 20px;" />
+                                    Reject
+                                </button>
+                            </div>
+                        </div>
+                    </template>
                 </div>
             </div>
         </div>
@@ -229,6 +245,7 @@ export default {
     },
     data() {
         return {
+            guide: null,
             selectedGuide: null,
             successful: false,
             loading: false,
@@ -275,6 +292,20 @@ export default {
                                 error.toString();
                         }
                     )
+                    GuideSelectionService.getSingleAssigned(this.transaction["id_orders"], this.$route.params.id_guides).then(
+                        (response) => {
+                            this.guide = response.data
+                            console.log(this.guide)
+                        },
+                        (error) => {
+                            this.content =
+                                (error.response &&
+                                    error.response.data &&
+                                    error.response.data.message) ||
+                                error.message ||
+                                error.toString();
+                        }
+                    )
                     GuideSelectionService.getChosenGuide(this.transaction["id_orders"]).then(
                         (response) => {
                             this.selectedGuide = response.data
@@ -299,6 +330,53 @@ export default {
                         error.toString();
                 }
             )
+        },
+        approval(id,approve) {
+            let txt
+            let suctxt
+            let errtxt
+            let btntxt
+            if(approve=="Approved"){
+                txt = "You are going to approve this job proposal."
+                suctxt = "Job proposal successfully approved."
+                errtxt = "Job proposal is not approved."
+                btntxt = "Approve"
+            }else if(approve=="Rejected"){
+                txt = "You are going to reject this job proposal."
+                suctxt = "Job proposal successfully rejected."
+                errtxt = "Job proposal is not rejected."
+                btntxt = "Reject"
+            }
+
+            this.$swal.fire({
+                title: 'Are you sure?',
+                text: txt,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: btntxt
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    GuideSelectionService.verifyByGuide(id, approve).then(
+                        () => {
+                            this.$swal.fire(
+                                'Approved!',
+                                suctxt,
+                                'success'
+                            )
+                            this.loadTransaction()
+                        },
+                        () => {
+                            this.$swal.fire(
+                                'Fail!',
+                                errtxt,
+                                'error'
+                            )
+                        }
+                    );
+                }
+            })
         },
     }
 };

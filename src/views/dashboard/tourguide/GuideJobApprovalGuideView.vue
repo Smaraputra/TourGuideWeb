@@ -73,7 +73,7 @@
                                 </div>
                                 <div style="width: 50px; height: 50px;">
                                     <router-link
-                                        :to="{ name: 'job-offer-detail', params: { id_guide_selections: guide.id_guide_selections } }">
+                                        :to="{ name: 'job-offer-detail', params: { id_guide_selections: guide.id_guide_selections, id_guides: guide.id_guides }}">
                                         <button class="btn btn-primary color-main-background">
                                             <font-awesome-icon icon="eye" />
                                         </button>
@@ -131,14 +131,17 @@ export default {
             let txt
             let suctxt
             let errtxt
+            let btntxt
             if(approve=="Approved"){
                 txt = "You are going to approve this job proposal."
                 suctxt = "Job proposal successfully approved."
                 errtxt = "Job proposal is not approved."
+                btntxt = "Approve"
             }else if(approve=="Rejected"){
                 txt = "You are going to reject this job proposal."
                 suctxt = "Job proposal successfully rejected."
                 errtxt = "Job proposal is not rejected."
+                btntxt = "Reject"
             }
 
             this.$swal.fire({
@@ -148,13 +151,13 @@ export default {
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Change'
+                confirmButtonText: btntxt
             }).then((result) => {
                 if (result.isConfirmed) {
                     GuideSelectionService.verifyByGuide(id, approve).then(
                         () => {
                             this.$swal.fire(
-                                'Deleted!',
+                                'Approved!',
                                 suctxt,
                                 'success'
                             )

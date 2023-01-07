@@ -92,22 +92,26 @@ export default {
     },
     methods: {
         verify(id,verified) {
+            let txt
             if(verified=="Active"){
-                this.verified="Nonactive";
+                this.verified="Nonactive"
+                txt = "You are going to change the status of this tour guide to nonactive."
             }else if(verified=="Awaiting Confirmation"){
-                this.verified="Active";
+                this.verified="Active"
+                txt = "You are going to change the status of this tour guide to active."
             }else if(verified=="Nonactive"){
-                this.verified="Active";
+                this.verified="Active"
+                txt = "You are going to change the status of this tour guide to active."
             }
 
             this.$swal.fire({
                 title: 'Are you sure?',
-                text: "You are going to change the status of this tour guide.",
+                text: txt,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Change'
+                confirmButtonText: 'Yes, continue!'
             }).then((result) => {
                 if (result.isConfirmed) {
                     TourGuideService.verify(id,this.verified).then(

@@ -474,12 +474,12 @@ export default {
 
                 OrderService.store(schemaTransaction, this.addFee, this.total).then(
                     () => {
-                    this.message = "New order successfully created.";
+                    this.message = "New order successfully placed.";
                     this.successful = true;
                     this.loading = false;
                     this.$swal.fire(
                         'Success!',
-                        'New order successfully created.',
+                        'New order successfully placed.',
                         'success'
                     )
                     this.$router.push("/transactions")
@@ -495,7 +495,7 @@ export default {
                     this.loading = false;
                     this.$swal.fire(
                         'Fail!',
-                        'Order is not created.',
+                        'Order is not placed.',
                         'error'
                     )
                     }

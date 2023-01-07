@@ -169,7 +169,7 @@ const routes = [
         component: GuideJobApprovalAgentView,
       },
       {
-        path: 'guide-job-detail/:id_guide_selections',
+        path: 'guide-job-detail/:id_guide_selections/:id_guides',
         name: "guide-job-detail",
         component: GuideJobDetailAgentView,
       },
@@ -200,7 +200,7 @@ const routes = [
         component: GuideJobApprovalGuideView,
       },
       {
-        path: 'job-offer-detail/:id_guide_selections',
+        path: 'job-offer-detail/:id_guide_selections/:id_guides',
         name: "job-offer-detail",
         component: GuideJobDetailGuideView,
       },

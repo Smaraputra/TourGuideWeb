@@ -118,19 +118,23 @@ export default {
             })
         },
         verify(id,verified) {
+            let txt
             if(verified=="Yes"){
                 this.verified="No";
+                txt = "You are going to change the status of this tour guide to nonactive."
             }else if(verified=="No"){
                 this.verified="Yes";
+                txt = "You are going to change the status of this tour guide to active."
             }
+
             this.$swal.fire({
                 title: 'Are you sure?',
-                text: "You are going to change the status of this tour agent.",
+                text: txt,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Change'
+                confirmButtonText: 'Yes, continue!'
             }).then((result) => {
                 if (result.isConfirmed) {
                     TourAgentService.verify(id,this.verified).then(

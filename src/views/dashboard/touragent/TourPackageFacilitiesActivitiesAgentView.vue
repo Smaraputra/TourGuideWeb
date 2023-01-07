@@ -378,30 +378,30 @@ export default {
 
             TourPackageActivitiesService.store(schemaActivity, this.tourpackagesdetails.id_tour_packages, this.$route.params.id_package_details).then(
                 () => {
-                this.message2 = "New package activity successfully created.";
-                this.successful2 = true;
-                this.loading2 = false;
-                this.$swal.fire(
-                    'Success!',
-                    'New package activity successfully created.',
-                    'success'
-                )
-                this.loadPackageActivitiyId()
+                    this.message2 = "New package activity successfully created.";
+                    this.successful2 = true;
+                    this.loading2 = false;
+                    this.$swal.fire(
+                        'Success!',
+                        'New package activity successfully created.',
+                        'success'
+                    )
+                    this.loadPackageActivitiyId()
                 },
                 (error) => {
-                this.message2 =
-                    (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                    error.message ||
-                    error.toString();
-                this.successful2 = false;
-                this.loading2 = false;
-                this.$swal.fire(
-                    'Fail!',
-                    'Package activity is not created.',
-                    'error'
-                )
+                    this.message2 =
+                        (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                        error.message ||
+                        error.toString();
+                    this.successful2 = false;
+                    this.loading2 = false;
+                    this.$swal.fire(
+                        'Fail!',
+                        'Package activity is not created.',
+                        'error'
+                    )
                 }
             );
         },
@@ -412,30 +412,30 @@ export default {
 
             TourPackageFacilitiesService.store(schemaFacility, this.tourpackagesdetails.id_tour_packages, this.$route.params.id_package_details).then(
                 () => {
-                this.message3 = "New package facility successfully created.";
-                this.successful3 = true;
-                this.loading3 = false;
-                this.$swal.fire(
-                    'Success!',
-                    'New package facility successfully created.',
-                    'success'
-                )
-                this.loadPackageFacilitiesId()
+                    this.message3 = "New package facility successfully created.";
+                    this.successful3 = true;
+                    this.loading3 = false;
+                    this.$swal.fire(
+                        'Success!',
+                        'New package facility successfully created.',
+                        'success'
+                    )
+                    this.loadPackageFacilitiesId()
                 },
                 (error) => {
-                this.message3 =
-                    (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                    error.message ||
-                    error.toString();
-                this.successful3 = false;
-                this.loading3 = false;
-                this.$swal.fire(
-                    'Fail!',
-                    'Package facility is not created.',
-                    'error'
-                )
+                    this.message3 =
+                        (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                        error.message ||
+                        error.toString();
+                    this.successful3 = false;
+                    this.loading3 = false;
+                    this.$swal.fire(
+                        'Fail!',
+                        'Package facility is not created.',
+                        'error'
+                    )
                 }
             );
         },
@@ -445,30 +445,30 @@ export default {
             this.loading = true;
             TourPackageDetailService.update(schemaDetail, this.tourpackagesdetails.id_package_details ,this.tourpackagesdetails.id_tour_packages, this.file).then(
                 () => {
-                this.message = "Package detail successfully updated.";
-                this.successful = true;
-                this.loading = false;
-                this.$swal.fire(
-                    'Success!',
-                    'Package detail successfully updated.',
-                    'success'
-                )
-                this.loadPackageDetailId()
+                    this.message = "Package detail successfully updated.";
+                    this.successful = true;
+                    this.loading = false;
+                    this.$swal.fire(
+                        'Success!',
+                        'Package detail successfully updated.',
+                        'success'
+                    )
+                    this.loadPackageDetailId()
                 },
                 (error) => {
-                this.message =
-                    (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                    error.message ||
-                    error.toString();
-                this.successful = false;
-                this.loading = false;
-                this.$swal.fire(
-                    'Fail!',
-                    'Package detail is not updated.',
-                    'error'
-                )
+                    this.message =
+                        (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                        error.message ||
+                        error.toString();
+                    this.successful = false;
+                    this.loading = false;
+                    this.$swal.fire(
+                        'Fail!',
+                        'Package detail is not updated.',
+                        'error'
+                    )
                 }
             );
         },

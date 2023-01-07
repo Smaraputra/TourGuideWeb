@@ -106,7 +106,7 @@
                 this.loading = true;
 
                 this.$store.dispatch("login", user).then(
-                    () => {
+                    (data) => {
                         const Toast = this.$swal.mixin({
                             toast: true,
                             position: 'top-end',
@@ -121,9 +121,19 @@
 
                         Toast.fire({
                             icon: 'success',
-                            title: 'Signed in successfully'
+                            title: 'Signed in successfully.'
                         })
-                        this.$router.push("/");
+                        
+                        if(data.role_id==1){
+                            this.$router.push("/dashboard");
+                        }else if(data.role_id==2){
+                            this.$router.push("/dashboard");
+                        }else if(data.role_id==3){
+                            this.$router.push("/dashboard");
+                        }else if(data.role_id==4){
+                            this.$router.push("/packages");
+                        }
+                        
                     },
                     (error) => {
                         this.loading = false;

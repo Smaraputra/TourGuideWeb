@@ -5,8 +5,8 @@ on:
   workflow_dispatch:
   
 jobs:
-  FTP-Build:
-    name: FTP Build
+  SSH-Build:
+    name: SSH Build
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository

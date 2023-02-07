@@ -359,12 +359,23 @@ export default {
         },
     },
     mounted() {
+        this.geolocate();
         this.setMinDate()
     },
     created() {
         this.loadPackageId()
     },
     methods: {
+        geolocate() {
+            navigator.geolocation.getCurrentPosition(position => {
+                this.center = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                };
+                this.lat = position.coords.latitude
+                this.long = position.coords.longitude
+            });
+        },
         setMinDate(){
             var today = new Date();
             var dd = today.getDate()+8;

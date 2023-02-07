@@ -46,9 +46,14 @@
                     <GMapInfoWindow :closeclick="true" @closeclick="openMarker(null)" :opened="openedMarkerID === m.id">
                       <div>
                         <h6>{{ destName }}</h6>
-                        <button class="btn btn-primary color-main-background"><span>
-                            <font-awesome-icon icon="eye" />
-                          </span> See More</button>
+                        <router-link
+                          :to="{ name: 'destinations-see', params: { id_tourist_destinations: m.id } }">
+                          <button class="btn btn-primary btn-block color-main-background">
+                            <span>
+                              <font-awesome-icon icon="eye" />
+                            </span> See more
+                          </button>
+                        </router-link>
                       </div>
                     </GMapInfoWindow>
                   </GMapMarker>
@@ -87,9 +92,14 @@
                           <h5>{{ destination.name }}</h5>
                           <read-more class="text-muted card-text" :more-str="null" :text="destination.description"
                             link="#" :less-str="null" :max-chars="250"></read-more>
-                          <div class="btn btn-primary btn-block color-main-background"><span>
-                              <font-awesome-icon icon="eye" />
-                            </span> See more</div>
+                          <router-link
+                            :to="{ name: 'destinations-see', params: { id_tourist_destinations: destination.id_tourist_destinations } }">
+                            <button class="btn btn-primary btn-block color-main-background">
+                              <span>
+                                <font-awesome-icon icon="eye" />
+                              </span> See more
+                            </button>
+                          </router-link>
                         </div>
                       </div>
                     </div>

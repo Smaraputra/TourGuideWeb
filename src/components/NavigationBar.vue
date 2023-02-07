@@ -15,29 +15,29 @@
                 <div class="mx-auto"></div>
                 <ul class="navbar-nav">
                     <li class="nav-item px-3">
-                        <router-link to="/destinations" class="nav-link text-white">
+                        <router-link to="/destinations" class="link nav-link text-white">
                             Destinations
                         </router-link>
                     </li>
                     <li class="nav-item px-3">
-                        <router-link to="/packages" class="nav-link text-white">
+                        <router-link to="/packages" class="link nav-link text-white">
                             Tour Packages
                         </router-link>
                     </li>
                     <li class="nav-item px-3">
-                        <router-link to="/about" class="nav-link text-white">
+                        <router-link to="/about" class="link nav-link text-white">
                             About
                         </router-link>
                     </li>
                     <li class="nav-item">
                         <div v-if="!currentUser" class="navbar-nav ml-auto">
                             <li class="nav-item px-3">
-                                <router-link to="/login" class="nav-link text-white">
+                                <router-link to="/login" class="link nav-link text-white">
                                     <font-awesome-icon icon="sign-in-alt" /> Login
                                 </router-link>
                             </li>
                             <li class="nav-item px-3">
-                                <router-link to="/register" class="nav-link text-white">
+                                <router-link to="/register" class="link nav-link text-white">
                                     <font-awesome-icon icon="user-plus" /> Sign Up
                                 </router-link>
                             </li>
@@ -45,7 +45,7 @@
 
                         <div v-if="currentUser" class="navbar-nav ml-auto">
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
+                                <a class="link nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <font-awesome-icon icon="user"/>
                                     <span> {{' ' + currentUser.name }}</span>
@@ -68,10 +68,10 @@
                                         Transactions
                                     </router-link>
                                     <div class="dropdown-divider"></div>
-                                    <router-link to="" class="dropdown-item color-main" @click="logOut">
+                                    <button class="dropdown-item color-main" @click="logOut">
                                         <font-awesome-icon icon="sign-out-alt" />
                                         Logout
-                                    </router-link>
+                                    </button>
                                 </div>
                             </li>
                         </div>
@@ -90,22 +90,6 @@ export default {
         },
     },
     methods: {
-        // logOut() {
-        //     this.$store.dispatch('logout').then(
-        //         (data) => {
-        //             this.message = data.message;
-        //             this.$router.push("/login");
-        //         },
-        //         (error) => {
-        //             this.message =
-        //                 (error.response &&
-        //                     error.response.data &&
-        //                     error.response.data.message) ||
-        //                 error.message ||
-        //                 error.toString();
-        //         }
-        //     );
-        // },
         logOut() {
             this.$store.dispatch('logout').then(
                 () => {
@@ -119,17 +103,15 @@ export default {
 </script>
 
 <style scoped>
-.color-main-background {
-    background: #184fa7;
-}
-
-.color-main {
-    color: #184fa7;
-}
 
 .navbar {
     border: none;
     border-radius: 0;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.nav-link {
+  color: white;
+  width: 100%;
 }
 </style>

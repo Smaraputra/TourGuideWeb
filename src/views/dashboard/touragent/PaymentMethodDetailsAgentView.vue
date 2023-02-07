@@ -25,9 +25,11 @@
                                     <td>{{ detail.description }}</td>
                                     <td>
                                         <div style="width: 50px; height: 50px;">
-                                            <button class="btn btn-success">
-                                                <font-awesome-icon icon="pencil" />
-                                            </button>
+                                            <router-link style="width: 50px; height: 50px;" :to="{ name: 'payment-detail-detail', params: { id_payment_method_details: detail.id_payment_method_details }}">
+                                                <button class="btn btn-success">
+                                                    <font-awesome-icon icon="pencil" />
+                                                </button>
+                                            </router-link>
                                         </div>
                                         <div style="width: 50px; height: 50px;">
                                             <button class="btn btn-danger" @click="deleteData(detail.id_payment_method_details)">
@@ -39,7 +41,7 @@
                             </tbody>
                             <tfoot v-if="!details || !details.length">
                                 <tr>
-                                    <td colspan="4" class="text-center">Empty Data.</td>
+                                    <td colspan="5" class="text-center">Empty Data.</td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -50,11 +52,11 @@
         <div class="col-md-6 mb-4">
             <div class="card shadow">
                 <div class="card-header p-3 text-center">
-                    <h5 class="m-0 font-weight-bold color-main">Add Pickup Fee</h5>
+                    <h5 class="m-0 font-weight-bold color-main">Add Payment Method Details</h5>
                 </div>
                 <div class="card-body">
                     <Form @submit="addDetail" :validation-schema="schema">
-                        <p>Fill the form down below to add new pickup fee.</p>
+                        <p>Fill the form down below to add new payment method details.</p>
                         <div>
                             <div class="form-outline mb-4" v-if="methods || methods.length">
                                 <label for="id_payment_methods">Payment Methods</label>

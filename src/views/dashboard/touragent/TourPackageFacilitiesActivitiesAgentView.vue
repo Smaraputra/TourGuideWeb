@@ -53,19 +53,19 @@
                         <div class="form-outline mb-4">
                             <label for="day">Day (Number)</label>
                             <Field name="day" type="number" class="form-control" 
-                                :value="tourpackagesdetails.day" />
+                                v-model="tourpackagesdetails.day" />
                             <ErrorMessage name="day" class="error-feedback" />
                         </div>
                         <div class="form-outline mb-4">
                             <label for="tour_sequence">Tour Sequence</label>
                             <Field name="tour_sequence" type="number" class="form-control"
-                                :value="tourpackagesdetails.tour_sequence" />
+                                v-model="tourpackagesdetails.tour_sequence" />
                             <ErrorMessage name="tour_sequence" class="error-feedback" />
                         </div>
                         <div class="form-outline mb-4">
                             <label for="duration">Duration</label>
                             <Field name="duration" type="time" class="form-control"
-                                :value="tourpackagesdetails.duration" />
+                                v-model="tourpackagesdetails.duration" />
                             <ErrorMessage name="duration" class="error-feedback" />
                         </div>
                         <div class="form-group">

@@ -15,17 +15,6 @@ class AuthService {
     return response.data;
   }
 
-  // async logout() {
-  //   const response = await axios
-  //     .post(API_URL + 'logout', {
-  //       headers: authHeader()
-  //     });
-  //   if (response.data) {
-  //     localStorage.removeItem('user');
-  //   }
-  //   return response.data;
-  // }
-
   async logout() {
     const response = await axios.post(
       API_URL + "logout",
@@ -37,10 +26,6 @@ class AuthService {
     }
     return response.data;
   }
-
-  // logout() {
-  //   localStorage.removeItem('user');
-  // }
 
   register(user) {
     return axios.post(API_URL + "register", {

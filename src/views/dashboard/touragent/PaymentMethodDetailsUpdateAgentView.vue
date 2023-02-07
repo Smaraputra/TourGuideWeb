@@ -4,12 +4,12 @@
             <nav aria-label="breadcrumb" class="bg-light rounded-3 p-4">
                 <ol class="breadcrumb mb-0">
                     <li class="breadcrumb-item">
-                        <router-link to="/dashboard/tour-category">
-                            <strong>Tour Package Categories</strong>
+                        <router-link to="/dashboard/payment-detail">
+                            <strong>Payment Method Detail</strong>
                         </router-link>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">
-                        <strong>Tour Package Categories Detail</strong>
+                        <strong>Payment Method Detail</strong>
                     </li>
                 </ol>
             </nav>
@@ -17,28 +17,30 @@
     </div>
     <div class="card shadow mt-4">
         <div class="card-header p-3 text-center">
-            <h5 class="m-0 font-weight-bold color-main">Tour Destination Detail</h5>
+            <h5 class="m-0 font-weight-bold color-main">Pickup Fee Detail</h5>
         </div>
         <div class="card-body">
-            <Form @submit="updateCategory" :validation-schema="schema">
-                <div v-if="categories">
+            <Form @submit="updateDetail" :validation-schema="schema">
+                <div v-if="details">
+                    <div class="form-outline mb-4" v-if="methods || methods.length">
+                        <label for="id_payment_methods">Payment Methods</label>
+                        <Field name="id_payment_methods" as="select" class="form-select" v-model="details.id_payment_methods">
+                            <option disabled selected value>-Payment Methods-</option>
+                            <option v-for="(method, index) in methods" :key="index"
+                                :value="method.id_payment_methods">
+                                {{ method.method }}
+                            </option>
+                        </Field>
+                    </div>
                     <div class="form-outline mb-4">
-                        <label for="category">Tour Package Category</label>
-                        <Field name="category" type="text" class="form-control" v-model="categories.category"/>
-                        <ErrorMessage name="category" class="error-feedback" />
+                        <label for="payment_number">Payment Number/ID</label>
+                        <Field name="payment_number" type="text" class="form-control" v-model="details.payment_number"/>
+                        <ErrorMessage name="payment_number" class="error-feedback" />
                     </div>
                     <div class="form-outline mb-4">
                         <label for="description">Description</label>
-                        <Field as="textarea" name="description" type="multiline" class="form-control" v-model="categories.description" />
+                        <Field as="textarea" name="description" type="multiline" class="form-control" v-model="details.description"/>
                         <ErrorMessage name="description" class="error-feedback" />
-                    </div>
-                    <div class="form-outline mb-4">
-                        <label for="guide_included">Guide Included</label>
-                        <Field name="guide_included" as="select" class="form-select" v-model="categories.guide_included">
-                            <option disabled value>-Select Guide Included Status-</option>
-                            <option value="Yes">Included</option>
-                            <option value="No">Not Included</option>
-                        </Field>
                     </div>
                     <div class="form-group">
                         <button class="btn btn-primary btn-block color-main-background me-2" :disabled="loading">
@@ -46,7 +48,7 @@
                             <font-awesome-icon icon="check" /><span> Update </span>
                         </button>
                         <a class="btn btn-danger me-2"
-                            @click="deleteData">
+                            @click="deleteData(details.id_payment_method_details)">
                             <font-awesome-icon icon="trash" /><span> Delete </span>
                         </a>
                     </div>
@@ -60,11 +62,12 @@
 </template>
 
 <script>
-import TourPackageCategoryService from "../../../services/tour-package-category.service";
+import PaymentMethodsService from "../../../services/payment-method.service";
+import PaymentMethodDetailsService from "../../../services/payment-method-detail.service";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 export default {
-    name: "TourPackageCategoryAdminView",
+    name: "PaymentMethodDetailAgentView",
     components: {
         Form,
         Field,
@@ -72,9 +75,12 @@ export default {
     },
     data() {
         const schema = yup.object().shape({
-            category: yup
+            id_payment_methods: yup
                 .string()
-                .required("Name is required!")
+                .notOneOf(['-Payment Methods-'], 'Payment method is required!'),
+            payment_number: yup
+                .string()
+                .required("Payment Number/ID is required!")
                 .min(3, "Must be at least 3 characters!")
                 .max(1024, "Must be maximum 1024 characters!"),
             description: yup
@@ -82,15 +88,12 @@ export default {
                 .required("Description is required!")
                 .min(3, "Must be at least 3 characters!")
                 .max(1024, "Must be maximum 1024 characters!"),
-            guide_included: yup
-                .string()
-                .required("Guide included status is required!")
-                .min(3, "Must be at least 3 characters!")
-                .max(1024, "Must be maximum 1024 characters!"),
         });
 
         return {
-            categories: null,
+            details: [],
+            methods: [],
+            statusLoad: false,
             successful: false,
             loading: false,
             message: "",
@@ -109,13 +112,13 @@ export default {
         if (!this.loggedIn) {
             this.$router.push("/login");
         }
-        if (this.currentUser.role_id != 1) {
+        if (this.currentUser.role_id != 2) {
             this.$router.push("/dashboard");
         }
-        this.loadPackageCategory()
+        this.loadMethod()
     },
     methods: {
-        deleteData() {
+        deleteData(id) {
             this.$swal.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
@@ -126,19 +129,19 @@ export default {
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    TourPackageCategoryService.delete(this.$route.params.id_package_categories).then(
+                    PaymentMethodDetailsService.delete(id).then(
                         () => {
                             this.$swal.fire(
                                 'Deleted!',
-                                'Category successfully deleted.',
+                                'Payment method detail successfully deleted.',
                                 'success'
                             )
-                            this.$router.push("/dashboard/tour-category");
+                            this.$router.push("/dashboard/payment-detail");
                         },
                         () => {
                             this.$swal.fire(
                                 'Fail!',
-                                'Category is not deleted.',
+                                'Payment method detail is not deleted.',
                                 'error'
                             )
                         }
@@ -146,22 +149,22 @@ export default {
                 }
             })
         },
-        updateCategory(schema) {
+        updateDetail(schema) {
             this.message = "";
             this.successful = false;
             this.loading = true;
 
-            TourPackageCategoryService.update(schema, this.$route.params.id_package_categories).then(
-                (data) => {
-                    this.message = "Category : " + data.data.category + " successfully updated.";
+            PaymentMethodDetailsService.update(schema, this.$route.params.id_payment_method_details).then(
+                () => {
+                    this.message = "Payment method detail successfully updated.";
                     this.successful = true;
                     this.loading = false;
                     this.$swal.fire(
                         'Success!',
-                        'Category successfully updated.',
+                        'Payment method detail successfully updated.',
                         'success'
                     )
-                    this.loadPackageCategory()
+                    this.loadMethod()
                 },
                 (error) => {
                     this.message =
@@ -174,27 +177,28 @@ export default {
                     this.loading = false;
                     this.$swal.fire(
                         'Fail!',
-                        'Category is not updated.',
+                        'Payment method detail is not updated.',
                         'error'
                     )
                 }
             );
         },
-        loadPackageCategory() {
-            TourPackageCategoryService.getOneById(this.$route.params.id_package_categories).then(
-                (response) => {
-                    this.categories = response.data
-                    console.log(this.categories)
-                },
-                (error) => {
-                    this.content =
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString();
+        loadMethod() {
+            Promise.all([
+                PaymentMethodsService.getAll(),
+                PaymentMethodDetailsService.getOneById(this.$route.params.id_payment_method_details),
+            ]).then((response) => {
+                this.statusLoad = true
+                const [method, detail] = response
+                console.log(response)
+                if(method.data.data != null){
+                    this.methods = method.data.data
                 }
-            )
+                if(detail.data != null){
+                    this.details = detail.data
+                    console.log(detail.data)
+                }
+            })
         }
     },
     mounted() {

@@ -56,7 +56,7 @@
                                 <div class="form-outline mb-4">
                                     <label for="package_name">Package</label>
                                     <Field name="package_name" type="text"
-                                        :value="transaction.tour_packages.package_name" class="form-control" disabled />
+                                        v-model="transaction.tour_packages.package_name" class="form-control" disabled />
                                     <ErrorMessage name="package_name" class="error-feedback" />
                                 </div>
                                 <div class="form-outline mb-4">
@@ -67,19 +67,19 @@
                                 </div>
                                 <div class="form-outline mb-4">
                                     <label for="agent_name">Tour Agents</label>
-                                    <Field name="agent_name" type="text" :value="transaction.tour_agents.agent_name"
+                                    <Field name="agent_name" type="text" v-model="transaction.tour_agents.agent_name"
                                         class="form-control" disabled />
                                     <ErrorMessage name="agent_name" class="error-feedback" />
                                 </div>
                                 <div class="form-outline mb-4">
                                     <label for="note">Note</label>
-                                    <Field as="textarea" name="note" type="text" :value="transaction['note']"
+                                    <Field as="textarea" name="note" type="text" v-model="transaction['note']"
                                         class="form-control" disabled />
                                     <ErrorMessage name="note" class="error-feedback" />
                                 </div>
                                 <div class="form-outline mb-4">
                                     <label for="order_date">Order Date</label>
-                                    <Field name="order_date" type="text" :value="transaction['order_date']"
+                                    <Field name="order_date" type="text" v-model="transaction['order_date']"
                                         class="form-control" disabled />
                                     <ErrorMessage name="order_date" class="error-feedback" />
                                 </div>

@@ -221,13 +221,13 @@ export default {
       ]).then((response) => {
         this.statusLoad = true
         const [pack, guide, dest] = response
-        if(pack.status == 201){
+        if(pack.data.data){
           this.packages = pack.data.data
         }
-        if(guide.status == 201){
+        if(guide.data.data){
           this.guides = guide.data.data
         }
-        if(dest.status == 201){
+        if(dest.data.data){
           this.destinations = dest.data.data
           this.markers = []
           this.loadMarkerData()

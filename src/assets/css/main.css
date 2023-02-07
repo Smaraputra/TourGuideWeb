@@ -251,3 +251,16 @@ body {
     object-fit: cover;
     object-position: bottom;
 }
+
+.link.active {
+    background: white;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    border-radius: 10px;
+    color: #184fa7 !important;
+}
+
+.link-dash.active {
+    background: #5b82c1;
+    color: white;
+}

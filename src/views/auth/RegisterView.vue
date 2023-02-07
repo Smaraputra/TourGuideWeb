@@ -54,7 +54,7 @@
                                                         <option disabled selected value>-Account Type-</option>
                                                         <option value="2">Tour Agent</option>
                                                         <option value="3">Tour Guide</option>
-                                                        <option value="4">User</option>
+                                                        <option value="4">Tourist</option>
                                                     </Field>
                                                 </div>
                                             </div>

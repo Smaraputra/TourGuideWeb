@@ -10,9 +10,25 @@ class PickupFeeService {
   getById() {
     return axios.get(API_URL + 'getById', { headers: authHeader() });
   }
+  async getOneById(id) {
+    const response = await axios
+      .post(API_URL + 'getOneById', {
+        curid: id
+      }, { headers: authHeader() });
+    return response.data;
+  }
   async store(pickupfee) {
     const response = await axios
       .post(API_URL + 'store', {
+        distance: pickupfee.distance,
+        fee: pickupfee.fee,
+      }, { headers: authHeader() });
+    return response.data;
+  }
+  async update(pickupfee, curid) {
+    const response = await axios
+      .post(API_URL + 'update', {
+        curid: curid,
         distance: pickupfee.distance,
         fee: pickupfee.fee,
       }, { headers: authHeader() });

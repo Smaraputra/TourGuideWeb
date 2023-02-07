@@ -36,17 +36,17 @@
                     <div class="col-md-6">
                         <div class="form-outline mb-4">
                             <label for="name">Tour Destination Name</label>
-                            <Field name="name" type="text" class="form-control" :value="destinations.name" />
+                            <Field name="name" type="text" class="form-control" v-model="destinations.name" />
                             <ErrorMessage name="name" class="error-feedback" />
                         </div>
                         <div class="form-outline mb-4">
                             <label for="description">Description</label>
-                            <Field as="textarea" name="description" type="multiline" class="form-control" :value="destinations.description"/>
+                            <Field as="textarea" name="description" type="multiline" class="form-control" v-model="destinations.description"/>
                             <ErrorMessage name="description" class="error-feedback" />
                         </div>
                         <div class="form-outline mb-4">
                             <label for="address">Address</label>
-                            <Field as="textarea" name="address" type="text" class="form-control" :value="destinations.address" />
+                            <Field as="textarea" name="address" type="text" class="form-control" v-model="destinations.address" />
                             <ErrorMessage name="address" class="error-feedback" />
                         </div>
                     </div>

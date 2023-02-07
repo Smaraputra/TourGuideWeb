@@ -3,7 +3,7 @@
         <div class="col-md-6 mb-4">
             <div class="card shadow">
                 <div class="card-header p-3 text-center">
-                    <h5 class="m-0 font-weight-bold color-main">Manage Tour Package Pickup Fee</h5>
+                    <h5 class="m-0 font-weight-bold color-main">Manage Guide Destination Details</h5>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -12,35 +12,31 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Distance (Km)</th>
-                                    <th>Fee (Rp)</th>
+                                    <th>Tour Destinations</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody v-if="fees || fees.length">
-                                <tr v-for="(fee, index) in fees" :key="index">
+                            <tbody v-if="details || details.length">
+                                <tr v-for="(dest, index) in details" :key="index">
                                     <td style="width: 50px">{{ index + 1 }}</td>
-                                    <td>{{ fee.distance }}</td>
-                                    <td>{{ fee.fee }}</td>
+                                    <td>{{ dest.tourist_destination.name }}</td>
                                     <td>
+                                        <!-- <div style="width: 50px; height: 50px;">
+                                            <button class="btn btn-success">
+                                                <font-awesome-icon icon="pencil" />
+                                            </button>
+                                        </div> -->
                                         <div style="width: 50px; height: 50px;">
-                                            <router-link style="width: 50px; height: 50px;" :to="{ name: 'pickup-fee-detail', params: { id_pickup_fees: fee.id_pickup_fees }}">
-                                                <button class="btn btn-success">
-                                                    <font-awesome-icon icon="pencil" />
-                                                </button>
-                                            </router-link>
-                                        </div>
-                                        <div style="width: 50px; height: 50px;">
-                                            <button class="btn btn-danger" @click="deleteData(fee.id_pickup_fees)">
+                                            <button class="btn btn-danger" @click="deleteData(dest.id_guide_destinations)">
                                                 <font-awesome-icon icon="trash" />
                                             </button>
                                         </div>
                                     </td>
                                 </tr>
                             </tbody>
-                            <tfoot v-if="!fees || !fees.length">
+                            <tfoot v-if="!details || !details.length">
                                 <tr>
-                                    <td colspan="4" class="text-center">Empty Data.</td>
+                                    <td colspan="3" class="text-center">Empty Data.</td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -51,21 +47,22 @@
         <div class="col-md-6 mb-4">
             <div class="card shadow">
                 <div class="card-header p-3 text-center">
-                    <h5 class="m-0 font-weight-bold color-main">Add Pickup Fee</h5>
+                    <h5 class="m-0 font-weight-bold color-main">Add Guide Destination Details</h5>
                 </div>
                 <div class="card-body">
-                    <Form @submit="addFee" :validation-schema="schema">
-                        <p>Fill the form down below to add new pickup fee.</p>
+                    <Form @submit="addDetail" :validation-schema="schema">
+                        <p>Fill the form down below to add new guide destination details.</p>
                         <div>
-                            <div class="form-outline mb-4">
-                                <label for="distance">Distances in Kilometer(Km)</label>
-                                <Field name="distance" type="text" class="form-control" />
-                                <ErrorMessage name="distance" class="error-feedback" />
-                            </div>
-                            <div class="form-outline mb-4">
-                                <label for="fee">Additional Fee</label>
-                                <Field name="fee" type="multiline" class="form-control" />
-                                <ErrorMessage name="fee" class="error-feedback" />
+                            <div class="form-outline mb-4" v-if="destinations || destinations.length">
+                                <label for="id_tourist_destinations">Tour Destination</label>
+                                <Field name="id_tourist_destinations" as="select" class="form-select">
+                                    <option disabled selected value>-Select Tour Destination-</option>
+                                    <option v-for="(destination, index) in destinations" :key="index"
+                                        :value="destination.id_tourist_destinations">
+                                        {{ destination.name }}
+                                    </option>
+                                </Field>
+                                <ErrorMessage name="id_payment_methods" class="error-feedback" />
                             </div>
                             <div class="form-group">
                                 <button class="btn btn-primary btn-block color-main-background" :disabled="loading">
@@ -85,11 +82,12 @@
 </template>
 
 <script>
-import PickupFeeService from "../../../services/pickup-fee.service";
+import GuideDestinationService from "../../../services/guide-destination.service";
+import TourDestinationService from "../../../services/tour-destination.service";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 export default {
-    name: "PickupFeeAgentView",
+    name: "GuideDestinationGuideView",
     components: {
         Form,
         Field,
@@ -97,18 +95,15 @@ export default {
     },
     data() {
         const schema = yup.object().shape({
-            distance: yup
-                .number()
-                .required("Distance is required!")
-                .min(1, "Must be at least 1 Km!"),
-            fee: yup
-                .number()
-                .required("Fee is required!")
-                .min(1, "Must be at least 1 IDR!"),
+            id_payment_methods: yup
+                .string()
+                .notOneOf(['-Select Tour Destination-'], 'Tourist destination is required!'),
         });
 
         return {
-            fees: [],
+            loadingData: false,
+            details: [],
+            destinations: [],
             successful: false,
             loading: false,
             message: "",
@@ -127,10 +122,10 @@ export default {
         if (!this.loggedIn) {
             this.$router.push("/login");
         }
-        if (this.currentUser.role_id != 2) {
+        if (this.currentUser.role_id != 3) {
             this.$router.push("/dashboard");
         }
-        this.loadPickupFee()
+        this.loadData()
     },
     methods: {
         deleteData(id) {
@@ -144,19 +139,19 @@ export default {
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    PickupFeeService.delete(id).then(
+                    GuideDestinationService.delete(id).then(
                         () => {
                             this.$swal.fire(
                                 'Deleted!',
-                                'Pickup fee successfully deleted.',
+                                'Guide destination detail successfully deleted.',
                                 'success'
                             )
-                            this.loadPickupFee()
+                            this.loadData()
                         },
                         () => {
                             this.$swal.fire(
                                 'Fail!',
-                                'Pickup fee is not deleted.',
+                                'Guide destination detail is not deleted.',
                                 'error'
                             )
                         }
@@ -164,22 +159,22 @@ export default {
                 }
             })
         },
-        addFee(schema) {
+        addDetail(schema) {
             this.message = "";
             this.successful = false;
             this.loading = true;
 
-            PickupFeeService.store(schema).then(
-                (data) => {
-                    this.message = "New pickup fee of Rp. " + data.data.fee + " for " + data.data.distance + "Km successfully created.";
+            GuideDestinationService.store(schema).then(
+                () => {
+                    this.message = "New guide destination detail successfully created.";
                     this.successful = true;
                     this.loading = false;
                     this.$swal.fire(
                         'Success!',
-                        'New pickup fee successfully created.',
+                        'New guide destination detail successfully created.',
                         'success'
                     )
-                    this.loadPickupFee()
+                    this.loadData()
                 },
                 (error) => {
                     this.message =
@@ -192,28 +187,33 @@ export default {
                     this.loading = false;
                     this.$swal.fire(
                         'Fail!',
-                        'Pickup fee is not created.',
+                        'Guide destination detail is not created.',
                         'error'
                     )
                 }
             );
         },
-        loadPickupFee() {
-            PickupFeeService.getById().then(
-                (response) => {
-                    this.fees = response.data.data
-                },
-                (error) => {
-                    this.content =
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString();
+        loadData() {
+            this.loadingData = true
+            Promise.all([
+                GuideDestinationService.indexGuide(),
+                TourDestinationService.getAll(),
+            ]).then((response) => {
+                this.statusLoad = true
+                const [guidedest, dest] = response
+                if(dest.data.data){
+                    this.destinations = dest.data.data
                 }
-            )
-        }
+                if(guidedest.data.data){
+                    this.details = guidedest.data.data
+                }
+            }).catch(() => {
+                this.loadingData = false
+                alert('error')
+            })
+        },
     },
+
     mounted() {
 
     },

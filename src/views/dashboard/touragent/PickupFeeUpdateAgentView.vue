@@ -4,41 +4,33 @@
             <nav aria-label="breadcrumb" class="bg-light rounded-3 p-4">
                 <ol class="breadcrumb mb-0">
                     <li class="breadcrumb-item">
-                        <router-link to="/dashboard/tour-category">
-                            <strong>Tour Package Categories</strong>
+                        <router-link to="/dashboard/pickup-fee">
+                            <strong>Pickup Fee</strong>
                         </router-link>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">
-                        <strong>Tour Package Categories Detail</strong>
+                        <strong>Pickup Fee Detail</strong>
                     </li>
                 </ol>
             </nav>
         </div>
     </div>
-    <div class="card shadow mt-4">
+    <div class="card shadow">
         <div class="card-header p-3 text-center">
-            <h5 class="m-0 font-weight-bold color-main">Tour Destination Detail</h5>
+            <h5 class="m-0 font-weight-bold color-main">Pickup Fee Detail</h5>
         </div>
         <div class="card-body">
-            <Form @submit="updateCategory" :validation-schema="schema">
-                <div v-if="categories">
+            <Form @submit="updateFee" :validation-schema="schema">
+                <div v-if="fees">
                     <div class="form-outline mb-4">
-                        <label for="category">Tour Package Category</label>
-                        <Field name="category" type="text" class="form-control" v-model="categories.category"/>
-                        <ErrorMessage name="category" class="error-feedback" />
+                        <label for="distance">Distances in Kilometer(Km)</label>
+                        <Field name="distance" type="text" class="form-control" v-model="fees.distance"/>
+                        <ErrorMessage name="distance" class="error-feedback" />
                     </div>
                     <div class="form-outline mb-4">
-                        <label for="description">Description</label>
-                        <Field as="textarea" name="description" type="multiline" class="form-control" v-model="categories.description" />
-                        <ErrorMessage name="description" class="error-feedback" />
-                    </div>
-                    <div class="form-outline mb-4">
-                        <label for="guide_included">Guide Included</label>
-                        <Field name="guide_included" as="select" class="form-select" v-model="categories.guide_included">
-                            <option disabled value>-Select Guide Included Status-</option>
-                            <option value="Yes">Included</option>
-                            <option value="No">Not Included</option>
-                        </Field>
+                        <label for="fee">Additional Fee</label>
+                        <Field name="fee" type="multiline" class="form-control" v-model="fees.fee"/>
+                        <ErrorMessage name="fee" class="error-feedback" />
                     </div>
                     <div class="form-group">
                         <button class="btn btn-primary btn-block color-main-background me-2" :disabled="loading">
@@ -46,7 +38,7 @@
                             <font-awesome-icon icon="check" /><span> Update </span>
                         </button>
                         <a class="btn btn-danger me-2"
-                            @click="deleteData">
+                            @click="deleteData(fees.id_pickup_fees)">
                             <font-awesome-icon icon="trash" /><span> Delete </span>
                         </a>
                     </div>
@@ -60,11 +52,11 @@
 </template>
 
 <script>
-import TourPackageCategoryService from "../../../services/tour-package-category.service";
+import PickupFeeService from "../../../services/pickup-fee.service";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 export default {
-    name: "TourPackageCategoryAdminView",
+    name: "PickupFeeAgentView",
     components: {
         Form,
         Field,
@@ -72,25 +64,18 @@ export default {
     },
     data() {
         const schema = yup.object().shape({
-            category: yup
-                .string()
-                .required("Name is required!")
-                .min(3, "Must be at least 3 characters!")
-                .max(1024, "Must be maximum 1024 characters!"),
-            description: yup
-                .string()
-                .required("Description is required!")
-                .min(3, "Must be at least 3 characters!")
-                .max(1024, "Must be maximum 1024 characters!"),
-            guide_included: yup
-                .string()
-                .required("Guide included status is required!")
-                .min(3, "Must be at least 3 characters!")
-                .max(1024, "Must be maximum 1024 characters!"),
+            distance: yup
+                .number()
+                .required("Distance is required!")
+                .min(1, "Must be at least 1 Km!"),
+            fee: yup
+                .number()
+                .required("Fee is required!")
+                .min(1, "Must be at least 1 IDR!"),
         });
 
         return {
-            categories: null,
+            fees: null,
             successful: false,
             loading: false,
             message: "",
@@ -109,13 +94,13 @@ export default {
         if (!this.loggedIn) {
             this.$router.push("/login");
         }
-        if (this.currentUser.role_id != 1) {
+        if (this.currentUser.role_id != 2) {
             this.$router.push("/dashboard");
         }
-        this.loadPackageCategory()
+        this.loadPickupFee()
     },
     methods: {
-        deleteData() {
+        deleteData(id) {
             this.$swal.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
@@ -126,19 +111,19 @@ export default {
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    TourPackageCategoryService.delete(this.$route.params.id_package_categories).then(
+                    PickupFeeService.delete(id).then(
                         () => {
                             this.$swal.fire(
                                 'Deleted!',
-                                'Category successfully deleted.',
+                                'Pickup fee successfully deleted.',
                                 'success'
                             )
-                            this.$router.push("/dashboard/tour-category");
+                            this.$router.push("/dashboard/pickup-fee")
                         },
                         () => {
                             this.$swal.fire(
                                 'Fail!',
-                                'Category is not deleted.',
+                                'Pickup fee is not deleted.',
                                 'error'
                             )
                         }
@@ -146,22 +131,22 @@ export default {
                 }
             })
         },
-        updateCategory(schema) {
+        updateFee(schema) {
             this.message = "";
             this.successful = false;
             this.loading = true;
 
-            TourPackageCategoryService.update(schema, this.$route.params.id_package_categories).then(
+            PickupFeeService.update(schema, this.$route.params.id_pickup_fees).then(
                 (data) => {
-                    this.message = "Category : " + data.data.category + " successfully updated.";
+                    this.message = "Pickup fee of Rp. " + data.data.fee + " for " + data.data.distance + "Km successfully updated.";
                     this.successful = true;
                     this.loading = false;
                     this.$swal.fire(
                         'Success!',
-                        'Category successfully updated.',
+                        'Pickup fee successfully updated.',
                         'success'
                     )
-                    this.loadPackageCategory()
+                    this.loadPickupFee()
                 },
                 (error) => {
                     this.message =
@@ -174,17 +159,16 @@ export default {
                     this.loading = false;
                     this.$swal.fire(
                         'Fail!',
-                        'Category is not updated.',
+                        'Pickup fee is not updated.',
                         'error'
                     )
                 }
             );
         },
-        loadPackageCategory() {
-            TourPackageCategoryService.getOneById(this.$route.params.id_package_categories).then(
+        loadPickupFee() {
+            PickupFeeService.getOneById(this.$route.params.id_pickup_fees).then(
                 (response) => {
-                    this.categories = response.data
-                    console.log(this.categories)
+                    this.fees = response.data
                 },
                 (error) => {
                     this.content =

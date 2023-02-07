@@ -4,12 +4,12 @@
             <nav aria-label="breadcrumb" class="bg-light rounded-3 p-4">
                 <ol class="breadcrumb mb-0">
                     <li class="breadcrumb-item">
-                        <router-link to="/dashboard/tour-category">
-                            <strong>Tour Package Categories</strong>
+                        <router-link to="/dashboard/payment-method">
+                            <strong>Payment Methods</strong>
                         </router-link>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">
-                        <strong>Tour Package Categories Detail</strong>
+                        <strong>Payment Methods Detail</strong>
                     </li>
                 </ol>
             </nav>
@@ -17,28 +17,20 @@
     </div>
     <div class="card shadow mt-4">
         <div class="card-header p-3 text-center">
-            <h5 class="m-0 font-weight-bold color-main">Tour Destination Detail</h5>
+            <h5 class="m-0 font-weight-bold color-main">Payment Methods Detail</h5>
         </div>
         <div class="card-body">
-            <Form @submit="updateCategory" :validation-schema="schema">
-                <div v-if="categories">
+            <Form @submit="updateMethod" :validation-schema="schema">
+                <div v-if="methods">
                     <div class="form-outline mb-4">
-                        <label for="category">Tour Package Category</label>
-                        <Field name="category" type="text" class="form-control" v-model="categories.category"/>
-                        <ErrorMessage name="category" class="error-feedback" />
+                        <label for="method">Payment Method</label>
+                        <Field name="method" type="text" class="form-control" v-model="methods.method"/>
+                        <ErrorMessage name="method" class="error-feedback" />
                     </div>
                     <div class="form-outline mb-4">
                         <label for="description">Description</label>
-                        <Field as="textarea" name="description" type="multiline" class="form-control" v-model="categories.description" />
+                        <Field as="textarea" name="description" type="multiline" class="form-control" v-model="methods.description"/>
                         <ErrorMessage name="description" class="error-feedback" />
-                    </div>
-                    <div class="form-outline mb-4">
-                        <label for="guide_included">Guide Included</label>
-                        <Field name="guide_included" as="select" class="form-select" v-model="categories.guide_included">
-                            <option disabled value>-Select Guide Included Status-</option>
-                            <option value="Yes">Included</option>
-                            <option value="No">Not Included</option>
-                        </Field>
                     </div>
                     <div class="form-group">
                         <button class="btn btn-primary btn-block color-main-background me-2" :disabled="loading">
@@ -46,7 +38,7 @@
                             <font-awesome-icon icon="check" /><span> Update </span>
                         </button>
                         <a class="btn btn-danger me-2"
-                            @click="deleteData">
+                            @click="deleteData(methods.id_payment_methods)">
                             <font-awesome-icon icon="trash" /><span> Delete </span>
                         </a>
                     </div>
@@ -60,7 +52,7 @@
 </template>
 
 <script>
-import TourPackageCategoryService from "../../../services/tour-package-category.service";
+import PaymentMethodsService from "../../../services/payment-method.service";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 export default {
@@ -72,7 +64,7 @@ export default {
     },
     data() {
         const schema = yup.object().shape({
-            category: yup
+            method: yup
                 .string()
                 .required("Name is required!")
                 .min(3, "Must be at least 3 characters!")
@@ -82,15 +74,10 @@ export default {
                 .required("Description is required!")
                 .min(3, "Must be at least 3 characters!")
                 .max(1024, "Must be maximum 1024 characters!"),
-            guide_included: yup
-                .string()
-                .required("Guide included status is required!")
-                .min(3, "Must be at least 3 characters!")
-                .max(1024, "Must be maximum 1024 characters!"),
         });
 
         return {
-            categories: null,
+            methods: null,
             successful: false,
             loading: false,
             message: "",
@@ -112,10 +99,10 @@ export default {
         if (this.currentUser.role_id != 1) {
             this.$router.push("/dashboard");
         }
-        this.loadPackageCategory()
+        this.loadPaymentMethod()
     },
     methods: {
-        deleteData() {
+        deleteData(id) {
             this.$swal.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
@@ -126,19 +113,19 @@ export default {
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    TourPackageCategoryService.delete(this.$route.params.id_package_categories).then(
+                    PaymentMethodsService.delete(id).then(
                         () => {
                             this.$swal.fire(
                                 'Deleted!',
-                                'Category successfully deleted.',
+                                'Payment method successfully deleted.',
                                 'success'
                             )
-                            this.$router.push("/dashboard/tour-category");
+                            this.$router.push("/dashboard/payment-method");
                         },
                         () => {
                             this.$swal.fire(
                                 'Fail!',
-                                'Category is not deleted.',
+                                'Payment method is not deleted.',
                                 'error'
                             )
                         }
@@ -146,22 +133,22 @@ export default {
                 }
             })
         },
-        updateCategory(schema) {
+        updateMethod(schema) {
             this.message = "";
             this.successful = false;
             this.loading = true;
 
-            TourPackageCategoryService.update(schema, this.$route.params.id_package_categories).then(
+            PaymentMethodsService.update(schema, this.$route.params.id_payment_methods).then(
                 (data) => {
-                    this.message = "Category : " + data.data.category + " successfully updated.";
+                    this.message = "Payment method : " + data.data.method + " successfully updated.";
                     this.successful = true;
                     this.loading = false;
                     this.$swal.fire(
                         'Success!',
-                        'Category successfully updated.',
+                        'Payment method successfully updated.',
                         'success'
                     )
-                    this.loadPackageCategory()
+                    this.loadPaymentMethod()
                 },
                 (error) => {
                     this.message =
@@ -174,17 +161,16 @@ export default {
                     this.loading = false;
                     this.$swal.fire(
                         'Fail!',
-                        'Category is not updated.',
+                        'Payment method is not updated.',
                         'error'
                     )
                 }
             );
         },
-        loadPackageCategory() {
-            TourPackageCategoryService.getOneById(this.$route.params.id_package_categories).then(
+        loadPaymentMethod() {
+            PaymentMethodsService.getOneById(this.$route.params.id_payment_methods).then(
                 (response) => {
-                    this.categories = response.data
-                    console.log(this.categories)
+                    this.methods = response.data
                 },
                 (error) => {
                     this.content =

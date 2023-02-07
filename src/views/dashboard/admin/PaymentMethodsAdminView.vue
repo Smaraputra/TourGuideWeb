@@ -24,9 +24,11 @@
                                     <td>{{ method.description }}</td>
                                     <td>
                                         <div style="width: 50px; height: 50px;">
-                                            <button class="btn btn-success">
-                                                <font-awesome-icon icon="pencil" />
-                                            </button>
+                                            <router-link style="width: 50px; height: 50px;" :to="{ name: 'payment-method-detail', params: { id_payment_methods: method.id_payment_methods }}">
+                                                <button class="btn btn-success">
+                                                    <font-awesome-icon icon="pencil" />
+                                                </button>
+                                            </router-link>
                                         </div>
                                         <div style="width: 50px; height: 50px;">
                                             <button class="btn btn-danger"

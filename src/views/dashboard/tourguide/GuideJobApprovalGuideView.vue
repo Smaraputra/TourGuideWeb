@@ -60,18 +60,18 @@
                             </td>
                             <td>
                                 <div v-if="guide.guide_approval == 'Waiting Approval' && guide.status == 'Waiting Approval'">
-                                    <div style="width: 50px; height: 50px;">
+                                    <div class="col-sm mt-2">
                                         <button class="btn btn-success" @click="approval(guide.id_guide_selections, 'Approved')">
                                             <font-awesome-icon icon="check" style="width: 20px; height: 20px;" />
                                         </button>
                                     </div>
-                                    <div style="width: 50px; height: 50px;">
+                                    <div class="col-sm mt-2">
                                         <button class="btn btn-danger" @click="approval(guide.id_guide_selections, 'Rejected')">
                                             <font-awesome-icon icon="times" style="width: 20px; height: 20px;" />
                                         </button>
                                     </div>
                                 </div>
-                                <div style="width: 50px; height: 50px;">
+                                <div class="col-sm mt-2">
                                     <router-link
                                         :to="{ name: 'job-offer-detail', params: { id_guide_selections: guide.id_guide_selections, id_guides: guide.id_guides }}">
                                         <button class="btn btn-primary color-main-background">

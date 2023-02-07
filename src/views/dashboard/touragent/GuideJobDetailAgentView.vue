@@ -51,13 +51,13 @@
                     </div>
                     <div class="form-outline mb-4">
                         <label for="note">Note</label>
-                        <Field as="textarea" name="note" type="text" :value="transaction['note']" class="form-control"
+                        <Field as="textarea" name="note" type="text" v-model="transaction['note']" class="form-control"
                             disabled />
                         <ErrorMessage name="note" class="error-feedback" />
                     </div>
                     <div class="form-outline mb-4">
                         <label for="order_date">Order Date</label>
-                        <Field name="order_date" type="text" :value="transaction['order_date']" class="form-control"
+                        <Field name="order_date" type="text" v-model="transaction['order_date']" class="form-control"
                             disabled />
                         <ErrorMessage name="order_date" class="error-feedback" />
                     </div>
@@ -210,13 +210,13 @@
                     </div>
                     <template v-if="guide">
                         <div class="row" v-if="guide.guide_approval == 'Waiting Approval' && guide.status == 'Waiting Approval'">
-                            <div class="col-md-3 mt-2">
+                            <div class="col-sm mt-2">
                                 <button class="btn btn-success" @click="approval(guide.id_guide_selections, 'Approved')">
                                     <font-awesome-icon icon="check" style="width: 20px; height: 20px;" />
                                     Approve
                                 </button>
                             </div>
-                            <div class="col-md-3 mt-2">
+                            <div class="col-sm mt-2">
                                 <button class="btn btn-danger" @click="approval(guide.id_guide_selections, 'Rejected')">
                                     <font-awesome-icon icon="times" style="width: 20px; height: 20px;" />
                                     Reject

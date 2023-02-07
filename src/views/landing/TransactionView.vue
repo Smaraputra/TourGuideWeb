@@ -12,8 +12,8 @@
         <div v-else>
             <section class="bg-light">
                 <div class="text-center pt-4 pb-2">
-                    <h2 class="color-main">Tour Packages</h2>
-                    <p class="lead text-muted">See all our tour packages.</p>
+                    <h2 class="color-main">Transactions</h2>
+                    <p class="lead text-muted">See all transactions.</p>
                 </div>
             </section>
             <div class="row p-4">

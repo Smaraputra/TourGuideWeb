@@ -30,6 +30,16 @@ class PaymentMethodDetailService {
       }, { headers: authHeader() });
     return response.data;
   }
+  async update(method,curid) {
+    const response = await axios
+      .post(API_URL + 'update', {
+        curid: curid,
+        id_payment_methods: method.id_payment_methods,
+        payment_number: method.payment_number,
+        description: method.description,
+      }, { headers: authHeader() });
+    return response.data;
+  }
   async delete(id) {
     const response = await axios
       .post(API_URL + 'delete', {

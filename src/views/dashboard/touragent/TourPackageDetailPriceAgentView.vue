@@ -38,7 +38,7 @@
             <div>
               <div class="form-outline mb-4">
                 <label for="package_name">Tour Packages Name</label>
-                <Field name="package_name" type="text" class="form-control" :value="tourpackages.package_name" />
+                <Field name="package_name" type="text" class="form-control" v-model="tourpackages.package_name" />
                 <ErrorMessage name="package_name" class="error-feedback" />
               </div>
               <div class="form-outline mb-4" v-if="categories || categories.length">
@@ -54,12 +54,12 @@
               <div class="form-outline mb-4">
                 <label for="description">Description</label>
                 <Field as="textarea" name="description" type="multiline" class="form-control"
-                  :value=tourpackages.description />
+                  v-model=tourpackages.description />
                 <ErrorMessage name="description" class="error-feedback" />
               </div>
               <div class="form-outline mb-4">
                 <label for="terms">Terms and Conditions</label>
-                <Field as="textarea" name="terms" type="text" class="form-control" :value=tourpackages.terms />
+                <Field as="textarea" name="terms" type="text" class="form-control" v-model=tourpackages.terms />
                 <ErrorMessage name="terms" class="error-feedback" />
               </div>
               <div class="form-outline mb-4">

@@ -1,7 +1,8 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import MainView from '../views/MainView.vue'
-import HomeView from '../views/landing/HomeView.vue'
+import { createRouter, createWebHistory } from "vue-router";
+import MainView from "../views/MainView.vue";
+import HomeView from "../views/landing/HomeView.vue";
 import DestinationsView from "../views/landing/DestinationsView.vue";
+import DestinationDetailView from "../views/landing/DestinationsDetailView.vue";
 import TourPackageView from "../views/landing/TourPackagesView.vue";
 import TourPackageDetailView from "../views/landing/TourPackageDetailView.vue";
 import ProfileView from "../views/landing/ProfileInformationView.vue";
@@ -16,73 +17,84 @@ import GuideProfileCreateView from "../views/tourguide/GuideProfileCreateView.vu
 import PageNotFoundView from "../views/error/PageNotFoundView.vue";
 
 import DashboardMainView from "../views/DashboardMainView.vue";
-import DashboardHomeView from "../views/dashboard/DashboardHomeView.vue"
-import TourDestinationAdminView from "../views/dashboard/admin/TourDestinationAdminView.vue"
-import TourDestinationUpdateAdminView from "../views/dashboard/admin/TourDestinationUpdateAdminView.vue"
-import TourPackageCategoriesAdminView from "../views/dashboard/admin/TourPackageCategoriesAdminView.vue"
-import TourPackageCategoriesUpdateAdminView from "../views/dashboard/admin/TourPackageCategoriesUpdateAdminView.vue"
-import PaymentMethodsAdminView from "../views/dashboard/admin/PaymentMethodsAdminView.vue"
-import TourAgentAdminView from "../views/dashboard/admin/TourAgentAdminView.vue"
+import DashboardHomeView from "../views/dashboard/DashboardHomeView.vue";
+import TourDestinationAdminView from "../views/dashboard/admin/TourDestinationAdminView.vue";
+import TourDestinationUpdateAdminView from "../views/dashboard/admin/TourDestinationUpdateAdminView.vue";
+import TourPackageCategoriesAdminView from "../views/dashboard/admin/TourPackageCategoriesAdminView.vue";
+import TourPackageCategoriesUpdateAdminView from "../views/dashboard/admin/TourPackageCategoriesUpdateAdminView.vue";
+import PaymentMethodsAdminView from "../views/dashboard/admin/PaymentMethodsAdminView.vue";
+import PaymentMethodsUpdateAdminView from "../views/dashboard/admin/PaymentMethodsUpdateAdminView.vue";
+import TourAgentAdminView from "../views/dashboard/admin/TourAgentAdminView.vue";
+import TourDestinationRequestAdminView from "../views/dashboard/admin/TourDestinationRequestAdminView.vue";
 
-import TourPackageAgentView from "../views/dashboard/touragent/TourPackageAgentView.vue"
-import TourPackageDetailPriceAgentView from "../views/dashboard/touragent/TourPackageDetailPriceAgentView.vue"
-import TourPackageFacilitiesActivitiesAgentView from "../views/dashboard/touragent/TourPackageFacilitiesActivitiesAgentView.vue"
-import TourGuideAgentView from "../views/dashboard/touragent/TourGuideAgentView.vue"
-import GuideJobApprovalAgentView from "../views/dashboard/touragent/GuideJobApprovalAgentView.vue"
-import GuideJobDetailAgentView from "../views/dashboard/touragent/GuideJobDetailAgentView.vue"
-import TransactionAgentView from "../views/dashboard/touragent/TransactionAgentView.vue"
-import PickupFeeAgentView from "../views/dashboard/touragent/PickupFeeAgentView.vue"
-import PaymentMethodDetailAgentView from "../views/dashboard/touragent/PaymentMethodDetailsAgentView.vue"
-import TransactionDetailAgentView from "../views/dashboard/touragent/TransactionDetailAgentView.vue"
+import TourDestinationRequestAgentView from "../views/dashboard/touragent/TourDestinationRequestAgentView.vue";
+import TourPackageAgentView from "../views/dashboard/touragent/TourPackageAgentView.vue";
+import TourPackageDetailPriceAgentView from "../views/dashboard/touragent/TourPackageDetailPriceAgentView.vue";
+import TourPackageFacilitiesActivitiesAgentView from "../views/dashboard/touragent/TourPackageFacilitiesActivitiesAgentView.vue";
+import TourGuideAgentView from "../views/dashboard/touragent/TourGuideAgentView.vue";
+import GuideJobApprovalAgentView from "../views/dashboard/touragent/GuideJobApprovalAgentView.vue";
+import GuideJobDetailAgentView from "../views/dashboard/touragent/GuideJobDetailAgentView.vue";
+import TransactionAgentView from "../views/dashboard/touragent/TransactionAgentView.vue";
+import PickupFeeAgentView from "../views/dashboard/touragent/PickupFeeAgentView.vue";
+import PickupFeeUpdateAgentView from "../views/dashboard/touragent/PickupFeeUpdateAgentView.vue";
+import PaymentMethodDetailAgentView from "../views/dashboard/touragent/PaymentMethodDetailsAgentView.vue";
+import PaymentMethodDetailsUpdateAgentView from "../views/dashboard/touragent/PaymentMethodDetailsUpdateAgentView.vue";
+import TransactionDetailAgentView from "../views/dashboard/touragent/TransactionDetailAgentView.vue";
 
-import GuideJobApprovalGuideView from "../views/dashboard/tourguide/GuideJobApprovalGuideView.vue"
-import GuideJobDetailGuideView from "../views/dashboard/tourguide/GuideJobDetailGuideView.vue"
+import GuideJobApprovalGuideView from "../views/dashboard/tourguide/GuideJobApprovalGuideView.vue";
+import GuideDestinationGuideView from "../views/dashboard/tourguide/GuideDestinationGuideView.vue";
+import GuideJobDetailGuideView from "../views/dashboard/tourguide/GuideJobDetailGuideView.vue";
 
 const routes = [
   {
-    path: '/',
+    path: "/",
     name: "main",
     component: MainView,
     children: [
       {
         path: "",
         name: "home",
-        component: HomeView
+        component: HomeView,
       },
       {
         path: "destinations",
         name: "destinations",
-        component: DestinationsView
+        component: DestinationsView,
+      },
+      {
+        path: "destinations/:id_tourist_destinations",
+        name: "destinations-see",
+        component: DestinationDetailView,
       },
       {
         path: "packages",
         name: "packages",
-        component: TourPackageView
+        component: TourPackageView,
       },
       {
         path: "packages-detail/:id_tour_packages",
         name: "packages-detail-see",
-        component: TourPackageDetailView
+        component: TourPackageDetailView,
       },
       {
         path: "register",
         name: "register",
-        component: RegisterView
+        component: RegisterView,
       },
       {
         path: "login",
         name: "login",
-        component: LoginView
+        component: LoginView,
       },
       {
         path: "register-agent",
         name: "register-agent",
-        component: AgentProfileCreateView
+        component: AgentProfileCreateView,
       },
       {
         path: "register-guide",
         name: "register-guide",
-        component: GuideProfileCreateView
+        component: GuideProfileCreateView,
       },
       {
         path: "profile",
@@ -95,130 +107,161 @@ const routes = [
         component: TransactionView,
       },
       {
-        path: 'transactions/:id_orders',
+        path: "transactions/:id_orders",
         name: "transactions-see",
         component: TransactionDetailView,
       },
     ],
   },
   {
-    path: '/dashboard/',
+    path: "/dashboard/",
     component: DashboardMainView,
     name: "dashboard-main",
     children: [
       {
-        path: '',
+        path: "",
         name: "dashboard",
         component: DashboardHomeView,
       },
-      
+
       {
-        path: 'tour-destination',
+        path: "tour-destination",
         name: "tour-destination",
         component: TourDestinationAdminView,
       },
       {
-        path: 'tour-destination/:id_tourist_destinations',
+        path: "tour-destination/:id_tourist_destinations",
         name: "tour-destination-update",
         component: TourDestinationUpdateAdminView,
       },
       {
-        path: 'tour-category',
+        path: "tour-category",
         name: "tour-category",
         component: TourPackageCategoriesAdminView,
       },
       {
-        path: 'tour-category/:id_package_categories',
+        path: "tour-category/:id_package_categories",
         name: "tour-category-detail",
         component: TourPackageCategoriesUpdateAdminView,
       },
       {
-        path: 'payment-method',
+        path: "payment-method",
         name: "payment-method",
         component: PaymentMethodsAdminView,
       },
       {
-        path: 'verify-agent',
+        path: "payment-method/:id_payment_methods",
+        name: "payment-method-detail",
+        component: PaymentMethodsUpdateAdminView,
+      },
+      {
+        path: "verify-agent",
         name: "verify-agent",
         component: TourAgentAdminView,
       },
+      {
+        path: "verify-tour-destination",
+        name: "verify-tour-destination",
+        component: TourDestinationRequestAdminView,
+      },
 
       {
-        path: 'tour-package',
+        path: "tour-destination-request",
+        name: "tour-destination-request",
+        component: TourDestinationRequestAgentView,
+      },
+      {
+        path: "tour-package",
         name: "tour-package",
         component: TourPackageAgentView,
       },
       {
-        path: 'tour-package/:id_tour_packages',
+        path: "tour-package/:id_tour_packages",
         name: "tour-package-see",
         component: TourPackageDetailPriceAgentView,
       },
       {
-        path: 'tour-package-detail/:id_package_details',
+        path: "tour-package-detail/:id_package_details",
         name: "tour-package-detail-see",
         component: TourPackageFacilitiesActivitiesAgentView,
       },
       {
-        path: 'manage-tour-guide',
+        path: "manage-tour-guide",
         name: "manage-tour-guide",
         component: TourGuideAgentView,
       },
       {
-        path: 'guide-job-approval',
+        path: "guide-job-approval",
         name: "guide-job-approval",
         component: GuideJobApprovalAgentView,
       },
       {
-        path: 'guide-job-detail/:id_guide_selections/:id_guides',
+        path: "guide-job-detail/:id_guide_selections/:id_guides",
         name: "guide-job-detail",
         component: GuideJobDetailAgentView,
       },
       {
-        path: 'verify-transactions',
+        path: "verify-transactions",
         name: "verify-transactions",
         component: TransactionAgentView,
       },
       {
-        path: 'transactions/:id_orders',
+        path: "transactions/:id_orders",
         name: "transactions-see-agent",
         component: TransactionDetailAgentView,
       },
       {
-        path: 'pickup-fee',
+        path: "pickup-fee",
         name: "pickup-fee",
         component: PickupFeeAgentView,
       },
       {
-        path: 'payment-detail',
+        path: "pickup-fee/:id_pickup_fees",
+        name: "pickup-fee-detail",
+        component: PickupFeeUpdateAgentView,
+      },
+      {
+        path: "payment-detail",
         name: "payment-detail",
         component: PaymentMethodDetailAgentView,
       },
+      {
+        path: "payment-detail/:id_payment_method_details",
+        name: "payment-detail-detail",
+        component: PaymentMethodDetailsUpdateAgentView,
+      },
 
       {
-        path: 'job-offer',
+        path: "job-offer",
         name: "job-offer",
         component: GuideJobApprovalGuideView,
       },
       {
-        path: 'job-offer-detail/:id_guide_selections/:id_guides',
+        path: "job-offer-detail/:id_guide_selections/:id_guides",
         name: "job-offer-detail",
         component: GuideJobDetailGuideView,
+      },
+      {
+        path: "guide-destination",
+        name: "guide-destination",
+        component: GuideDestinationGuideView,
       },
     ],
   },
   {
     path: "/:pathMatch(.*)*",
     name: "not-found",
-    component: PageNotFoundView
+    component: PageNotFoundView,
   },
-]
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
   scrollBehavior() {
-    document.getElementById('app').scrollIntoView({behavior:'smooth'});
- }
-})
+    document.getElementById("app").scrollIntoView({ behavior: "smooth" });
+  },
+  linkExactActiveClass: "active",
+});
 
-export default router
+export default router;

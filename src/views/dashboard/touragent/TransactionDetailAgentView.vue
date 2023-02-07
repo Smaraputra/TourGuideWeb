@@ -32,7 +32,7 @@
                 <div class="card-body p-4">
                     <div class="form-outline mb-4">
                         <label for="package_name">Package</label>
-                        <Field name="package_name" type="text" :value="transaction.tour_packages.package_name"
+                        <Field name="package_name" type="text" v-model="transaction.tour_packages.package_name"
                             class="form-control" disabled />
                         <ErrorMessage name="package_name" class="error-feedback" />
                     </div>
@@ -51,13 +51,13 @@
                     </div>
                     <div class="form-outline mb-4">
                         <label for="note">Note</label>
-                        <Field as="textarea" name="note" type="text" :value="transaction['note']" class="form-control"
+                        <Field as="textarea" name="note" type="text" v-model="transaction['note']" class="form-control"
                             disabled />
                         <ErrorMessage name="note" class="error-feedback" />
                     </div>
                     <div class="form-outline mb-4">
                         <label for="order_date">Order Date</label>
-                        <Field name="order_date" type="text" :value="transaction['order_date']" class="form-control"
+                        <Field name="order_date" type="text" v-model="transaction['order_date']" class="form-control"
                             disabled />
                         <ErrorMessage name="order_date" class="error-feedback" />
                     </div>
@@ -350,21 +350,27 @@
                     <img v-else src="../../../assets/image/home/image_placeholder.png" alt=""
                         class="card-img-top mt-2 mb-4 rounded">
                     <div v-if="transaction.payments[0].payment_status == 'Uploaded'">
-                        <a class="btn btn-success me-2" @click="approveOrder(1)">
-                            <font-awesome-icon icon="check" /><span> Approve </span>
-                        </a>
-                        <a class="btn btn-danger me-2" @click="approveOrder(0)">
-                            <font-awesome-icon icon="times" /><span> Reject </span>
-                        </a>
+                        <div class="col-sm mt-2">
+                            <button class="btn btn-success me-2" @click="approveOrder(1)">
+                                <font-awesome-icon icon="check" /><span> Approve </span>
+                            </button>
+                        </div>
+                        <div class="col-sm mt-2">
+                            <button class="btn btn-danger me-2" @click="approveOrder(0)">
+                                <font-awesome-icon icon="times" /><span> Reject </span>
+                            </button>
+                        </div>
                         <div v-if="message" class="alert mt-2" :class="successful ? 'alert-success' : 'alert-danger'">
                             {{ message }}
                         </div>
                     </div>
                     <div v-if="transaction.order_status == 'Waiting Payment' && (transaction.payments[0].payment_status == 'Waiting Payment' || transaction.payments[0].payment_status == 'Rejected')">
                         <hr>
-                        <a class="btn btn-danger me-2" @click="rejectOrder">
-                            <font-awesome-icon icon="times" /><span> Reject Order </span>
-                        </a>
+                        <div class="col-sm mt-2">
+                            <button class="btn btn-danger me-2" @click="rejectOrder">
+                                <font-awesome-icon icon="times" /><span> Reject Order </span>
+                            </button>
+                        </div>
                         <div v-if="message2" class="alert mt-2" :class="successful2 ? 'alert-success' : 'alert-danger'">
                             {{ message2 }}
                         </div>

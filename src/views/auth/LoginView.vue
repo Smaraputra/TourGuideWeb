@@ -1,5 +1,66 @@
 <template>
-    <section class="h-100 gradient-form">
+    <section id="common_banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="common_bannner_text">
+                        <h2>Login Page</h2>
+                        <ul>
+                            <li><router-link to="/">Home</router-link></li>
+                            <li><span><font-awesome-icon icon="circle" /></span>Login</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="common_author_area" class="mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                    <div class="common_author_boxed">
+                        <div class="common_author_heading">
+                            <h2>Login your account</h2>
+                            <h3 class="mt-2">Please login using your account to continue.</h3>
+                        </div>
+                        <div class="common_author_form">
+                            <Form @submit="handleLogin" :validation-schema="schema">                                
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <Field name="email" type="text" class="form-control" />
+                                    <ErrorMessage name="email" class="error-feedback" />
+                                </div>
+
+                                <div class="form-group pt-4">
+                                    <label for="password">Password</label>
+                                    <Field name="password" type="password" class="form-control" />
+                                    <ErrorMessage name="password" class="error-feedback" />
+                                </div>
+
+                                <div class="common_form_submit pt-4">
+                                    <button class="btn btn_theme btn_md" :disabled="loading">
+                                        <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+                                        <font-awesome-icon icon="sign-in-alt" /><span> Login</span>
+                                    </button>
+                                </div>
+                            
+                                <div class="form-group mt-2">
+                                    <div v-if="message" class="alert alert-danger" role="alert">
+                                        {{ message }}
+                                    </div>
+                                </div>
+
+                                <div class="have_acount_area">
+                                    <p>Dont have an account? <router-link to="/register">Register now</router-link></p>
+                                </div>
+                            </Form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- <section class="h-100 gradient-form">
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-xl-12">
@@ -51,7 +112,7 @@
                             <div class="col-lg-6 rounded-3 d-flex align-items-center gradient-custom-2">
                                 <div class="text-white px-3 py-4 p-md-5 mx-md-4">
                                     <h4 class="mb-4">We are more than just tour packages provider.</h4>
-                                    <p class="small mb-0">We provide the best services for both tour agents and guide to offer their product and services across the country.</p>
+                                    <p class="text-white">We provide the best services for both tour agents and guide to offer their product and services across the country.</p>
                                 </div>
                             </div>
                         </div>
@@ -59,13 +120,13 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 </template>
 
 <style scoped>
-    section  {
-        background-image: url("../../assets/image/login/login.jpg");
-    }
+    /* section  {
+        background-image: url("../../assets/img/login/login.jpg");
+    } */
 </style>
 
 <script>

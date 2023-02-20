@@ -4,7 +4,54 @@
       <h5 class="m-0 font-weight-bold color-main">Manage Tour Packages</h5>
     </div>
     <div class="card-body">
-      <div class="table-responsive">
+      <EasyDataTable show-index alternating :headers="headers" :items="tourpackages" :theme-color="themeColor" style="z-index: 1;"
+        buttons-pagination :loading="statusLoad">
+        <template #loading>
+          <div class="d-flex justify-content-center align-items-center">
+            <div class="loader">
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+            </div>
+          </div>
+        </template>
+        <template #item-image="item">
+          <img v-if="item.cover_image != null" :src="item.cover_image" alt="" style="min-width: 100px;"
+            class="card-img-top mt-2 rounded imgSmallTabel">
+          <img v-else src="../../../assets/img/home/image_placeholder.png" alt="" style="min-width: 100px;"
+            class="card-img-top mt-2 rounded imgSmallTabel">
+        </template>
+        <template #item-published="item">
+          <button v-if="item.published === 'Yes'" style="float: right;" class="btn btn-success w-100">
+            {{ item.published }}
+          </button>
+          <button v-else-if="item.published === 'No'" style="float: right;" class="btn btn-danger w-100">
+            {{ item.published }}
+          </button>
+        </template>
+        <template #item-rating="item">
+          <span v-if="item.rating != null">{{ item.rating }}</span>
+          <span v-else>-</span>
+        </template>
+        <template #item-action="item">
+          <div class="operation-wrapper" style="min-width: 100px;">
+            <div class="d-flex justify-content-evenly align-items-center align-middle pr-2 pt-2 pb-2">
+              <router-link
+                :to="{ name: 'tour-package-see', params: { id_tour_packages: item.id_tour_packages } }">
+                <button class="btn btn-success">
+                  <font-awesome-icon icon="pencil" />
+                </button>
+              </router-link>
+              <button class="btn btn-danger" @click="deleteData(item.id_tour_packages)">
+                <font-awesome-icon icon="trash" />
+              </button>
+            </div>
+          </div>
+        </template>
+      </EasyDataTable>
+      <!-- <div class="table-responsive">
         <table class="table table-bordered table-condensed table-striped" id="dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
@@ -21,30 +68,33 @@
           </thead>
           <tbody v-if="tourpackages || tourpackages.length">
             <tr v-for="(tourpackage, index) in tourpackages" :key="index">
-              <td style="width: 50px">{{index+1}}</td>
+              <td style="width: 50px">{{ index + 1 }}</td>
               <td style="width: 100px">
-                <img v-if="tourpackage.cover_image != null" :src="tourpackage.cover_image" alt="" class="card-img-top mt-2 rounded imgSmallTabel">
-                <img v-else src="../../../assets/image/home/image_placeholder.png" alt="" class="card-img-top mt-2 rounded imgSmallTabel">
+                <img v-if="tourpackage.cover_image != null" :src="tourpackage.cover_image" alt=""
+                  class="card-img-top mt-2 rounded imgSmallTabel">
+                <img v-else src="../../../assets/img/home/image_placeholder.png" alt=""
+                  class="card-img-top mt-2 rounded imgSmallTabel">
               </td>
               <td>{{ tourpackage.package_name }}</td>
-              <td>{{ tourpackage.package_category.category}}</td>
+              <td>{{ tourpackage.package_category.category }}</td>
               <td>{{ tourpackage.description }}</td>
               <td>{{ tourpackage.terms }}</td>
               <td>
-                <span v-if="tourpackage.rating != null">{{tourpackage.rating}}</span>
+                <span v-if="tourpackage.rating != null">{{ tourpackage.rating }}</span>
                 <span v-else>-</span>
               </td>
               <td>
                 <button v-if="tourpackage.published === 'Yes'" style="float: right;" class="btn btn-success w-100">
-                  {{tourpackage.published}}
+                  {{ tourpackage.published }}
                 </button>
                 <button v-else-if="tourpackage.published === 'No'" style="float: right;" class="btn btn-danger w-100">
-                  {{tourpackage.published}}
+                  {{ tourpackage.published }}
                 </button>
               </td>
               <td>
                 <div style="width: 50px; height: 50px;">
-                  <router-link :to="{ name: 'tour-package-see', params: { id_tour_packages: tourpackage.id_tour_packages }}">
+                  <router-link
+                    :to="{ name: 'tour-package-see', params: { id_tour_packages: tourpackage.id_tour_packages } }">
                     <button class="btn btn-success">
                       <font-awesome-icon icon="pencil" />
                     </button>
@@ -64,7 +114,7 @@
             </tr>
           </tfoot>
         </table>
-      </div>
+      </div> -->
     </div>
   </div>
 
@@ -97,7 +147,7 @@
               <Field name="id_package_categories" as="select" class="form-select">
                 <option disabled selected value>-Package Category-</option>
                 <option v-for="(category, index) in categories" :key="index" :value="category.id_package_categories">
-                  {{category.category}}
+                  {{ category.category }}
                 </option>
               </Field>
             </div>
@@ -112,7 +162,7 @@
               <ErrorMessage name="terms" class="error-feedback" />
             </div>
             <div class="form-group">
-              <button class="btn btn-primary btn-block color-main-background" :disabled="loading">
+              <button class="btn btn_theme btn-block" :disabled="loading">
                 <span v-show="loading" class="spinner-border spinner-border-sm"></span>
                 <font-awesome-icon icon="plus" /><span> Add New</span>
               </button>
@@ -129,7 +179,7 @@
 
 <script>
 import moment from 'moment'
-import previewImage from "../../../assets/image/home/image_placeholder.png"
+import previewImage from "../../../assets/img/home/image_placeholder.png"
 import TourPackageService from "../../../services/tour-package.service";
 import TourPackageCategoryService from "../../../services/tour-package-category.service";
 import { Form, Field, ErrorMessage } from "vee-validate";
@@ -163,7 +213,22 @@ export default {
         .max(1024, "Must be maximum 1024 characters!"),
     });
 
+    const themeColor = "#184fa7";
+    const headers = [
+      { text: "Image", value: "image" },
+      { text: "Package Name", value: "package_name" },
+      { text: "Category", value: "package_category.category" },
+      { text: "Description", value: "description" },
+      { text: "Terms", value: "terms" },
+      { text: "Rating", value: "rating" },
+      { text: "Published", value: "published" },
+      { text: "Action", value: "action" },
+    ];
+
     return {
+      themeColor,
+      headers,
+      statusLoad: false,
       successful: false,
       loading: false,
       message: "",
@@ -190,7 +255,7 @@ export default {
       this.$router.push("/dashboard");
     }
     this.loadPackage(),
-    this.loadCategory()
+      this.loadCategory()
     this.moment = moment
   },
   methods: {
@@ -263,12 +328,15 @@ export default {
         }
       );
     },
-    loadPackage(){
+    loadPackage() {
+      this.statusLoad = true
       TourPackageService.getIndexTour().then(
         (response) => {
+          this.statusLoad = false
           this.tourpackages = response.data.data
         },
         (error) => {
+          this.statusLoad = false
           this.content =
             (error.response &&
               error.response.data &&
@@ -278,7 +346,7 @@ export default {
         }
       )
     },
-    loadCategory(){
+    loadCategory() {
       TourPackageCategoryService.getAll().then(
         (response) => {
           this.categories = response.data.data
@@ -300,6 +368,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

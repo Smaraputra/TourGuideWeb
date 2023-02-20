@@ -1,8 +1,9 @@
 import axios from "axios";
 import authHeader from "./auth-header";
 import fileHeader from "./file-header";
+import apiUrl from "./api-url";
 
-const API_URL = "http://localhost:8000/api/package-detail/";
+const API_URL = apiUrl() + 'package-detail/';
 
 class TourPackageDetailService {
   async store(detail,image_package_detail,id) {

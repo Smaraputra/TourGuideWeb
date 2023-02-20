@@ -1,14 +1,14 @@
 <template>
-    <section class="p-0 gradient-custom-2">
+    <section class="p-0">
         <div class="container-fluid d-flex flex-column">
             <div class="row align-items-center justify-content-center min-vh-100">
                 <div class="col-md-6 col-lg-6">
                     <div class="text-center error-page">
-                        <h2 class="mb-0 text-white">404</h2>
+                        <h2 class="mb-0 color-main">404</h2>
                         <h3 class="mb-4 text-white">Sorry, something went wrong!</h3>
                         <p class="w-sm-80 mx-auto mb-4 text-white">This page does not exist. Please reload the page or go back to home page.</p>
                         <div>
-                            <router-link to="/" class="btn btn-light btn-lg me-sm-2 mb-2 mb-sm-0 color-main">Return Home</router-link>
+                            <router-link to="/" class="btn btn_theme btn_md">Return Home</router-link>
                         </div>
                     </div>
                 </div>
@@ -24,8 +24,8 @@ export default {
 </script>
 
 <style scoped>
-body {
-    margin-top: 20px;
+section  {
+    background-image: url("../../assets/img/login/login.jpg");
 }
 
 .p-0 {

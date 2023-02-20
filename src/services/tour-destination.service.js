@@ -1,8 +1,9 @@
 import axios from 'axios';
 import authHeader from './auth-header';
 import fileHeader from './file-header';
+import apiUrl from "./api-url";
 
-const API_URL = 'http://localhost:8000/api/tourist-destination/';
+const API_URL = apiUrl() + 'tourist-destination/';
 
 class TourDestinationService {
   getAll() {

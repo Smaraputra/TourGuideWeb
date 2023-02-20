@@ -10,49 +10,36 @@
             </div>
         </div>
         <div v-else>
-            <section class="bg-light">
-                <div class="text-center pt-4 pb-2">
-                    <h2 class="color-main">Transaction Detail</h2>
-                    <p class="lead text-muted">See your transaction detail and its status.</p>
-                </div>
-            </section>
-            <section class="p-4">
-                <div class="row">
-                    <div class="col">
-                        <nav aria-label="breadcrumb" class="bg-light rounded-3 p-4">
-                            <ol class="breadcrumb mb-0">
-                                <li class="breadcrumb-item">
-                                    <router-link to="/">
-                                        <strong>Home</strong>
-                                    </router-link>
-                                </li>
-                                <li class="breadcrumb-item">
-                                    <router-link to="/transactions">
-                                        <strong>Transaction</strong>
-                                    </router-link>
-                                </li>
-                                <li class="breadcrumb-item active" aria-current="page">
-                                    <strong>Transaction Detail</strong>
-                                </li>
-                            </ol>
-                        </nav>
+            <section id="common_banner">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="common_bannner_text">
+                                <h2>Transaction Detail</h2>
+                                <p class="text-white">See your transaction details.</p>
+                                <ul>
+                                    <li><router-link to="/">Home</router-link></li>
+                                    <li><span><font-awesome-icon icon="circle" /></span><router-link to="/transactions">Transaction</router-link></li>
+                                    <li><span><font-awesome-icon icon="circle" /></span>Transaction Detail</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </section>
+            <section class="container p-4">
                 <div class="row" v-if="transaction">
                     <div class="col-md-8 mt-4">
                         <div class="card shadow border-0">
-                            <div class="card-body p-4">
-                                <div style="display: block;height: 30px;clear: both;">
-                                    <h4 class="mb-4 color-main" style="float: left;">Order Detail</h4>
-                                    <button v-if="transaction['order_status'] == 'Finished'" style="float: right;"
-                                        class="btn btn-success">{{ transaction['order_status'] }}</button>
-                                    <button v-else-if="transaction['order_status'] == 'Cancelled'" style="float: right;"
-                                        class="btn btn-danger">{{ transaction['order_status'] }}</button>
-                                    <button v-else style="float: right;" class="btn btn-warning">{{
-                                            transaction['order_status']
-                                    }}</button>
-                                </div>
-                                <hr class="mt-4">
+                            <div class="dashboard_common_table">
+                                <button v-if="transaction['order_status'] == 'Finished'" style="float: right; padding-bottom: 2px;"
+                                    class="btn btn-success">{{ transaction['order_status'] }}</button>
+                                <button v-else-if="transaction['order_status'] == 'Cancelled'" style="float: right; padding-bottom: 2px;"
+                                    class="btn btn-danger">{{ transaction['order_status'] }}</button>
+                                <button v-else style="float: right; padding-bottom: 2px;" class="btn btn-warning">{{
+                                        transaction['order_status']
+                                }}</button>
+                                <h3 class="mb-4">Order Detail</h3>
                                 <div class="form-outline mb-4">
                                     <label for="package_name">Package</label>
                                     <Field name="package_name" type="text"
@@ -108,17 +95,16 @@
                             </div>
                         </div>
                         <div class="card shadow border-0 mt-4">
-                            <div class="card-body p-4">
-                                <h4 class="color-main">Tour Information</h4>
-                                <hr>
+                            <div class="dashboard_common_table">
+                                <h3 class="mb-4">Tour Information</h3>
                                 <div class="col-md-12 mt-4" v-if="tourpackage">
-                                    <h6>Description</h6>
+                                    <h4 class="mt-4">Description</h4>
                                     <p>{{ tourpackage.description }}</p>
-                                    <h6>Terms and Conditions</h6>
+                                    <h4 class="mt-4">Terms and Conditions</h4>
                                     <p>{{ tourpackage.terms }}</p>
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h6>Pickup Location</h6>
+                                            <h4 class="mt-4">Pickup Location</h4>
                                             <p v-if="transaction.order_details[0]">{{
                                                     transaction.order_details[0].location
                                             }}
@@ -126,14 +112,14 @@
                                             <p v-else>{{ transaction.package_price.pickup_location }}</p>
                                         </div>
                                         <div class="col-md-6">
-                                            <h6>Pickup Time</h6>
+                                            <h4 class="mt-4">Pickup Time</h4>
                                             <p>{{ transaction.package_price.pickup_time }} WITA</p>
                                         </div>
                                     </div>
-                                    <h6>Start - End Date</h6>
+                                    <h4 class="mt-4">Start - End Date</h4>
                                     <p>{{ transaction.order_date }} to {{ enddate }}</p>
                                 </div>
-                                <div class="accordion">
+                                <div class="accordion mt-4">
                                     <div class="accordion-item" v-if="tourpackagesdetails">
                                         <h2 class="accordion-header" id="headingDetail">
                                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -151,7 +137,7 @@
                                                             <div class="card">
                                                                 <img v-if="detail.image_package_detail" :src="detail.image_package_detail" class="card-img-top img2"
                                                                     alt="">
-                                                                <img v-else src="../../assets/image/home/image_placeholder.png" class="card-img-top img2" alt="">
+                                                                <img v-else src="../../assets/img/home/image_placeholder.png" class="card-img-top img2" alt="">
                                                                 <div class="card-body p-4">
                                                                     <h4 class="fw-bold">
                                                                         {{ detail.tourist_destination.name }}</h4>
@@ -177,7 +163,7 @@
                                                             <div class="card">
                                                                 <img v-if="detail.image_package_detail" :src="detail.image_package_detail" class="card-img-top img2"
                                                                     alt="">
-                                                                <img v-else src="../../assets/image/home/image_placeholder.png" class="card-img-top img2" alt="">
+                                                                <img v-else src="../../assets/img/home/image_placeholder.png" class="card-img-top img2" alt="">
                                                                 <div class="card-body p-4">
                                                                     <h4 class="fw-bold">
                                                                         {{ detail.tourist_destination.name }}</h4>
@@ -220,12 +206,12 @@
                                                 <div class="row">
                                                     <div class="col-md-12 col-lg-12 col-xl-12">
                                                         <div class="card border-0" style="border-radius: 15px;">
-                                                            <div class="card-body" v-if="tourpackage.package_category['guide_included'] === 'Included'">
+                                                            <div class="card-body" v-if="tourpackage.package_category['guide_included'] === 'Yes'">
                                                                 <div v-if="selectedGuide != null" class="row">
                                                                     <div class="col-sm-12 col-md-3 text-center">
                                                                         <img v-if="selectedGuide.users.photo != null" :src="selectedGuide.users.photo" alt="Guide"
                                                                             class="img-fluid" style="height: 200px;border-radius: 10px;">
-                                                                        <img v-else src="../../assets/image/home/photo_placeholder.png" alt="Guide"
+                                                                        <img v-else src="../../assets/img/home/photo_placeholder.png" alt="Guide"
                                                                             class="img-fluid" style="height: 200px;border-radius: 10px;">
                                                                     </div>
                                                                     <div class="col-sm-12 col-md-9 mt-2">
@@ -258,27 +244,24 @@
                     </div>
                     <div class="col-md-4 mt-4">
                         <div class="card shadow border-0">
-                            <div class="card-body p-4">
-                                <div style="display: block;height: 30px;clear: both;">
-                                    <h4 class="mb-4 color-main" style="float: left;">Payment</h4>
-                                    <button v-if="transaction.payments[0].payment_status == 'Paid'"
-                                        style="float: right;" class="btn btn-success">{{
-                                                transaction.payments[0].payment_status
-                                        }}</button>
-                                    <button
-                                        v-else-if="transaction.payments[0].payment_status == 'Cancelled' || transaction.payments[0].payment_status == 'Rejected'"
-                                        style="float: right;" class="btn btn-danger">{{
-                                                transaction.payments[0].payment_status
-                                        }}</button>
-                                    <button v-else style="float: right;" class="btn btn-warning">{{
+                            <div class="dashboard_common_table">
+                                <button v-if="transaction.payments[0].payment_status == 'Paid'"
+                                    style="float: right; padding-bottom: 2px;" class="btn btn-success">{{
                                             transaction.payments[0].payment_status
                                     }}</button>
-                                </div>
-                                <hr class="mt-4">
+                                <button
+                                    v-else-if="transaction.payments[0].payment_status == 'Cancelled' || transaction.payments[0].payment_status == 'Rejected'"
+                                    style="float: right; padding-bottom: 2px;" class="btn btn-danger">{{
+                                            transaction.payments[0].payment_status
+                                    }}</button>
+                                <button v-else style="float: right; padding-bottom: 2px;" class="btn btn-warning">{{
+                                        transaction.payments[0].payment_status
+                                }}</button>
+                                <h3 class="mb-4">Payment</h3>
                                 <img v-if="transaction.payments[0].payment_proof != null"
                                     :src="transaction.payments[0].payment_proof" alt=""
                                     class="card-img-top mt-2 rounded">
-                                <img v-else src="../../assets/image/home/image_placeholder.png" alt=""
+                                <img v-else src="../../assets/img/home/image_placeholder.png" alt=""
                                     class="card-img-top mt-2 rounded">
                                 <div v-if="transaction.payments[0].payment_status != 'Paid'">
                                     <hr>
@@ -300,7 +283,7 @@
                                         <ErrorMessage name="payment_proof" class="error-feedback" />
                                     </div>
                                     <div class="form-group mt-4">
-                                        <button class="btn btn-primary btn-block color-main-background"
+                                        <button class="btn btn_theme btn-block"
                                             :disabled="loading">
                                             <span v-show="loading" class="spinner-border spinner-border-sm"></span>
                                             <font-awesome-icon icon="credit-card" /><span> Upload</span>

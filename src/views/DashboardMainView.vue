@@ -36,6 +36,27 @@ export default {
     }
   },
   mounted() {
+    // document.addEventListener('click', function (e) {
+    //   // Hamburger menu
+    //   if (e.target.classList.contains('hamburger-toggle')) {
+    //     e.target.children[0].classList.toggle('active');
+    //   }
+    // })
+
+    // document.addEventListener('click', function (e) {
+    //   // Hamburger menu
+    //   if (e.target.classList.contains('admin-toggle')) {
+    //     e.target.children[0].classList.toggle('active');
+    //   }
+    // })
+
+    // $(document).ready(function () {
+    //   $("#sidebarCollapse").on("click", function () {
+    //     $("#sidebar, #content").toggleClass("active");
+    //     $(".collapse.in").toggleClass("in");
+    //     $("a[aria-expanded=true]").attr("aria-expanded", "false");
+    //   });
+    // });
     minimizeSideBar()
     if (!this.loggedIn) {
       this.$router.push("/login");

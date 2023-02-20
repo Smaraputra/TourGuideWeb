@@ -4,47 +4,42 @@
       <div class="col-md-12">
         <div class="card shadow">
           <div class="card-header p-3 text-center">
-            <h5 class="m-0 font-weight-bold text-primary">Admin Overview</h5>
+            <h5 class="m-0 font-weight-bold color-main">Admin Overview</h5>
           </div>
           <div class="card-body">
-            <div class="row">
-              <div class="col-md-3">
-                <div class="card text-center">
-                  <div class="card-header p-3">
-                    <h5 class="m-0 font-weight-bold text-primary">Agent Awaiting Verification</h5>
-                  </div>
-                  <div class="card-body">
-                    <h3>Not Implemented Yet.</h3>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="card text-center">
-                  <div class="card-header p-3">
-                    <h5 class="m-0 font-weight-bold text-primary">Total Tour Agent</h5>
-                  </div>
-                  <div class="card-body">
-                    <h3>Not Implemented Yet.</h3>
+            <div class="dashboard_main_top">
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="dashboard_top_boxed">
+                    <div class="dashboard_top_icon">
+                      <font-awesome-icon icon="plane" class="services-icon"/>
+                    </div>
+                    <div class="dashboard_top_text">
+                      <h3>Tour Agents Not Verified</h3>
+                      <h1>{{ getAgentNotVerifiedData.length }}</h1>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-md-3">
-                <div class="card text-center">
-                  <div class="card-header p-3">
-                    <h5 class="m-0 font-weight-bold text-primary">Total Tour Guide</h5>
-                  </div>
-                  <div class="card-body">
-                    <h3>Not Implemented Yet.</h3>
+                <div class="col-lg-4">
+                  <div class="dashboard_top_boxed">
+                    <div class="dashboard_top_icon">
+                      <font-awesome-icon icon="compass" class="services-icon"/>
+                    </div>
+                    <div class="dashboard_top_text">
+                      <h3>Total Registered Tour Guide</h3>
+                      <h1>{{ indexGuideData.length }}</h1>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-md-3">
-                <div class="card text-center">
-                  <div class="card-header p-3">
-                    <h5 class="m-0 font-weight-bold text-primary">Total Consumer</h5>
-                  </div>
-                  <div class="card-body">
-                    <h3>Not Implemented Yet.</h3>
+                <div class="col-lg-4">
+                  <div class="dashboard_top_boxed">
+                    <div class="dashboard_top_icon">
+                      <font-awesome-icon icon="credit-card-alt" class="services-icon"/>
+                    </div>
+                    <div class="dashboard_top_text">
+                      <h3>Total Transaction</h3>
+                      <h1>{{ indexOrderData.length }}</h1>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -59,47 +54,40 @@
       <div class="col-md-12">
         <div class="card shadow">
           <div class="card-header p-3 text-center">
-            <h5 class="m-0 font-weight-bold text-primary">Tour Agent Overview</h5>
+            <h5 class="m-0 font-weight-bold color-main">Tour Agent Overview</h5>
           </div>
           <div class="card-body">
             <div class="row">
-              <div class="col-md-3">
-                <div class="card text-center mb-4">
-                  <div class="card-header p-3">
-                    <h5 class="m-0 font-weight-bold text-primary">Guide Awaiting Verification</h5>
+              <div class="col-lg-4">
+                <div class="dashboard_top_boxed">
+                  <div class="dashboard_top_icon">
+                    <font-awesome-icon icon="compass" class="services-icon"/>
                   </div>
-                  <div class="card-body">
-                    <h3>Not Implemented Yet.</h3>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="card text-center mb-4">
-                  <div class="card-header p-3">
-                    <h5 class="m-0 font-weight-bold text-primary">Total Tour Guide</h5>
-                  </div>
-                  <div class="card-body">
-                    <h3>Not Implemented Yet.</h3>
+                  <div class="dashboard_top_text">
+                    <h3>Tour Guides Not Verified</h3>
+                    <h1>{{ getGuideNotVerifiedData.length }}</h1>
                   </div>
                 </div>
               </div>
-              <div class="col-md-3">
-                <div class="card text-center mb-4">
-                  <div class="card-header p-3">
-                    <h5 class="m-0 font-weight-bold text-primary">Total Packages</h5>
+              <div class="col-lg-4">
+                <div class="dashboard_top_boxed">
+                  <div class="dashboard_top_icon">
+                    <font-awesome-icon icon="plane" class="services-icon"/>
                   </div>
-                  <div class="card-body">
-                    <h3>Not Implemented Yet.</h3>
+                  <div class="dashboard_top_text">
+                    <h3>Total Tour Packages</h3>
+                    <h1>{{ indexTourAgentData.length }}</h1>
                   </div>
                 </div>
               </div>
-              <div class="col-md-3">
-                <div class="card text-center mb-4">
-                  <div class="card-header p-3">
-                    <h5 class="m-0 font-weight-bold text-primary">Total Consumer</h5>
+              <div class="col-lg-4">
+                <div class="dashboard_top_boxed">
+                  <div class="dashboard_top_icon">
+                    <font-awesome-icon icon="credit-card-alt" class="services-icon"/>
                   </div>
-                  <div class="card-body">
-                    <h3>Not Implemented Yet.</h3>
+                  <div class="dashboard_top_text">
+                    <h3>Payment Awaiting Approval</h3>
+                    <h1>{{ getUnverifiedByIdAgentData.length }}</h1>
                   </div>
                 </div>
               </div>
@@ -114,27 +102,29 @@
       <div class="col-md-12">
         <div class="card shadow">
           <div class="card-header p-3 text-center">
-            <h5 class="m-0 font-weight-bold text-primary">Tour Guide Overview</h5>
+            <h5 class="m-0 font-weight-bold color-main">Tour Guide Overview</h5>
           </div>
           <div class="card-body">
             <div class="row">
-              <div class="col-md-6">
-                <div class="card text-center mb-4">
-                  <div class="card-header p-3">
-                    <h5 class="m-0 font-weight-bold text-primary">Job Awaiting Confirmation</h5>
+              <div class="col-lg-6">
+                <div class="dashboard_top_boxed">
+                  <div class="dashboard_top_icon">
+                    <font-awesome-icon icon="check" class="services-icon"/>
                   </div>
-                  <div class="card-body">
-                    <h3>Not Implemented Yet.</h3>
+                  <div class="dashboard_top_text">
+                    <h3>Job Awaiting Approval</h3>
+                    <h1>{{ getAllByIdGuideWaitingData.length }}</h1>
                   </div>
                 </div>
               </div>
-              <div class="col-md-6">
-                <div class="card text-center mb-4">
-                  <div class="card-header p-3">
-                    <h5 class="m-0 font-weight-bold text-primary">Total Job Taken</h5>
+              <div class="col-lg-6">
+                <div class="dashboard_top_boxed">
+                  <div class="dashboard_top_icon">
+                    <font-awesome-icon icon="credit-card-alt" class="services-icon"/>
                   </div>
-                  <div class="card-body">
-                    <h3>Not Implemented Yet.</h3>
+                  <div class="dashboard_top_text">
+                    <h3>Total Job Taken</h3>
+                    <h1>{{ getAllByIdGuideChoosenData.length }}</h1>
                   </div>
                 </div>
               </div>
@@ -147,10 +137,25 @@
 </template>
 
 <script>
+import DashboardService from "../../services/dashboard.service";
 export default {
   name: "DashboardHome",
   components: {
 
+  },
+  data(){
+    return {
+      getAgentNotVerifiedData: [],
+      indexGuideData: [],
+      indexOrderData: [],
+
+      getGuideNotVerifiedData: [],
+      indexTourAgentData: [],
+      getUnverifiedByIdAgentData: [],
+
+      getAllByIdGuideChoosenData: [],
+      getAllByIdGuideWaitingData: [],
+    };
   },
   computed: {
     loggedIn() {
@@ -161,11 +166,61 @@ export default {
     },
   },
   created() {
-
+    this.loadData()
   },
+  methods: {
+    loadData() {
+      if(this.currentUser.role_id == 1){
+        Promise.all([
+          DashboardService.getAgentNotVerified(),
+          DashboardService.indexGuide(),
+          DashboardService.indexOrder()
+        ]).then((response) => {
+          const [agent, guide, order] = response
+          if(agent.data.data){
+            this.getAgentNotVerifiedData = agent.data.data
+          }
+          if(guide.data.data){
+            this.indexGuideData = guide.data.data
+          }
+          if(order.data.data){
+            this.indexOrderData = order.data.data
+          }
+        })
+      }else if(this.currentUser.role_id == 2){
+        Promise.all([
+          DashboardService.getGuideNotVerified(),
+          DashboardService.indexTourAgent(),
+          DashboardService.getUnverifiedByIdAgent()
+        ]).then((response) => {
+          const [guide, tourpackage, order] = response
+          if(guide.data.data){
+            this.getGuideNotVerifiedData = guide.data.data
+          }
+          if(tourpackage.data.data){
+            this.indexTourAgentData = tourpackage.data.data
+          }
+          if(order.data.data){
+            this.getUnverifiedByIdAgentData = order.data.data
+          }
+        })
+      }else if(this.currentUser.role_id == 3){
+        Promise.all([
+          DashboardService.getAllByIdGuideChoosen(),
+          DashboardService.getAllByIdGuideWaiting(),
+        ]).then((response) => {
+          const [choosen, waiting] = response
+          if(choosen.data.data){
+            this.getAllByIdGuideChoosenData = choosen.data.data
+          }
+          if(waiting.data.data){
+            this.getAllByIdGuideWaitingData = waiting.data.data
+          }
+        })
+      }
+    },
+  }
 };
 </script>
 
-<style>
-
-</style>
+<style></style>

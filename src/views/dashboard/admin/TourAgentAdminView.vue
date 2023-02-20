@@ -4,7 +4,40 @@
             <h5 class="m-0 font-weight-bold color-main">Manage Tour Agents</h5>
         </div>
         <div class="card-body">
-            <div class="table-responsive">
+            <EasyDataTable
+                show-index
+                alternating
+                :headers="headers" 
+                :items="agents"
+                :theme-color="themeColor"
+                buttons-pagination
+                :loading="statusLoad"
+                >
+                <template #loading>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div class="loader">
+                            <div class="box"></div>
+                            <div class="box"></div>
+                            <div class="box"></div>
+                            <div class="box"></div>
+                            <div class="box"></div>
+                        </div>
+                    </div>
+                </template>
+                <template #item-action="item">
+                    <div class="operation-wrapper" style="min-width: 100px;">
+                        <div class="d-flex justify-content-evenly align-items-center align-middle pr-2 pt-2 pb-2">
+                            <button class="btn btn-success" @click="verify(item.id_tour_agents,item.verified)">
+                                <font-awesome-icon icon="pencil" />
+                            </button>
+                            <button class="btn btn-danger" @click="deleteData(item.id_tour_agents)">
+                                <font-awesome-icon icon="trash" />
+                            </button>
+                        </div>
+                    </div>
+                </template>
+            </EasyDataTable>
+            <!-- <div class="table-responsive">
                 <table class="table table-bordered table-condensed table-striped" id="dataTable" width="100%"
                     cellspacing="0">
                     <thead>
@@ -48,7 +81,7 @@
                         </tr>
                     </tfoot>
                 </table>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
@@ -61,7 +94,20 @@ export default {
 
     },
     data() {
+        const themeColor = "#184fa7";
+        const headers = [
+            { text: "Tour Agent Name", value: "agent_name" },
+            { text: "Description", value: "description" },
+            { text: "Email", value: "email" },
+            { text: "Phone", value: "phone" },
+            { text: "Address", value: "address" },
+            { text: "Status", value: "verified" },
+            { text: "Action", value: "action" },
+        ];
         return {
+            themeColor,
+            headers,
+            statusLoad: false,
             successful: false,
             loading: false,
             message: "",
@@ -158,11 +204,14 @@ export default {
             })
         },
         loadTourAgent(){
+            this.statusLoad=true
             TourAgentService.getAll().then(
                 (response) => {
                     this.agents = response.data.data
+                    this.statusLoad=false
                 },
                 (error) => {
+                    this.statusLoad=false
                     this.content =
                         (error.response &&
                             error.response.data &&

@@ -10,281 +10,313 @@
             </div>
         </div>
         <div v-else>
-    <section class="bg-light">
-        <div class="text-center pt-4 pb-2">
-            <h2 class="color-main">Package Detail</h2>
-            <p class="lead text-muted">See what this tour package offers.</p>
-        </div>
-    </section>
-    <section class="p-4">
-        <div class="row">
-            <div class="col">
-                <nav aria-label="breadcrumb" class="bg-light rounded-3 p-4">
-                    <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item">
-                            <router-link to="/">
-                                <strong>Home</strong>
-                            </router-link>
-                        </li>
-                        <li class="breadcrumb-item">
-                            <router-link to="/packages">
-                                <strong>Tour Package</strong>
-                            </router-link>
-                        </li>
-                        <li class="breadcrumb-item active" aria-current="page">
-                            <strong>Package Detail</strong>
-                        </li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-        <div class="row" v-if="tourpackages">
-            <div class="col-md-8 mt-4">
-                <div class="card shadow border-0">
-                    <div class="card-body p-4">
-                        <div class="col-md-12">
-                            <img v-if="tourpackages.cover_image != null" :src="tourpackages.cover_image" alt="" class="card-img-top img">
-                            <img v-else src="../../assets/image/home/image_placeholder.png" alt="" class="card-img-top img">
-                        </div>
-                        <div class="col-md-12 mt-4">
-                            <h3 class="mb-2 color-main">{{ tourpackages.package_name }}</h3>
-                            <h5 class="mb-2">{{ tourpackages.tour_agent.agent_name }}</h5>
-                            <div class="btn btn-primary color-main-background" style="border-radius: 10px">{{
-                                    tourpackages.package_category.category
-                            }}</div>
-                            <div class="btn btn-primary color-main-background m-2" style="border-radius: 10px">
-                                <span v-if="tourpackages.rating">
-                                    <font-awesome-icon icon="star" /> {{ tourpackages.rating }}
-                                </span>
-                                <span v-else>
-                                    <font-awesome-icon icon="star" /> No rating yet
-                                </span>
-                            </div>
-                            <h6 class="mt-4">Description</h6>
-                            <hr class="hr" />
-                            <p>{{ tourpackages.description }}</p>
-                        </div>
-                        <div class="accordion" id="accordionDetail">
-                            <div v-if="tourpackagesdetails" class="mb-4">
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="headingDetail">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDetail"
-                                            aria-expanded="true" aria-controls="collapseDetail">
-                                            <strong>Tour Details</strong>
-                                        </button>
-                                    </h2>
-                                    <div id="collapseDetail" class="accordion-collapse collapse" aria-labelledby="headingOne"
-                                        data-bs-parent="#accordionDetail">
-                                        <div class="accordion-body">
-                                            <div class="main-timeline-2">
-                                                <div v-for="(detail, index) in tourpackagesdetails" :key="index">
-                                                    <div class="timeline-2 left-2" v-if="index % 2 == 0">
-                                                        <div class="card">
-                                                            <img v-if="detail.image_package_detail" :src="detail.image_package_detail" class="card-img-top img2" alt="">
-                                                            <img v-else src="../../assets/image/home/image_placeholder.png" class="card-img-top img2" alt="">
-                                                            <div class="card-body p-4">
-                                                                <h4 class="fw-bold">
-                                                                    {{ detail.tourist_destination.name }}</h4>
-                                                                <p class="text-muted">Day {{ detail.day }} | Duration {{
-                                                                        detail.duration
-                                                                }}</p>
-                                                                <h6 class="mt-4">Facility</h6>
-                                                                <hr class="hr" />
-                                                                <div v-for="(facility, index2) in detail.package_facilities"
-                                                                    :key="index2">
-                                                                    <p>- {{ facility.facilities }}</p>
-                                                                </div>
-                                                                <h6 class="mt-4">Activity</h6>
-                                                                <hr class="hr" />
-                                                                <div v-for="(act, index2) in detail.tour_activity"
-                                                                    :key="index2">
-                                                                    <p>- {{ act.activity }} |
-                                                                        {{ act.start_time }}-{{ act.end_time }}</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="timeline-2 right-2" v-else>
-                                                        <div class="card">
-                                                            <img v-if="detail.image_package_detail" :src="detail.image_package_detail" class="card-img-top img2" alt="">
-                                                            <img v-else src="../../assets/image/home/image_placeholder.png" class="card-img-top img2" alt="">
-                                                            <div class="card-body p-4">
-                                                                <h4 class="fw-bold">
-                                                                    {{ detail.tourist_destination.name }}</h4>
-                                                                <p class="text-muted">Day {{ detail.day }} | Duration {{
-                                                                        detail.duration
-                                                                }}</p>
-                                                                <h6 class="mt-4">Facility</h6>
-                                                                <hr class="hr" />
-                                                                <div v-for="(facility, index2) in detail.package_facilities"
-                                                                    :key="index2">
-                                                                    <p>- {{ facility.facilities }}</p>
-                                                                </div>
-                                                                <h6 class="mt-4">Activity</h6>
-                                                                <hr class="hr" />
-                                                                <div v-for="(act, index2) in detail.tour_activity"
-                                                                    :key="index2">
-                                                                    <p>- {{ act.activity }} |
-                                                                        {{ act.start_time }}-{{ act.end_time }}</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+            <section id="common_banner">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="common_bannner_text">
+                                <h2>Package Detail</h2>
+                                <p class="text-white">See tour packages details.</p>
+                                <ul>
+                                    <li><router-link to="/">Home</router-link></li>
+                                    <li><span><font-awesome-icon icon="circle" /></span><router-link to="/packages">Tour
+                                            Destination</router-link></li>
+                                    <li><span><font-awesome-icon icon="circle" /></span>Package Detail</li>
+                                </ul>
                             </div>
                         </div>
-                        <div>
-                            <div class="mt-4">
-                                <h6 class="mt-4">Package Pricing</h6>
-                                <hr class="hr" />
-                                <div class="card card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered table-condensed table-striped" id="dataTable" width="100%" cellspacing="0">
-                                            <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Pax Total</th>
-                                                    <th>Transportation</th>
-                                                    <th>Price</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr v-for="(price, index) in tourpackages.package_price" :key="index">
-                                                    <td>{{ index + 1 }}</td>
-                                                    <td>{{ price.pax_total }}</td>
-                                                    <td>{{ price.transportation }}</td>
-                                                    <td>Rp. {{ price.price }}</td>
-                                                </tr>
-                                            </tbody>
-                                            <tfoot v-if="!tourpackages.package_price || !tourpackages.package_price.length">
-                                                <tr>
-                                                    <td colspan="4" class="text-center">Empty Data.</td>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <h6 class="mt-4">Terms and Conditions</h6>
-                        <hr class="hr" />
-                        <p>{{ tourpackages.terms }}</p>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4 mt-4">
-                <div class="card shadow border-0">
-                    <div class="card-body">
-                        <h4 class="mb-2 color-main">Order Detail</h4>
-                        <Form @submit="addTransaction" :validation-schema="schemaTransaction">
-                            <p>Fill the form down below to add new tour package activity.</p>
-                            <div>
-                                <div class="form-outline mb-4">
-                                    <label for="id_package_prices">Choose Your Pax Price</label>
-                                    <Field name="id_package_prices" as="select" class="form-select" v-model="id_package_prices" @change="getPrice">
-                                        <option disabled selected value>-Pax-</option>
-                                        <option v-for="(price, index) in tourpackages.package_price" :key="index"
-                                            :value="price.id_package_prices">
-                                            {{ price.pax_total }} Person (Rp. {{ price.price }})
-                                        </option>
-                                    </Field>
+            </section>
+            <section class="container p-4">
+                <div class="row" v-if="tourpackages">
+                    <div class="col-md-8 mt-4">
+                        <div class="card shadow border-0">
+                            <div class="card-body p-4">
+                                <div class="col-md-12">
+                                    <img v-if="tourpackages.cover_image != null" :src="tourpackages.cover_image" alt=""
+                                        class="card-img-top img">
+                                    <img v-else src="../../assets/img/home/image_placeholder.png" alt=""
+                                        class="card-img-top img">
                                 </div>
-                                <div class="form-outline mb-4">
-                                    <label for="order_date">Date</label>
-                                    <Field name="order_date" type="date" :min=mindate id="datefield" class="form-control" />
-                                    <ErrorMessage name="order_date" class="error-feedback" />
+                                <div class="col-md-12 mt-4">
+                                    <h2 class="mb-2 color-main">{{ tourpackages.package_name }}</h2>
+                                    <h5 class="mb-2">{{ tourpackages.tour_agent.agent_name }}</h5>
+                                    <div class="btn btn_theme" style="border-radius: 10px">{{
+                                        tourpackages.package_category.category
+                                    }}</div>
+                                    <div class="btn btn_theme m-2" style="border-radius: 10px">
+                                        <span v-if="tourpackages.rating">
+                                            <font-awesome-icon icon="star" /> {{ tourpackages.rating }}
+                                        </span>
+                                        <span v-else>
+                                            <font-awesome-icon icon="star" /> No rating yet
+                                        </span>
+                                    </div>
+                                    <h4 class="mt-4">Description</h4>
+                                    <hr class="hr" />
+                                    <p>{{ tourpackages.description }}</p>
                                 </div>
-                                <div class="form-outline mb-4">
-                                    <label for="note">Order Note</label>
-                                    <Field as="textarea" name="note" type="text" class="form-control" />
-                                    <ErrorMessage name="note" class="error-feedback" />
-                                </div>
-                                <div class="accordion">
-                                    <div v-if="fees.length" class="mb-4">
+                                <div class="accordion mt-3" id="accordionDetail">
+                                    <div v-if="tourpackagesdetails" class="mb-4">
                                         <div class="accordion-item">
-                                            <h2 class="accordion-header" id="headingPickup">
-                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#collapsePickup" aria-expanded="true"
-                                                    aria-controls="collapsePickup">
-                                                    Custom Pickup Location (Incur Additional Fee)
+                                            <h2 class="accordion-header" id="headingDetail">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#collapseDetail"
+                                                    aria-expanded="true" aria-controls="collapseDetail">
+                                                    <strong>Tour Details</strong>
                                                 </button>
                                             </h2>
-                                            <div id="collapsePickup" class="accordion-collapse collapse" aria-labelledby="headingPickup">
+                                            <div id="collapseDetail" class="accordion-collapse collapse"
+                                                aria-labelledby="headingOne" data-bs-parent="#accordionDetail">
                                                 <div class="accordion-body">
-                                                    <div class="form-outline mb-4">
-                                                        <label for="location">Location</label>
-                                                        <Field as="textarea" name="location" type="text" class="form-control" />
-                                                        <ErrorMessage name="location" class="error-feedback" />
-                                                    </div>
-                                                    <div class="form-outline" id="form_custom">
-                                                        <GMapMap :center="center" :zoom="2" map-type-id="terrain" style="width: 100%; height: 500px" @click="mark">
-                                                            <GMapMarker :key="index" v-for="(m, index) in markers" :position="m.position" :clickable="true"
-                                                                :draggable="true" @click="center = m.position" />
-                                                        </GMapMap>
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <div class="form-outline mb-4">
-                                                                    <label for="latitude">Latitude</label>
-                                                                    <Field name="latitude" id="latIn" type="text" class="form-control" v-model="lat" disabled />
-                                                                    <ErrorMessage name="latitude" class="error-feedback" />
+                                                    <div class="main-timeline-2">
+                                                        <div v-for="(detail, index) in tourpackagesdetails"
+                                                            :key="index">
+                                                            <div class="timeline-2 left-2" v-if="index % 2 == 0">
+                                                                <div class="card">
+                                                                    <img v-if="detail.image_package_detail"
+                                                                        :src="detail.image_package_detail"
+                                                                        class="card-img-top img2" alt="">
+                                                                    <img v-else
+                                                                        src="../../assets/img/home/image_placeholder.png"
+                                                                        class="card-img-top img2" alt="">
+                                                                    <div class="card-body p-4">
+                                                                        <h4 class="fw-bold">
+                                                                            {{ detail.tourist_destination.name }}</h4>
+                                                                        <p class="text-muted">Day {{ detail.day }} |
+                                                                            Duration {{
+                                                                                detail.duration
+                                                                            }}</p>
+                                                                        <h4 class="mt-4">Facility</h4>
+                                                                        <hr class="hr" />
+                                                                        <div v-for="(facility, index2) in detail.package_facilities"
+                                                                            :key="index2">
+                                                                            <p>- {{ facility.facilities }}</p>
+                                                                        </div>
+                                                                        <h4 class="mt-4">Activity</h4>
+                                                                        <hr class="hr" />
+                                                                        <div v-for="(act, index2) in detail.tour_activity"
+                                                                            :key="index2">
+                                                                            <p>- {{ act.activity }} |
+                                                                                {{ act.start_time }}-{{ act.end_time }}
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-outline mb-4">
-                                                                    <label for="longitude">Longitude</label>
-                                                                    <Field name="longitude" id="longIn" type="text" class="form-control" v-model="long" disabled />
-                                                                    <ErrorMessage name="longitude" class="error-feedback" />
+                                                            <div class="timeline-2 right-2" v-else>
+                                                                <div class="card">
+                                                                    <img v-if="detail.image_package_detail"
+                                                                        :src="detail.image_package_detail"
+                                                                        class="card-img-top img2" alt="">
+                                                                    <img v-else
+                                                                        src="../../assets/img/home/image_placeholder.png"
+                                                                        class="card-img-top img2" alt="">
+                                                                    <div class="card-body p-4">
+                                                                        <h4 class="fw-bold">
+                                                                            {{ detail.tourist_destination.name }}</h4>
+                                                                        <p class="text-muted">Day {{ detail.day }} |
+                                                                            Duration {{
+                                                                                detail.duration
+                                                                            }}</p>
+                                                                        <h4 class="mt-4">Facility</h4>
+                                                                        <hr class="hr" />
+                                                                        <div v-for="(facility, index2) in detail.package_facilities"
+                                                                            :key="index2">
+                                                                            <p>- {{ facility.facilities }}</p>
+                                                                        </div>
+                                                                        <h4 class="mt-4">Activity</h4>
+                                                                        <hr class="hr" />
+                                                                        <div v-for="(act, index2) in detail.tour_activity"
+                                                                            :key="index2">
+                                                                            <p>- {{ act.activity }} |
+                                                                                {{ act.start_time }}-{{ act.end_time }}
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <a class="btn btn-primary btn-block color-main-background" @click="clearLatLong">Clear Custom Pickup Location</a>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <strong>Summary</strong>
+                                <div>
+                                    <div class="mt-4">
+                                        <h4 class="mt-4">Package Pricing</h4>
+                                        <hr class="hr" />
+                                        <div class="card card-body">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-condensed table-striped"
+                                                    id="dataTable" width="100%" cellspacing="0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Pax Total</th>
+                                                            <th>Transportation</th>
+                                                            <th>Price</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr v-for="(price, index) in tourpackages.package_price"
+                                                            :key="index">
+                                                            <td>{{ index + 1 }}</td>
+                                                            <td>{{ price.pax_total }}</td>
+                                                            <td>{{ price.transportation }}</td>
+                                                            <td>{{ $filters.formatPrice(price.price) }}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tfoot
+                                                        v-if="!tourpackages.package_price || !tourpackages.package_price.length">
+                                                        <tr>
+                                                            <td colspan="4" class="text-center">Empty Data.</td>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h4 class="mt-4">Terms and Conditions</h4>
                                 <hr class="hr" />
-                                <p>Package price: Rp. <span v-if="initial">{{ initial }}</span><span v-else>0</span></p>
-                                <p>Additional fee: Rp. <span v-if="addFee">{{ addFee }}</span><span v-else>0</span></p>
-                                <div v-if="distances">
-                                    <p v-for="(distance, index) in distances" :key="index">- Day {{index+1}}: {{distance}} Km.</p>
-                                </div>
-                                <hr class="hr" />
-                                <p>Total price: Rp. <span v-if="total">{{ total }}</span><span v-else>0</span></p>
-                                <div class="form-outline mb-4" v-if="methods || methods.length">
-                                    <label for="id_payment_method_details">Choose Your Payment Methods</label>
-                                    <Field name="id_payment_method_details" as="select" class="form-select">
-                                        <option disabled selected value>-Payment Methods-</option>
-                                        <option v-for="(method, index) in methods" :key="index"
-                                            :value="method.id_payment_method_details">
-                                            {{ method.payment_method.method }} ({{method.payment_number}})
-                                        </option>
-                                    </Field>
-                                </div>
-                                <div class="form-group mt-4">
-                                    <button class="btn btn-primary btn-block color-main-background" :disabled="loading">
-                                        <span v-show="loading" class="spinner-border spinner-border-sm"></span>
-                                        <font-awesome-icon icon="credit-card" /><span> Order Now</span>
-                                    </button>
-                                </div>
+                                <p>{{ tourpackages.terms }}</p>
                             </div>
-                            <div v-if="message" class="alert mt-2"
-                                :class="successful ? 'alert-success' : 'alert-danger'">
-                                {{ message }}
+                        </div>
+                    </div>
+                    <div class="col-md-4 mt-4">
+                        <div class="card shadow border-0">
+                            <div class="dashboard_common_table">
+                                <h3 class="mb-2">Order Form</h3>
+                                <Form @submit="addTransaction" :validation-schema="schemaTransaction">
+                                    <p>Fill the form down below to add new tour package activity.</p>
+                                    <div>
+                                        <div class="form-outline mb-4">
+                                            <label for="id_package_prices">Choose Your Pax Price</label>
+                                            <Field name="id_package_prices" as="select" class="form-select"
+                                                v-model="id_package_prices" @change="getPrice">
+                                                <option disabled selected value>-Pax-</option>
+                                                <option v-for="(price, index) in tourpackages.package_price"
+                                                    :key="index" :value="price.id_package_prices">
+                                                    {{ price.pax_total }} Person ({{ $filters.formatPrice(price.price) }})
+                                                </option>
+                                            </Field>
+                                        </div>
+                                        <div class="form-outline mb-4">
+                                            <label for="order_date">Date</label>
+                                            <Field name="order_date" type="date" :min=mindate id="datefield"
+                                                class="form-control" />
+                                            <ErrorMessage name="order_date" class="error-feedback" />
+                                        </div>
+                                        <div class="form-outline mb-4">
+                                            <label for="note">Order Note</label>
+                                            <Field as="textarea" name="note" type="text" class="form-control" />
+                                            <ErrorMessage name="note" class="error-feedback" />
+                                        </div>
+                                        <div class="accordion">
+                                            <div v-if="fees.length" class="mb-4">
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header" id="headingPickup">
+                                                        <button class="accordion-button collapsed" type="button"
+                                                            data-bs-toggle="collapse" data-bs-target="#collapsePickup"
+                                                            aria-expanded="true" aria-controls="collapsePickup">
+                                                            Custom Pickup Location
+                                                        </button>
+                                                    </h2>
+                                                    <div id="collapsePickup" class="accordion-collapse collapse"
+                                                        aria-labelledby="headingPickup">
+                                                        <div class="accordion-body">
+                                                            <div class="form-outline mb-4">
+                                                                <label for="location">Location</label>
+                                                                <Field as="textarea" name="location" type="text"
+                                                                    class="form-control" />
+                                                                <ErrorMessage name="location" class="error-feedback" />
+                                                            </div>
+                                                            <div class="form-outline" id="form_custom">
+                                                                <GMapMap :center="center" :zoom="2"
+                                                                    map-type-id="terrain"
+                                                                    style="width: 100%; height: 300px" @click="mark">
+                                                                    <GMapMarker :key="index"
+                                                                        v-for="(m, index) in markers"
+                                                                        :position="m.position" :clickable="true"
+                                                                        :draggable="true"
+                                                                        @click="center = m.position" />
+                                                                </GMapMap>
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-outline mb-4">
+                                                                            <label for="latitude">Latitude</label>
+                                                                            <Field name="latitude" id="latIn"
+                                                                                type="text" class="form-control"
+                                                                                v-model="lat" disabled />
+                                                                            <ErrorMessage name="latitude"
+                                                                                class="error-feedback" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-outline mb-4">
+                                                                            <label for="longitude">Longitude</label>
+                                                                            <Field name="longitude" id="longIn"
+                                                                                type="text" class="form-control"
+                                                                                v-model="long" disabled />
+                                                                            <ErrorMessage name="longitude"
+                                                                                class="error-feedback" />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <a class="btn btn-primary btn-block"
+                                                                    @click="clearLatLong">Clear Custom Pickup
+                                                                    Location</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h3 class="mb-3">Summary</h3>
+                                        <p>Package price: <span v-if="initial">{{ $filters.formatPrice(initial) }}</span><span
+                                                v-else>0</span></p>
+                                        <p>Additional fee: <span v-if="addFee">{{ $filters.formatPrice(addFee) }}</span><span
+                                                v-else>0</span></p>
+                                        <div v-if="distances">
+                                            <p v-for="(distance, index) in distances" :key="index">- Day {{ index+ 1}}:
+                                                {{ distance }} Km.</p>
+                                        </div>
+                                        <hr class="hr" />
+                                        <h4 class="mb-4">Total price: <span v-if="total">{{ $filters.formatPrice(total) }}</span><span v-else>0</span>
+                                        </h4>
+                                        <div class="form-outline mb-4" v-if="methods || methods.length">
+                                            <label for="id_payment_method_details">Choose Your Payment Methods</label>
+                                            <Field name="id_payment_method_details" as="select" class="form-select">
+                                                <option disabled selected value>-Payment Methods-</option>
+                                                <option v-for="(method, index) in methods" :key="index"
+                                                    :value="method.id_payment_method_details">
+                                                    {{ method.payment_method.method }} ({{ method.payment_number }})
+                                                </option>
+                                            </Field>
+                                        </div>
+                                        <div class="form-group mt-4">
+                                            <button class="btn btn_theme btn-lg btn-block"
+                                                :disabled="loading">
+                                                <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+                                                <font-awesome-icon icon="credit-card" /><span> Order Now</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div v-if="message" class="alert mt-2"
+                                        :class="successful ? 'alert-success' : 'alert-danger'">
+                                        {{ message }}
+                                    </div>
+                                </Form>
                             </div>
-                        </Form>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </section>
         </div>
-    </section>
-    </div></Transition>
+    </Transition>
 </template>
 
 <script>
@@ -376,10 +408,10 @@ export default {
                 this.long = position.coords.longitude
             });
         },
-        setMinDate(){
+        setMinDate() {
             var today = new Date();
-            var dd = today.getDate()+8;
-            var mm = today.getMonth()+1;
+            var dd = today.getDate() + 8;
+            var mm = today.getMonth() + 1;
             var yyyy = today.getFullYear();
 
             if (dd < 10) {
@@ -401,11 +433,11 @@ export default {
                 }
             });
         },
-        clearLatLong(){
+        clearLatLong() {
             this.lat = null
             this.long = null
-            this.addFee= 0
-            this.distances= []
+            this.addFee = 0
+            this.distances = []
             this.total = this.initial
         },
         // async fetchDistanceAPI(lat, long, lat1, long1) {
@@ -463,69 +495,69 @@ export default {
                 ];
                 this.distances.push(HaversineGeolocation.getDistanceBetween(points[0], points[1]))
             });
-            this.addFee=0
+            this.addFee = 0
             this.distances.forEach(distance => {
                 var currentPrice = 0
                 this.fees.forEach(fee => {
-                    if(distance<fee.distance){
+                    if (distance < fee.distance) {
                         this.continue
-                    }else if(distance>=fee.distance){
-                        currentPrice=fee.fee
+                    } else if (distance >= fee.distance) {
+                        currentPrice = fee.fee
                     }
                 });
-                this.addFee=this.addFee+currentPrice
+                this.addFee = this.addFee + currentPrice
             });
-            this.total=this.addFee+this.initial
+            this.total = this.addFee + this.initial
         },
-        addTransaction(schemaTransaction){
-            if (this.currentUser.role_id == 4 & this.total!=0) {
-                this.message = "";
-                this.successful = false;
-                this.loading = true;
-
-                OrderService.store(schemaTransaction, this.addFee, this.total).then(
-                    () => {
-                    this.message = "New order successfully placed.";
-                    this.successful = true;
-                    this.loading = false;
-                    this.$swal.fire(
-                        'Success!',
-                        'New order successfully placed.',
-                        'success'
-                    )
-                    this.$router.push("/transactions")
-                    },
-                    (error) => {
-                    this.message =
-                        (error.response &&
-                        error.response.data &&
-                        error.response.data.message) ||
-                        error.message ||
-                        error.toString();
-                    this.successful = false;
-                    this.loading = false;
-                    this.$swal.fire(
-                        'Fail!',
-                        'Order is not placed.',
-                        'error'
-                    )
-                    }
-                );
-            }else if(this.currentUser.role_id != 4){
-                this.$swal.fire(
-                    'Action Aborted!',
-                    'You are not a customer.',
-                    'error'
-                )
-            }else if(!this.currentUser){
+        addTransaction(schemaTransaction) {
+            if (!this.currentUser) {
                 this.$swal.fire(
                     'Action Aborted!',
                     'You are not logged in.',
                     'error'
                 )
                 this.$router.push("/login");
+            } else if (this.currentUser.role_id != 4) {
+                this.$swal.fire(
+                    'Action Aborted!',
+                    'You are not a customer.',
+                    'error'
+                )
+            } else if (this.currentUser != null && this.currentUser.role_id == 4 && this.total != 0) {
+                this.message = "";
+                this.successful = false;
+                this.loading = true;
+
+                OrderService.store(schemaTransaction, this.addFee, this.total).then(
+                    () => {
+                        this.message = "New order successfully placed.";
+                        this.successful = true;
+                        this.loading = false;
+                        this.$swal.fire(
+                            'Success!',
+                            'New order successfully placed.',
+                            'success'
+                        )
+                        this.$router.push("/transactions")
+                    },
+                    (error) => {
+                        this.message =
+                            (error.response &&
+                                error.response.data &&
+                                error.response.data.message) ||
+                            error.message ||
+                            error.toString();
+                        this.successful = false;
+                        this.loading = false;
+                        this.$swal.fire(
+                            'Fail!',
+                            'Order is not placed.',
+                            'error'
+                        )
+                    }
+                );
             }
- 
+
         },
         loadPackageId() {
             TourPackageService.getByIdDetail(this.$route.params.id_tour_packages).then(
@@ -536,7 +568,7 @@ export default {
                         (response) => {
                             this.fees = response.data.pickup_fee
                             this.statusFee = true
-                            if(this.statusFee && this.statusMethod){
+                            if (this.statusFee && this.statusMethod) {
                                 this.statusLoad = true
                             }
                         },
@@ -553,7 +585,7 @@ export default {
                         (response) => {
                             this.methods = response.data
                             this.statusMethod = true
-                            if(this.statusFee && this.statusMethod){
+                            if (this.statusFee && this.statusMethod) {
                                 this.statusLoad = true
                             }
                         },

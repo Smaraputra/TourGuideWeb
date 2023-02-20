@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import MainView from "../views/MainView.vue";
 import HomeView from "../views/landing/HomeView.vue";
+import AboutView from "../views/landing/AboutView.vue";
 import DestinationsView from "../views/landing/DestinationsView.vue";
 import DestinationDetailView from "../views/landing/DestinationsDetailView.vue";
 import TourPackageView from "../views/landing/TourPackagesView.vue";
@@ -27,6 +28,7 @@ import PaymentMethodsUpdateAdminView from "../views/dashboard/admin/PaymentMetho
 import TourAgentAdminView from "../views/dashboard/admin/TourAgentAdminView.vue";
 import TourDestinationRequestAdminView from "../views/dashboard/admin/TourDestinationRequestAdminView.vue";
 
+import TourAgentProfileAgentView from "../views/dashboard/touragent/TourAgentProfileAgentView.vue";
 import TourDestinationRequestAgentView from "../views/dashboard/touragent/TourDestinationRequestAgentView.vue";
 import TourPackageAgentView from "../views/dashboard/touragent/TourPackageAgentView.vue";
 import TourPackageDetailPriceAgentView from "../views/dashboard/touragent/TourPackageDetailPriceAgentView.vue";
@@ -55,6 +57,11 @@ const routes = [
         path: "",
         name: "home",
         component: HomeView,
+      },
+      {
+        path: "about",
+        name: "about",
+        component: AboutView,
       },
       {
         path: "destinations",
@@ -118,6 +125,8 @@ const routes = [
     component: DashboardMainView,
     name: "dashboard-main",
     children: [
+
+      //Admin
       {
         path: "",
         name: "dashboard",
@@ -165,6 +174,12 @@ const routes = [
         component: TourDestinationRequestAdminView,
       },
 
+      //Tour Agent
+      {
+        path: "tour-agent-profile",
+        name: "tour-agent-profile",
+        component: TourAgentProfileAgentView,
+      },
       {
         path: "tour-destination-request",
         name: "tour-destination-request",
@@ -231,6 +246,7 @@ const routes = [
         component: PaymentMethodDetailsUpdateAgentView,
       },
 
+      //Tour Guide
       {
         path: "job-offer",
         name: "job-offer",
@@ -255,13 +271,23 @@ const routes = [
   },
 ];
 
+const scrollBehavior = (to, from, savedPosition) => {
+  return savedPosition || to.meta?.scrollPos || { top: 0, left: 0 }
+}
+
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(),
   routes,
-  scrollBehavior() {
-    document.getElementById("app").scrollIntoView({ behavior: "smooth" });
-  },
+  scrollBehavior,
   linkExactActiveClass: "active",
-});
+})
+
+router.beforeEach((to, from, next) => {
+  console.log('window.scrollY:', window.scrollY)
+  from.meta?.scrollPos && (from.meta.scrollPos.top = window.scrollY)
+  console.log('from:\t', from.name, '\t', from.meta?.scrollPos)
+  console.log('to:\t\t', to.name, '\t', to.meta?.scrollPos)
+  return next()
+})
 
 export default router;

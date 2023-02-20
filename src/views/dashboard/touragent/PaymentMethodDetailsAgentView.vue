@@ -6,7 +6,42 @@
                     <h5 class="m-0 font-weight-bold color-main">Manage Payment Method Details</h5>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
+                    <EasyDataTable
+                        show-index
+                        alternating
+                        :headers="headers" 
+                        :items="details"
+                        :theme-color="themeColor"
+                        buttons-pagination
+                        :loading="statusLoad"
+                        >
+                        <template #loading>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <div class="loader">
+                                    <div class="box"></div>
+                                    <div class="box"></div>
+                                    <div class="box"></div>
+                                    <div class="box"></div>
+                                    <div class="box"></div>
+                                </div>
+                            </div>
+                        </template>
+                        <template #item-action="item">
+                            <div class="operation-wrapper" style="min-width: 100px;">
+                                <div class="d-flex justify-content-evenly align-items-center align-middle pr-2 pt-2 pb-2">
+                                    <router-link class="btn btn-success"
+                                        :to="{ name: 'payment-detail-detail', params: { id_payment_method_details: item.id_payment_method_details }}">
+                                        <font-awesome-icon icon="pencil" />
+                                    </router-link>
+                                    <button class="btn btn-danger"
+                                        @click="deleteData(item.id_payment_method_details)">
+                                        <font-awesome-icon icon="trash" />
+                                    </button>
+                                </div>
+                            </div>
+                        </template>
+                    </EasyDataTable>
+                    <!-- <div class="table-responsive">
                         <table class="table table-bordered table-condensed table-striped" id="dataTable" width="100%"
                             cellspacing="0">
                             <thead>
@@ -45,7 +80,7 @@
                                 </tr>
                             </tfoot>
                         </table>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -79,7 +114,7 @@
                                 <ErrorMessage name="description" class="error-feedback" />
                             </div>
                             <div class="form-group">
-                                <button class="btn btn-primary btn-block color-main-background" :disabled="loading">
+                                <button class="btn btn_theme btn-block" :disabled="loading">
                                     <span v-show="loading" class="spinner-border spinner-border-sm"></span>
                                     <font-awesome-icon icon="plus" /><span> Add New</span>
                                 </button>
@@ -124,7 +159,18 @@ export default {
                 .max(1024, "Must be maximum 1024 characters!"),
         });
 
+        const themeColor = "#184fa7";
+        const headers = [
+            { text: "Payment Methods", value: "payment_method.method" },
+            { text: "Payment Number/ID", value: "payment_number" },
+            { text: "Description", value: "description" },
+            { text: "Action", value: "action" },
+        ];
+
         return {
+            themeColor,
+            headers,
+            statusLoad: false,
             details: [],
             methods: [],
             successful: false,
@@ -218,11 +264,14 @@ export default {
             );
         },
         loadPaymentMethodDetail() {
+            this.statusLoad = true
             PaymentMethodDetailsService.indexTourAgent().then(
                 (response) => {
                     this.details = response.data.data
+                    this.statusLoad = false
                 },
                 (error) => {
+                    this.statusLoad = false
                     this.content =
                         (error.response &&
                             error.response.data &&

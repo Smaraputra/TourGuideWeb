@@ -10,39 +10,32 @@
       </div>
     </div>
     <div v-else>
-      <section class="bg-light">
-        <div class="text-center pt-4 pb-2">
-          <h2 class="color-main">Tour Packages</h2>
-          <p class="lead text-muted">See all our tour packages.</p>
-        </div>
-      </section>
-      <section class="p-4">
-        <div class="row">
-          <div class="col">
-            <nav aria-label="breadcrumb" class="bg-light rounded-3 p-4">
-              <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item">
-                  <router-link to="/">
-                    <strong>Home</strong>
-                  </router-link>
-                </li>
-                <li class="breadcrumb-item active" aria-current="page">
-                  <strong>Tour Package</strong>
-                </li>
-              </ol>
-            </nav>
+      <section id="common_banner">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="common_bannner_text">
+                <h2>Tour Packages</h2>
+                <p class="text-white">See our available tour packages.</p>
+                <ul>
+                  <li><router-link to="/">Home</router-link></li>
+                  <li><span><i class="fas fa-circle"></i></span>Tour Packages</li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
+      </section>
+      <section class="container p-4">
         <div class="row">
           <div class="col-md-3 mt-4">
             <div class="card shadow border-0">
-              <div class="card-body">
-                <h4 class="mb-4 color-main">Category</h4>
-                <hr>
+              <div class="dashboard_common_table">
+                <h3 class="mb-4">Categories</h3>
                 <div v-for="(category, index) in categories" :key="index" class="mb-2">
                   <input type="checkbox" class="btn-check w-100" autocomplete="off" :id=category.category
                     :value="category.id_package_categories" v-model="slt_categories" @change="searchFilter" />
-                  <label class="btn btn-outline-primary w-100" :for=category.category>{{ category.category }}</label>
+                  <label class="btn btn_theme_white w-100" :for=category.category>{{ category.category }}</label>
                 </div>
                 <!-- <h4 class="mb-4 color-main mt-4">Destinations</h4>
               <hr>
@@ -56,43 +49,45 @@
           </div>
           <div class="col-md-9 mt-4">
             <div class="card shadow border-0 h-100">
-              <div class="card-body">
-                <h4 class="mb-4 color-main">Packages</h4>
-                <hr>
+              <div class="dashboard_common_table">
+                <h3 class="mb-4">Packages</h3>
                 <div class="row">
                   <div class="col-md-12 mx-auto">
-                    <div class="input-group">
-                      <input class="form-control border-end-0 border" type="search" placeholder="Package name"
-                        id="example-search-input" v-model="package_name" @input="searchFilter">
-                      <span class="input-group-append">
-                        <button class="btn btn-primary border-start-0 border-bottom-0 border ms-n5" type="button"
-                          @click="searchFilter">
-                          <font-awesome-icon icon="search" />
+                    <form id="cta_form_wrappper" @submit.prevent="searchFilter()">
+                      <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Package name" v-model="package_name">
+                        <button
+                          class="btn btn_theme btn_md" type="submit">Search
                         </button>
-                      </span>
-                    </div>
+                      </div>
+                    </form>
                   </div>
                 </div>
                 <div v-if="packages || packages.length">
                   <div class="row mt-4">
-                    <div class="col-sm-12 col-md-4 mb-4" v-for="(pack, index) in packages" :key="index">
-                      <div class="card shadow border-0 h-100">
-                        <img v-if="pack.cover_image != null" :src="pack.cover_image" alt="" class="card-img-top imgTourPackage">
-                        <img v-else src="../../assets/image/home/image_placeholder.png" alt="" class="card-img-top imgTourPackage">
-                        <div class="card-body">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-12" v-for="(pack, index) in packages" :key="index">
+                      <div class="theme_common_box_two img_hover">
+                        <div class="theme_two_box_img">
+                          <router-link :to="{ name: 'packages-detail-see', params: { id_tour_packages: pack.id_tour_packages } }">
+                            <img v-if="pack.cover_image" :src="pack.cover_image" class="card-img-top rounded img" alt="">
+                            <img v-else src="../../assets/img/home/image_placeholder.png" class="card-img-top rounded img" alt="">
+                          </router-link>
+                          <p>{{ pack.tour_agent.agent_name }}</p>
+                        </div>
+                        <div class="theme_two_box_content">
                           <h5 class="text-dark">{{ pack.package_name }}</h5>
                           <span v-if="pack.rating">
                             <font-awesome-icon icon="star" /> {{ pack.rating }}
                           </span>
                           <span v-else>
-                            <font-awesome-icon icon="star" /> No rating yet
+                            <font-awesome-icon icon="star" /> No rating yet.
                           </span>
-                          <read-more class="text-muted card-text" :more-str="null" :text="pack.description" link="#" :less-str="null" :max-chars="250"></read-more>
-                          <router-link
+                          <read-more class="text-muted card-text" :more-str="null" :text="pack.description" link="#" :less-str="null"
+                            :max-chars="200">
+                          </read-more>
+                          <router-link class="btn btn_theme btn_md"
                             :to="{ name: 'packages-detail-see', params: { id_tour_packages: pack.id_tour_packages } }">
-                            <button class="btn btn-primary btn-block color-main-background">
-                              <font-awesome-icon icon="eye" /><span> See more</span>
-                            </button>
+                            <font-awesome-icon icon="eye" /><span> See more</span>
                           </router-link>
                         </div>
                       </div>

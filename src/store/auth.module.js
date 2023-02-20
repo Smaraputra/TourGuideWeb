@@ -21,6 +21,9 @@ export const auth = {
         }
       );
     },
+    updateData({ commit }, user) {
+      commit('loginSuccess', user);
+    },
     logout({ commit }) {
       AuthService.logout();
       commit('logout');
@@ -54,6 +57,7 @@ export const auth = {
     loginSuccess(state, user) {
       state.status.loggedIn = true;
       state.user = user;
+      console.log(state.user)
     },
     loginFailure(state) {
       state.status.loggedIn = false;
@@ -68,6 +72,12 @@ export const auth = {
     },
     registerFailure(state) {
       state.status.loggedIn = false;
+    }
+  },
+
+  getters: {
+    currentUser: state => {
+      return state.user;
     }
   }
 };

@@ -23,8 +23,9 @@
                         <h4 class="color-main" style="float: left;">Order Detail</h4>
                         <button v-if="transaction['order_status'] == 'Finished'" style="float: right;"
                             class="btn btn-success">{{ transaction['order_status'] }}</button>
-                        <button v-else-if="transaction['order_status'] == 'Cancelled' || transaction['order_status'] == 'Refused by Agent'" style="float: right;"
-                            class="btn btn-danger">{{ transaction['order_status'] }}</button>
+                        <button
+                            v-else-if="transaction['order_status'] == 'Cancelled' || transaction['order_status'] == 'Refused by Agent'"
+                            style="float: right;" class="btn btn-danger">{{ transaction['order_status'] }}</button>
                         <button v-else style="float: right;" class="btn btn-warning">{{ transaction['order_status']
                         }}</button>
                     </div>
@@ -39,7 +40,7 @@
                     <div class="form-outline mb-4">
                         <label for="id_package_prices">Pricing</label>
                         <Field name="id_package_prices" type="text" :value="transaction.package_price.transportation + ' ('
-                        + transaction.package_price.pax_total + ' Person)'" class="form-control" disabled />
+                            + transaction.package_price.pax_total + ' Person)'" class="form-control" disabled />
                         <ErrorMessage name="id_package_prices" class="error-feedback" />
                     </div>
                     <div class="form-outline mb-4">
@@ -73,9 +74,11 @@
                             class="form-control" disabled />
                         <ErrorMessage name="total_price" class="error-feedback" />
                     </div>
-                    <div class="form-outline mb-4" v-if="transaction['rating_package'] != null && transaction['rating_package'] > 0">
+                    <div class="form-outline mb-4"
+                        v-if="transaction['rating_package'] != null && transaction['rating_package'] > 0">
                         <label for="rating_package">Rating</label>
-                        <Field name="rating_package" type="text" class="form-control" :value="transaction['rating_package'] + ' Stars'" disabled/>
+                        <Field name="rating_package" type="text" class="form-control"
+                            :value="transaction['rating_package'] + ' Stars'" disabled />
                         <ErrorMessage name="rating_package" class="error-feedback" />
                     </div>
                 </div>
@@ -86,23 +89,25 @@
                 </div>
                 <div class="card-body p-4">
                     <div class="col-md-12" v-if="tourpackage">
-                        <h6>Description</h6>
+                        <h4 class="mt-4">Description</h4>
                         <p>{{ tourpackage.description }}</p>
-                        <h6>Terms and Conditions</h6>
+                        <h4 class="mt-4">Terms and Conditions</h4>
                         <p>{{ tourpackage.terms }}</p>
                         <div class="row">
                             <div class="col-md-6">
-                                <h6>Pickup Location</h6>
-                                <p v-if="transaction.order_details[0]">{{ transaction.order_details[0].location }}
+                                <h4 class="mt-4">Pickup Location</h4>
+                                <p v-if="transaction.order_details[0]">{{
+                                    transaction.order_details[0].location
+                                }}
                                 </p>
                                 <p v-else>{{ transaction.package_price.pickup_location }}</p>
                             </div>
                             <div class="col-md-6">
-                                <h6>Pickup Time</h6>
+                                <h4 class="mt-4">Pickup Time</h4>
                                 <p>{{ transaction.package_price.pickup_time }} WITA</p>
                             </div>
                         </div>
-                        <h6>Start - End Date</h6>
+                        <h4 class="mt-4">Start - End Date</h4>
                         <p>{{ transaction.order_date }} to {{ enddate }}</p>
                     </div>
                     <div class="accordion">
@@ -119,20 +124,21 @@
                                         <div v-for="(detail, index) in tourpackagesdetails" :key="index">
                                             <div class="timeline-2 left-2" v-if="index % 2 == 0">
                                                 <div class="card">
-                                                    <img v-if="detail.image_package_detail" :src="detail.image_package_detail"
-                                                        class="card-img-top img2" alt="">
-                                                    <img v-else src="../../../assets/image/home/image_placeholder.png"
+                                                    <img v-if="detail.image_package_detail"
+                                                        :src="detail.image_package_detail" class="card-img-top img2" alt="">
+                                                    <img v-else src="../../../assets/img/home/image_placeholder.png"
                                                         class="card-img-top img2" alt="">
                                                     <div class="card-body p-4">
                                                         <h4 class="fw-bold">
                                                             {{ detail.tourist_destination.name }}</h4>
                                                         <p class="text-muted">Day {{ detail.day }} |
                                                             Duration {{
-                                                            detail.duration
+                                                                detail.duration
                                                             }}</p>
                                                         <h6 class="mt-4">Facility</h6>
                                                         <hr class="hr" />
-                                                        <div v-for="(facility, index2) in detail.package_facilities" :key="index2">
+                                                        <div v-for="(facility, index2) in detail.package_facilities"
+                                                            :key="index2">
                                                             <p>- {{ facility.facilities }}</p>
                                                         </div>
                                                         <h6 class="mt-4">Activity</h6>
@@ -146,20 +152,21 @@
                                             </div>
                                             <div class="timeline-2 right-2" v-else>
                                                 <div class="card">
-                                                    <img v-if="detail.image_package_detail" :src="detail.image_package_detail"
-                                                        class="card-img-top img2" alt="">
-                                                    <img v-else src="../../../assets/image/home/image_placeholder.png"
+                                                    <img v-if="detail.image_package_detail"
+                                                        :src="detail.image_package_detail" class="card-img-top img2" alt="">
+                                                    <img v-else src="../../../assets/img/home/image_placeholder.png"
                                                         class="card-img-top img2" alt="">
                                                     <div class="card-body p-4">
                                                         <h4 class="fw-bold">
                                                             {{ detail.tourist_destination.name }}</h4>
                                                         <p class="text-muted">Day {{ detail.day }} |
                                                             Duration {{
-                                                            detail.duration
+                                                                detail.duration
                                                             }}</p>
                                                         <h6 class="mt-4">Facility</h6>
                                                         <hr class="hr" />
-                                                        <div v-for="(facility, index2) in detail.package_facilities" :key="index2">
+                                                        <div v-for="(facility, index2) in detail.package_facilities"
+                                                            :key="index2">
                                                             <p>- {{ facility.facilities }}</p>
                                                         </div>
                                                         <h6 class="mt-4">Activity</h6>
@@ -190,14 +197,17 @@
                                     <div class="row">
                                         <div class="col-md-12 col-lg-12 col-xl-12">
                                             <div class="card border-0" style="border-radius: 15px;" v-if="tourpackage">
-                                                <div class="card-body" v-if="tourpackage.package_category['guide_included']==='Included'">
+                                                <div class="card-body"
+                                                    v-if="tourpackage.package_category['guide_included'] === 'Yes'">
                                                     <div v-if="transaction['order_status'] != 'Active'">
                                                         <h5>This order is not active yet.</h5>
                                                     </div>
                                                     <div v-else>
                                                         <h5 class="mb-2 color-main">Guide Selection Process</h5>
                                                         <div class="table-responsive">
-                                                            <table class="table table-bordered table-condensed table-striped" id="dataTable" width="100%" cellspacing="0">
+                                                            <table
+                                                                class="table table-bordered table-condensed table-striped"
+                                                                id="dataTable" width="100%" cellspacing="0">
                                                                 <thead>
                                                                     <tr>
                                                                         <th>#</th>
@@ -210,25 +220,31 @@
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody v-if="alreadyAssigned || alreadyAssigned.length">
-                                                                    <tr v-for="(assigned, index) in alreadyAssigned" :key="index">
-                                                                        <td style="width: 50px">{{index+1}}</td>
-                                                                        <td v-if="assigned.users.photo !=null">
+                                                                    <tr v-for="(assigned, index) in alreadyAssigned"
+                                                                        :key="index">
+                                                                        <td style="width: 50px">{{ index + 1 }}</td>
+                                                                        <td v-if="assigned.users.photo != null">
                                                                             <img :src=guide.photo style="width: 100px">
                                                                         </td>
                                                                         <td v-else>
-                                                                            <img src="../../../assets/image/home/photo_placeholder.png" style="width: 100px">
+                                                                            <img src="../../../assets/img/home/photo_placeholder.png"
+                                                                                style="width: 100px">
                                                                         </td>
-                                                                        <td>{{ assigned.tour_agents_assigned.agent_name }}</td>
-                                                                        <td>{{ assigned.users.name}}</td>
+                                                                        <td>{{ assigned.tour_agents_assigned.agent_name }}
+                                                                        </td>
+                                                                        <td>{{ assigned.users.name }}</td>
                                                                         <td>{{ assigned.guide_approval }}</td>
                                                                         <td>{{ assigned.agent_approval }}</td>
                                                                         <td>
                                                                             <button v-if="assigned.status == 'Chosen'"
-                                                                                class="btn btn-success w-100">{{ assigned.status }}</button>
-                                                                            <button v-else-if="assigned.status == 'Not Chosen'"
-                                                                                class="btn btn-danger w-100">{{ assigned.status }}</button>
-                                                                            <button v-else
-                                                                                class="btn btn-warning w-100">{{ assigned.status }}</button>
+                                                                                class="btn btn-success w-100">{{
+                                                                                    assigned.status }}</button>
+                                                                            <button
+                                                                                v-else-if="assigned.status == 'Not Chosen'"
+                                                                                class="btn btn-danger w-100">{{
+                                                                                    assigned.status }}</button>
+                                                                            <button v-else class="btn btn-warning w-100">{{
+                                                                                assigned.status }}</button>
                                                                         </td>
                                                                     </tr>
                                                                 </tbody>
@@ -244,7 +260,9 @@
                                                             <h5 class="mb-2 color-main">Select Guide</h5>
                                                             <Form @submit="assignGuide(slt_guide_end)">
                                                                 <div class="table-responsive">
-                                                                    <table class="table table-bordered table-condensed table-striped" id="dataTable" width="100%" cellspacing="0">
+                                                                    <table
+                                                                        class="table table-bordered table-condensed table-striped"
+                                                                        id="dataTable" width="100%" cellspacing="0">
                                                                         <thead>
                                                                             <tr>
                                                                                 <th>#</th>
@@ -257,62 +275,76 @@
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody v-if="guidelist || guidelist.length">
-                                                                            <tr v-for="(guide, index) in guidelist" :key="index">
-                                                                                <td style="width: 50px">{{index+1}}</td>
-                                                                                <td v-if="guide.photo !=null">
-                                                                                    <img :src=guide.photo style="width: 100px">
+                                                                            <tr v-for="(guide, index) in guidelist"
+                                                                                :key="index">
+                                                                                <td style="width: 50px">{{ index + 1 }}</td>
+                                                                                <td v-if="guide.photo != null">
+                                                                                    <img :src=guide.photo
+                                                                                        style="width: 100px">
                                                                                 </td>
                                                                                 <td v-else>
-                                                                                    <img src="../../../assets/image/home/photo_placeholder.png" style="width: 100px">
+                                                                                    <img src="../../../assets/img/home/photo_placeholder.png"
+                                                                                        style="width: 100px">
                                                                                 </td>
                                                                                 <td>{{ guide.agent_name }}</td>
-                                                                                <td>{{ guide.name}}</td>
+                                                                                <td>{{ guide.name }}</td>
                                                                                 <td>{{ guide.description }}</td>
                                                                                 <td v-if="guide.rating != null">
-                                                                                    <font-awesome-icon icon="star" />{{ guide.rating }}
+                                                                                    <font-awesome-icon icon="star" />{{
+                                                                                        guide.rating }}
                                                                                 </td>
                                                                                 <td v-else>
-                                                                                    <font-awesome-icon icon="star" />No rating yet
+                                                                                    <font-awesome-icon icon="star" />No
+                                                                                    rating yet
                                                                                 </td>
                                                                                 <td>
                                                                                     <label for="slt_guide">Assign</label>
-                                                                                    <Field name="slt_guide" type="checkbox" class="form-check-input" :value="guide.id_guides" v-model="slt_guide_end" unchecked/>
-                                                                                    <ErrorMessage name="slt_guide" class="error-feedback" />
+                                                                                    <Field name="slt_guide" type="checkbox"
+                                                                                        class="form-check-input"
+                                                                                        :value="guide.id_guides"
+                                                                                        v-model="slt_guide_end" unchecked />
+                                                                                    <ErrorMessage name="slt_guide"
+                                                                                        class="error-feedback" />
                                                                                 </td>
                                                                             </tr>
                                                                         </tbody>
                                                                         <tfoot v-if="!guidelist || !guidelist.length">
                                                                             <tr>
-                                                                                <td colspan="7" class="text-center">Empty Data.</td>
+                                                                                <td colspan="7" class="text-center">Empty
+                                                                                    Data.</td>
                                                                             </tr>
                                                                         </tfoot>
                                                                     </table>
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <button class="btn btn-primary btn-block color-main-background" :disabled="loading3">
-                                                                        <span v-show="loading3" class="spinner-border spinner-border-sm"></span>
-                                                                        <font-awesome-icon icon="plus" /><span> Assign Guide</span>
+                                                                    <button class="btn btn_theme btn-block"
+                                                                        :disabled="loading3">
+                                                                        <span v-show="loading3"
+                                                                            class="spinner-border spinner-border-sm"></span>
+                                                                        <font-awesome-icon icon="plus" /><span> Assign
+                                                                            Guide</span>
                                                                     </button>
                                                                 </div>
-                                                                <div v-if="message3" class="alert mt-2" :class="successful3 ? 'alert-success' : 'alert-danger'">
+                                                                <div v-if="message3" class="alert mt-2"
+                                                                    :class="successful3 ? 'alert-success' : 'alert-danger'">
                                                                     {{ message3 }}
                                                                 </div>
                                                             </Form>
                                                         </div>
                                                         <!-- <div class="card shadow border-0 h-100">
-                                                            <img src="../../../assets/image/home/photo_placeholder.png" alt=""
-                                                            class="card-img-top">
-                                                            <div class="card-body">
-                                                                <h5 class="text-dark">{{ guide.name }}</h5>
-                                                                <span v-if="guide.rating">
-                                                                    <font-awesome-icon icon="star" /> {{ guide.rating }}
-                                                                </span>
-                                                                <span v-else>
-                                                                    <font-awesome-icon icon="star" /> No rating yet
-                                                                </span>
-                                                                <p class="text-muted card-text mt-2">{{ guide.description }}</p>
-                                                            </div>
-                                                        </div> -->
+                                                                <img src="../../../assets/img/home/photo_placeholder.png" alt=""
+                                                                class="card-img-top">
+                                                                <div class="card-body">
+                                                                    <h5 class="text-dark">{{ guide.name }}</h5>
+                                                                    <span v-if="guide.rating">
+                                                                        <font-awesome-icon icon="star" /> {{ guide.rating }}
+                                                                    </span>
+                                                                    <span v-else>
+                                                                        <font-awesome-icon icon="star" /> No rating yet
+                                                                    </span>
+                                                                    <p class="text-muted card-text mt-2">{{ guide.description }}</p>
+                                                                </div>
+                                                            </div> -->
                                                     </div>
                                                 </div>
                                                 <div class="card-body" v-else>
@@ -335,19 +367,18 @@
                         <h4 class="color-main" style="float: left;">Payment</h4>
                         <button v-if="transaction.payments[0].payment_status == 'Paid'" style="float: right;"
                             class="btn btn-success">{{ transaction.payments[0].payment_status }}</button>
-                        <button
-                            v-else-if="transaction.payments[0].payment_status == 'Cancelled'"
-                            style="float: right;" class="btn btn-danger">{{ transaction.payments[0].payment_status
+                        <button v-else-if="transaction.payments[0].payment_status == 'Cancelled'" style="float: right;"
+                            class="btn btn-danger">{{ transaction.payments[0].payment_status
                             }}</button>
                         <button v-else style="float: right;" class="btn btn-warning">{{
-                                transaction.payments[0].payment_status
+                            transaction.payments[0].payment_status
                         }}</button>
                     </div>
                 </div>
                 <div class="card-body p-4">
-                    <img v-if="transaction.payments[0].payment_proof != null"
-                        :src="transaction.payments[0].payment_proof" alt="" class="card-img-top mt-2 mb-4 rounded">
-                    <img v-else src="../../../assets/image/home/image_placeholder.png" alt=""
+                    <img v-if="transaction.payments[0].payment_proof != null" :src="transaction.payments[0].payment_proof"
+                        alt="" class="card-img-top mt-2 mb-4 rounded">
+                    <img v-else src="../../../assets/img/home/image_placeholder.png" alt=""
                         class="card-img-top mt-2 mb-4 rounded">
                     <div v-if="transaction.payments[0].payment_status == 'Uploaded'">
                         <div class="col-sm mt-2">
@@ -364,7 +395,8 @@
                             {{ message }}
                         </div>
                     </div>
-                    <div v-if="transaction.order_status == 'Waiting Payment' && (transaction.payments[0].payment_status == 'Waiting Payment' || transaction.payments[0].payment_status == 'Rejected')">
+                    <div
+                        v-if="transaction.order_status == 'Waiting Payment' && (transaction.payments[0].payment_status == 'Waiting Payment' || transaction.payments[0].payment_status == 'Rejected')">
                         <hr>
                         <div class="col-sm mt-2">
                             <button class="btn btn-danger me-2" @click="rejectOrder">
@@ -450,18 +482,18 @@ export default {
         this.moment = moment;
     },
     methods: {
-        approveOrder(condition){
+        approveOrder(condition) {
             let textIns = ""
             let textOutSuccess = ""
             let textOutFailed = ""
-            if(condition==0){
-                textIns="You will reject this payment!"
-                textOutSuccess="Payment is successfully rejected!"
-                textOutFailed="Payment is not rejected!"
-            }else{
-                textIns="You will approve this payment!"
-                textOutSuccess="Payment is successfully approved!"
-                textOutFailed="Payment is not approved!"
+            if (condition == 0) {
+                textIns = "You will reject this payment!"
+                textOutSuccess = "Payment is successfully rejected!"
+                textOutFailed = "Payment is not rejected!"
+            } else {
+                textIns = "You will approve this payment!"
+                textOutSuccess = "Payment is successfully approved!"
+                textOutFailed = "Payment is not approved!"
             }
             this.$swal.fire({
                 title: 'Are you sure?',
@@ -477,7 +509,7 @@ export default {
                     this.successful = false;
                     this.loading = true;
 
-                    OrderService.approvalAgent(condition,this.$route.params.id_orders).then(
+                    OrderService.approvalAgent(condition, this.$route.params.id_orders).then(
                         () => {
                             this.message = textOutSuccess;
                             this.successful = true;
@@ -508,7 +540,7 @@ export default {
                 }
             })
         },
-        rejectOrder(){
+        rejectOrder() {
             this.$swal.fire({
                 title: 'Are you sure?',
                 text: 'You will reject this order.',
@@ -642,7 +674,7 @@ export default {
                         'success'
                     )
                     this.loadTransaction()
-                    this.slt_guide_end=null
+                    this.slt_guide_end = null
                 },
                 (error) => {
                     this.message3 =
@@ -658,7 +690,7 @@ export default {
                         'Guide is not assigned.',
                         'error'
                     )
-                    this.slt_guide_end=null
+                    this.slt_guide_end = null
                 }
             )
         }
@@ -667,6 +699,4 @@ export default {
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

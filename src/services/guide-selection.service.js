@@ -1,7 +1,8 @@
 import axios from "axios";
 import authHeader from "./auth-header";
+import apiUrl from "./api-url";
 
-const API_URL = "http://localhost:8000/api/guide-selection/";
+const API_URL = apiUrl() + 'guide-selection/';
 
 class GuideSelectionService {
   async getAvailableGuide(id_orders, start_date, end_date) {

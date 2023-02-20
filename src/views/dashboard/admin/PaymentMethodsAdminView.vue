@@ -1,12 +1,49 @@
 <template>
     <div class="row">
-        <div class="col-md-6 mb-4">
+        <div class="col-md-8 mb-4">
             <div class="card shadow">
                 <div class="card-header p-3 text-center">
                     <h5 class="m-0 font-weight-bold color-main">Manage Payment Methods</h5>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
+                    <EasyDataTable
+                        show-index
+                        alternating
+                        :headers="headers" 
+                        :items="methods"
+                        :theme-color="themeColor"
+                        buttons-pagination
+                        :loading="statusLoad"
+                        >
+                        <template #loading>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <div class="loader">
+                                    <div class="box"></div>
+                                    <div class="box"></div>
+                                    <div class="box"></div>
+                                    <div class="box"></div>
+                                    <div class="box"></div>
+                                </div>
+                            </div>
+                        </template>
+                        <template #item-action="item">
+                            <div class="operation-wrapper" style="min-width: 100px;">
+                                <div class="d-flex justify-content-evenly align-items-center align-middle pr-2 pt-2 pb-2">
+                                    <router-link
+                                        :to="{ name: 'payment-method-detail', params: { id_payment_methods: item.id_payment_methods }}">
+                                        <button class="btn btn-success">
+                                            <font-awesome-icon icon="pencil" />
+                                        </button>
+                                    </router-link>
+                                    <button class="btn btn-danger"
+                                        @click="deleteData(item.id_payment_methods)">
+                                        <font-awesome-icon icon="trash" />
+                                    </button>
+                                </div>
+                            </div>
+                        </template>
+                    </EasyDataTable>
+                    <!-- <div class="table-responsive">
                         <table class="table table-bordered table-condensed table-striped" id="dataTable" width="100%"
                             cellspacing="0">
                             <thead>
@@ -45,18 +82,18 @@
                                 </tr>
                             </tfoot>
                         </table>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="card shadow">
                 <div class="card-header p-3 text-center">
-                    <h5 class="m-0 font-weight-bold color-main">Add Tour Package Category</h5>
+                    <h5 class="m-0 font-weight-bold color-main">Add Payment Methods</h5>
                 </div>
                 <div class="card-body">
                     <Form @submit="addCategory" :validation-schema="schema">
-                        <p>Fill the form down below to add new tour package category.</p>
+                        <p class="mb-4">Fill the form down below to add new payment methods.</p>
                         <div>
                             <div class="form-outline mb-4">
                                 <label for="method">Payment Method</label>
@@ -69,7 +106,7 @@
                                 <ErrorMessage name="description" class="error-feedback" />
                             </div>
                             <div class="form-group">
-                                <button class="btn btn-primary btn-block color-main-background" :disabled="loading">
+                                <button class="btn btn_theme btn-block" :disabled="loading">
                                     <span v-show="loading" class="spinner-border spinner-border-sm"></span>
                                     <font-awesome-icon icon="plus" /><span> Add New</span>
                                 </button>
@@ -97,6 +134,12 @@ export default {
         ErrorMessage,
     },
     data() {
+        const themeColor = "#184fa7";
+        const headers = [
+            { text: "Name", value: "method" },
+            { text: "Description", value: "description" },
+            { text: "Action", value: "action" },
+        ];
         const schema = yup.object().shape({
             method: yup
                 .string()
@@ -111,6 +154,9 @@ export default {
         });
 
         return {
+            themeColor,
+            headers,
+            statusLoad: false,
             methods: [],
             successful: false,
             loading: false,
@@ -202,11 +248,14 @@ export default {
             );
         },
         loadPaymentMethod() {
+            this.statusLoad = true
             PaymentMethodsService.getAll().then(
                 (response) => {
+                    this.statusLoad = false
                     this.methods = response.data.data
                 },
                 (error) => {
+                    this.statusLoad = false
                     this.content =
                         (error.response &&
                             error.response.data &&

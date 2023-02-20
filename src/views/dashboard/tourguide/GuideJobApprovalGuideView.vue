@@ -28,7 +28,7 @@
                                 <img :src=guide.users.photo style="width: 100px">
                             </td>
                             <td v-else>
-                                <img src="../../../assets/image/home/photo_placeholder.png" style="width: 100px">
+                                <img src="../../../assets/img/home/photo_placeholder.png" style="width: 100px">
                             </td>
                             <td>{{guide.users.name}}</td>
                             <td>{{guide.tour_agents.agent_name}}</td>
@@ -74,7 +74,7 @@
                                 <div class="col-sm mt-2">
                                     <router-link
                                         :to="{ name: 'job-offer-detail', params: { id_guide_selections: guide.id_guide_selections, id_guides: guide.id_guides }}">
-                                        <button class="btn btn-primary color-main-background">
+                                        <button class="btn btn_theme">
                                             <font-awesome-icon icon="eye" />
                                         </button>
                                     </router-link>

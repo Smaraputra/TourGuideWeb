@@ -4,7 +4,75 @@
             <h5 class="m-0 font-weight-bold color-main">Manage Guide Job Approval</h5>
         </div>
         <div class="card-body">
-            <div class="table-responsive">
+            <EasyDataTable
+                show-index
+                alternating
+                :headers="headers" 
+                :items="guides"
+                :theme-color="themeColor"
+                buttons-pagination
+                :loading="statusLoad"
+                >
+                <template #loading>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div class="loader">
+                            <div class="box"></div>
+                            <div class="box"></div>
+                            <div class="box"></div>
+                            <div class="box"></div>
+                            <div class="box"></div>
+                        </div>
+                    </div>
+                </template>
+                <template #item-photo="item">
+                    <img v-if="item.users.photo != null"
+                        :src="item.users.photo" alt=""
+                        class="card-img-top mt-2 rounded imgSmallTabel">
+                    <img v-else src="../../../assets/img/home/image_placeholder.png" alt=""
+                        class="card-img-top mt-2 rounded imgSmallTabel">
+                </template>
+                <template #item-status="item">
+                    <button v-if="item.status == 'Chosen'"
+                        class="btn btn-success w-100">{{ item.status }}</button>
+                    <button v-else-if="item.status == 'Not Chosen'"
+                        class="btn btn-danger w-100">{{ item.status }}</button>
+                    <button v-else
+                        class="btn btn-warning w-100">{{ item.status }}</button>
+                </template>
+                <template #item-agent_approval="item">
+                    <button v-if="item.agent_approval == 'Approved'"
+                        class="btn btn-success w-100">{{ item.agent_approval }}</button>
+                    <button v-else-if="item.agent_approval == 'Rejected'"
+                        class="btn btn-danger w-100">{{ item.agent_approval }}</button>
+                    <button v-else
+                        class="btn btn-warning w-100">{{ item.agent_approval }}</button>
+                </template>
+                <template #item-guide_approval="item">
+                    <button v-if="item.guide_approval == 'Approved'"
+                        class="btn btn-success w-100">{{ item.guide_approval }}</button>
+                    <button v-else-if="item.guide_approval === 'Rejected'"
+                        class="btn btn-danger w-100">{{ item.guide_approval }}</button>
+                    <button v-else
+                        class="btn btn-warning w-100">{{ item.guide_approval }}</button>
+                </template>
+                <template #item-action="item">
+                    <div class="operation-wrapper" style="min-width: 150px;">
+                        <div class="d-flex align-items-center align-middle pr-2 pt-2 pb-2" :class="item.agent_approval == 'Waiting Approval' && item.status == 'Waiting Approval' ? 'justify-content-evenly' : ''">
+                            <button v-if="item.agent_approval == 'Waiting Approval' && item.status == 'Waiting Approval'" class="btn btn-success" @click="approval(item.id_guide_selections, 'Approved')">
+                                <font-awesome-icon icon="check" style="width: 20px; height: 20px;" />
+                            </button>
+                            <button v-if="item.agent_approval == 'Waiting Approval' && item.status == 'Waiting Approval'" class="btn btn-danger" @click="approval(item.id_guide_selections, 'Rejected')">
+                                <font-awesome-icon icon="times" style="width: 20px; height: 20px;" />
+                            </button>
+                            <router-link class="btn btn_theme"
+                                :to="{ name: 'guide-job-detail', params: { id_guide_selections: item.id_guide_selections, id_guides: item.id_guides } }">
+                                <font-awesome-icon icon="eye" class="m-1"/>
+                            </router-link>
+                        </div>
+                    </div>
+                </template>
+            </EasyDataTable>
+            <!-- <div class="table-responsive">
                 <table class="table table-bordered table-condensed table-striped" id="dataTable" width="100%"
                     cellspacing="0">
                     <thead>
@@ -28,7 +96,7 @@
                                 <img :src=guide.users.photo style="width: 100px">
                             </td>
                             <td v-else>
-                                <img src="../../../assets/image/home/photo_placeholder.png" style="width: 100px">
+                                <img src="../../../assets/img/home/photo_placeholder.png" style="width: 100px">
                             </td>
                             <td>{{guide.users.name}}</td>
                             <td>{{guide.tour_agents.agent_name}}</td>
@@ -75,7 +143,7 @@
                                     <div class="col-sm mt-2">
                                         <router-link
                                             :to="{ name: 'guide-job-detail', params: { id_guide_selections: guide.id_guide_selections, id_guides: guide.id_guides } }">
-                                            <button class="btn btn-primary color-main-background">
+                                            <button class="btn btn_theme">
                                                 <font-awesome-icon icon="eye" />
                                             </button>
                                         </router-link>
@@ -90,7 +158,7 @@
                         </tr>
                     </tfoot>
                 </table>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
@@ -103,12 +171,28 @@ export default {
 
     },
     data() {
+        const themeColor = "#184fa7";
+        const headers = [
+            { text: "Photo", value: "photo" },
+            { text: "Guide Name", value: "users.name" },
+            { text: "Tour Agent (Requesting)", value: "tour_agents.agent_name" },
+            { text: "Start Date", value: "start_date" },
+            { text: "End Date", value: "end_date" },
+            { text: "Guide Approval", value: "guide_approval" },
+            { text: "Tour Agent Approval", value: "agent_approval" },
+            { text: "Status", value: "status" },
+            { text: "Action", value: "action" },
+        ];
+
         return {
+            themeColor,
+            headers,
             successful: false,
             loading: false,
             message: "",
             verified: "",
             guides: [],
+            statusLoad: false,
         };
     },
     computed: {
@@ -177,12 +261,15 @@ export default {
             })
         },
         loadGuide(){
+            this.statusLoad = true
             GuideSelectionService.getAllByIdAgent().then(
                 (response) => {
                     this.guides = response.data.data
+                    this.statusLoad = false
                     console.log(this.guides)
                 },
                 (error) => {
+                    this.statusLoad = false
                     this.content =
                         (error.response &&
                             error.response.data &&

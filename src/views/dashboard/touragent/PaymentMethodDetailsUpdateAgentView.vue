@@ -43,7 +43,7 @@
                         <ErrorMessage name="description" class="error-feedback" />
                     </div>
                     <div class="form-group">
-                        <button class="btn btn-primary btn-block color-main-background me-2" :disabled="loading">
+                        <button class="btn btn_theme btn-block me-2" :disabled="loading">
                             <span v-show="loading" class="spinner-border spinner-border-sm"></span>
                             <font-awesome-icon icon="check" /><span> Update </span>
                         </button>

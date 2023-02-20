@@ -4,7 +4,55 @@
             <h5 class="m-0 font-weight-bold color-main">Manage Tour Guide</h5>
         </div>
         <div class="card-body">
-            <div class="table-responsive">
+            <EasyDataTable
+                show-index
+                alternating
+                :headers="headers" 
+                :items="guides"
+                :theme-color="themeColor"
+                buttons-pagination
+                :loading="statusLoad"
+                >
+                <template #loading>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div class="loader">
+                            <div class="box"></div>
+                            <div class="box"></div>
+                            <div class="box"></div>
+                            <div class="box"></div>
+                            <div class="box"></div>
+                        </div>
+                    </div>
+                </template>
+                <template #item-photo="item">
+                    <img v-if="item.users.photo != null"
+                        :src="item.users.photo" alt=""
+                        class="card-img-top mt-2 rounded imgSmallTabel">
+                    <img v-else src="../../../assets/img/home/image_placeholder.png" alt=""
+                        class="card-img-top mt-2 rounded imgSmallTabel">
+                </template>
+                <template #item-status="item">
+                    <button v-if="item.status == 'Active'" class="btn btn-success">{{
+                        item.status
+                    }}</button>
+                    <button v-else-if="item.status == 'Nonactive'" class="btn btn-danger">
+                        {{ item.status }}</button>
+                    <button v-else class="btn btn-warning">{{
+                        item.status
+                    }}</button>
+                </template>
+                <template #item-action="item">
+                    <div class="operation-wrapper" style="min-width: 100px;">
+                        <div class="d-flex align-items-center align-middle pr-2 pt-2 pb-2">
+                            <button class="btn btn-success btn-block"
+                                @click="verify(item.id_guides,item.status)">
+                                <font-awesome-icon icon="pencil"/>
+                            </button>
+                        </div>
+                    </div>
+                </template>
+            </EasyDataTable>
+            <!-- <div class="table-responsive">
                 <table class="table table-bordered table-condensed table-striped" id="dataTable" width="100%"
                     cellspacing="0">
                     <thead>
@@ -24,7 +72,7 @@
                     <tbody v-if="guides || guides.length">
                         <tr v-for="(guide, index) in guides" :key="index">
                             <td style="width: 50px">{{index+1}}</td>
-                            <td><img src="../../../assets/image/home/photo_placeholder.png" style="width: 100px"></td>
+                            <td><img src="../../../assets/img/home/photo_placeholder.png" style="width: 100px"></td>
                             <td>{{guide.users.name}}</td>
                             <td>{{guide.users.email}}</td>
                             <td>{{guide.description}}</td>
@@ -52,7 +100,7 @@
                         </tr>
                     </tfoot>
                 </table>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
@@ -65,7 +113,22 @@ export default {
 
     },
     data() {
+        const themeColor = "#184fa7";
+        const headers = [
+            { text: "Photo", value: "photo" },
+            { text: "Tour Guide Name", value: "users.name" },
+            { text: "Email", value: "users.email" },
+            { text: "Description", value: "description" },
+            { text: "Phone", value: "users.phone" },
+            { text: "Address", value: "users.address" },
+            { text: "Rating", value: "rating" },
+            { text: "Status", value: "Status" },
+            { text: "Action", value: "action" },
+        ];
         return {
+            themeColor,
+            headers,
+            statusLoad: false,
             successful: false,
             loading: false,
             message: "",
@@ -135,11 +198,14 @@ export default {
             })
         },
         loadGuide(){
+            this.statusLoad = true
             TourGuideService.getAll().then(
                 (response) => {
+                    this.statusLoad = false
                     this.guides = response.data.data
                 },
                 (error) => {
+                    this.statusLoad = false
                     this.content =
                         (error.response &&
                             error.response.data &&

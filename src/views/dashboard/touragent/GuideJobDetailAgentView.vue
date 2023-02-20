@@ -106,7 +106,7 @@
                                                 <div class="card">
                                                     <img v-if="detail.image_package_detail" :src="detail.image_package_detail"
                                                         class="card-img-top img2" alt="">
-                                                    <img v-else src="../../../assets/image/home/image_placeholder.png"
+                                                    <img v-else src="../../../assets/img/home/image_placeholder.png"
                                                         class="card-img-top img2" alt="">
                                                     <div class="card-body p-4">
                                                         <h4 class="fw-bold">
@@ -133,7 +133,7 @@
                                                 <div class="card">
                                                     <img v-if="detail.image_package_detail" :src="detail.image_package_detail"
                                                         class="card-img-top img2" alt="">
-                                                    <img v-else src="../../../assets/image/home/image_placeholder.png"
+                                                    <img v-else src="../../../assets/img/home/image_placeholder.png"
                                                         class="card-img-top img2" alt="">
                                                     <div class="card-body p-4">
                                                         <h4 class="fw-bold">
@@ -180,7 +180,7 @@
                                                         <div class="col-sm-12 col-md-3 text-center">
                                                             <img v-if="selectedGuide.users.photo != null" :src="selectedGuide.users.photo" alt="Guide"
                                                                 class="img-fluid" style="height: 200px;border-radius: 10px;">
-                                                            <img v-else src="../../../assets/image/home/photo_placeholder.png" alt="Guide"
+                                                            <img v-else src="../../../assets/img/home/photo_placeholder.png" alt="Guide"
                                                                 class="img-fluid" style="height: 200px;border-radius: 10px;">
                                                         </div>
                                                         <div class="col-sm-12 col-md-9 mt-2">

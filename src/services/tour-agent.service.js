@@ -1,7 +1,9 @@
 import axios from 'axios';
 import authHeader from './auth-header';
+import fileHeader from './file-header';
+import apiUrl from "./api-url";
 
-const API_URL = 'http://localhost:8000/api/tour-agent/';
+const API_URL = apiUrl() + 'tour-agent/';
 
 class TourAgentService {
   getAll() {
@@ -9,6 +11,9 @@ class TourAgentService {
   }
   checkTourAgent() {
     return axios.get(API_URL + 'check', { headers: authHeader() });
+  }
+  getProfile() {
+    return axios.get(API_URL + 'getProfile', { headers: authHeader() });
   }
   getUnverifiedTourAgent() {
     return axios.get(API_URL + 'notverified', { headers: authHeader() });
@@ -47,6 +52,19 @@ class TourAgentService {
       address: agent.address,
       phone: agent.phone,
     }, { headers: authHeader() });
+  }
+
+  async update(profile, photo) {
+    const response = await axios
+      .post(API_URL + 'update', {
+        agent_name: profile.agent_name,
+        email: profile.email,
+        description: profile.description,
+        phone: profile.phone,
+        address: profile.address,
+        photo:photo
+      }, { headers: fileHeader() });
+    return response.data;
   }
 }
 

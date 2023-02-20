@@ -6,7 +6,47 @@
                     <h5 class="m-0 font-weight-bold color-main">Manage Tour Package Pickup Fee</h5>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
+                    <EasyDataTable
+                        show-index
+                        alternating
+                        :headers="headers" 
+                        :items="fees"
+                        :theme-color="themeColor"
+                        buttons-pagination
+                        :loading="statusLoad"
+                        >
+                        <template #loading>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <div class="loader">
+                                    <div class="box"></div>
+                                    <div class="box"></div>
+                                    <div class="box"></div>
+                                    <div class="box"></div>
+                                    <div class="box"></div>
+                                </div>
+                            </div>
+                        </template>
+                        <template #item-fee="item">
+                            {{ $filters.formatPrice(item.fee) }}
+                        </template>
+                        <template #item-action="item">
+                            <div class="operation-wrapper" style="min-width: 100px;">
+                                <div class="d-flex justify-content-evenly align-items-center align-middle pr-2 pt-2 pb-2">
+                                    <router-link
+                                        :to="{ name: 'pickup-fee-detail', params: { id_pickup_fees: item.id_pickup_fees }}">
+                                        <button class="btn btn-success">
+                                            <font-awesome-icon icon="pencil" />
+                                        </button>
+                                    </router-link>
+                                    <button class="btn btn-danger"
+                                        @click="deleteData(item.id_pickup_fees)">
+                                        <font-awesome-icon icon="trash" />
+                                    </button>
+                                </div>
+                            </div>
+                        </template>
+                    </EasyDataTable>
+                    <!-- <div class="table-responsive">
                         <table class="table table-bordered table-condensed table-striped" id="dataTable" width="100%"
                             cellspacing="0">
                             <thead>
@@ -44,7 +84,7 @@
                                 </tr>
                             </tfoot>
                         </table>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -68,7 +108,7 @@
                                 <ErrorMessage name="fee" class="error-feedback" />
                             </div>
                             <div class="form-group">
-                                <button class="btn btn-primary btn-block color-main-background" :disabled="loading">
+                                <button class="btn btn_theme btn-block" :disabled="loading">
                                     <span v-show="loading" class="spinner-border spinner-border-sm"></span>
                                     <font-awesome-icon icon="plus" /><span> Add New</span>
                                 </button>
@@ -107,7 +147,17 @@ export default {
                 .min(1, "Must be at least 1 IDR!"),
         });
 
+        const themeColor = "#184fa7";
+        const headers = [
+            { text: "Distance (Km)", value: "distance" },
+            { text: "Fee (Rp)", value: "fee" },
+            { text: "Action", value: "action" },
+        ];
+
         return {
+            themeColor,
+            headers,
+            statusLoad: false,
             fees: [],
             successful: false,
             loading: false,
@@ -199,11 +249,14 @@ export default {
             );
         },
         loadPickupFee() {
+            this.statusLoad = true
             PickupFeeService.getById().then(
                 (response) => {
                     this.fees = response.data.data
+                    this.statusLoad = false
                 },
                 (error) => {
+                    this.statusLoad = false
                     this.content =
                         (error.response &&
                             error.response.data &&

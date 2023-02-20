@@ -1,7 +1,7 @@
 <template>
     <nav id="sidebar">
         <div class="sidebar-header">
-            <img src="../assets/logo-white.png" height="30" alt="Logo" style="margin-bottom: 6px; margin-right: 6px;" />
+            <img src="../assets/img/logo-white.png" height="30" alt="Logo" style="height: 55px; margin-bottom: 6px; margin-right: 6px;" />
             <h4 v-if="this.currentUser.role_id == '1'">Admin Panel</h4>
             <h4 v-if="this.currentUser.role_id == '2'">Agent Panel</h4>
             <h4 v-if="this.currentUser.role_id == '3'">Guide Panel</h4>

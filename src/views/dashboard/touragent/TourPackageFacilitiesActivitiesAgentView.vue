@@ -29,7 +29,7 @@
                 <div v-if="tourpackagesdetails" class="row">
                     <div class="col-md-4">
                         <img v-if="tourpackagesdetails.image_package_detail != null" :src="tourpackagesdetails.image_package_detail" alt="" class="card-img-top mt-2 rounded img">
-                        <img v-else src="../../../assets/image/home/image_placeholder.png" alt="" class="card-img-top mt-2 rounded img">
+                        <img v-else src="../../../assets/img/home/image_placeholder.png" alt="" class="card-img-top mt-2 rounded img">
                         <div class="form-outline mb-4">
                         <label for="image_package_detail " class="mt-2">Package Detail Image</label>
                         <Field name="image_package_detail ">
@@ -69,7 +69,7 @@
                             <ErrorMessage name="duration" class="error-feedback" />
                         </div>
                         <div class="form-group">
-                            <button class="btn btn-primary btn-block color-main-background me-2" :disabled="loading">
+                            <button class="btn btn_theme btn-block me-2" :disabled="loading">
                                 <span v-show="loading" class="spinner-border spinner-border-sm"></span>
                                 <font-awesome-icon icon="check" /><span> Update </span>
                             </button>
@@ -169,7 +169,7 @@
                                 <ErrorMessage name="activity" class="error-feedback" />
                             </div>
                             <div class="form-group">
-                                <button class="btn btn-primary btn-block color-main-background" :disabled="loading2">
+                                <button class="btn btn_theme btn-block" :disabled="loading2">
                                     <span v-show="loading2" class="spinner-border spinner-border-sm"></span>
                                     <font-awesome-icon icon="plus" /><span> Add New</span>
                                 </button>
@@ -244,7 +244,7 @@
                                 <ErrorMessage name="facilities" class="error-feedback" />
                             </div>
                             <div class="form-group">
-                                <button class="btn btn-primary btn-block color-main-background" :disabled="loading3">
+                                <button class="btn btn_theme btn-block" :disabled="loading3">
                                     <span v-show="loading3" class="spinner-border spinner-border-sm"></span>
                                     <font-awesome-icon icon="plus" /><span> Add New</span>
                                 </button>

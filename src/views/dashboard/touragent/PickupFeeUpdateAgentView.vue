@@ -15,7 +15,7 @@
             </nav>
         </div>
     </div>
-    <div class="card shadow">
+    <div class="card shadow mt-4">
         <div class="card-header p-3 text-center">
             <h5 class="m-0 font-weight-bold color-main">Pickup Fee Detail</h5>
         </div>
@@ -33,7 +33,7 @@
                         <ErrorMessage name="fee" class="error-feedback" />
                     </div>
                     <div class="form-group">
-                        <button class="btn btn-primary btn-block color-main-background me-2" :disabled="loading">
+                        <button class="btn btn_theme btn-block me-2" :disabled="loading">
                             <span v-show="loading" class="spinner-border spinner-border-sm"></span>
                             <font-awesome-icon icon="check" /><span> Update </span>
                         </button>

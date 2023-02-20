@@ -1,7 +1,8 @@
 import axios from "axios";
 import authHeader from "./auth-header";
+import apiUrl from "./api-url";
 
-const API_URL = "http://localhost:8000/api/package-activity/";
+const API_URL = apiUrl() + 'package-activity/';
 
 class TourActivitiesService {
   async getById(id) {

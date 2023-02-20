@@ -65,7 +65,7 @@
                                 <ErrorMessage name="id_payment_methods" class="error-feedback" />
                             </div>
                             <div class="form-group">
-                                <button class="btn btn-primary btn-block color-main-background" :disabled="loading">
+                                <button class="btn btn_theme btn-block" :disabled="loading">
                                     <span v-show="loading" class="spinner-border spinner-border-sm"></span>
                                     <font-awesome-icon icon="plus" /><span> Add New</span>
                                 </button>

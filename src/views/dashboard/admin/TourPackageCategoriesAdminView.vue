@@ -6,7 +6,44 @@
                     <h5 class="m-0 font-weight-bold color-main">Manage Tour Package Categories</h5>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
+                    <EasyDataTable
+                        show-index
+                        alternating
+                        :headers="headers" 
+                        :items="categories"
+                        :theme-color="themeColor"
+                        buttons-pagination
+                        :loading="statusLoad"
+                        >
+                        <template #loading>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <div class="loader">
+                                    <div class="box"></div>
+                                    <div class="box"></div>
+                                    <div class="box"></div>
+                                    <div class="box"></div>
+                                    <div class="box"></div>
+                                </div>
+                            </div>
+                        </template>
+                        <template #item-action="item">
+                            <div class="operation-wrapper" style="min-width: 100px;">
+                                <div class="d-flex justify-content-evenly align-items-center align-middle pr-2 pt-2 pb-2">
+                                    <router-link
+                                    :to="{ name: 'tour-category-detail', params: { id_package_categories: item.id_package_categories }}">
+                                        <button class="btn btn-success">
+                                            <font-awesome-icon icon="pencil" />
+                                        </button>
+                                    </router-link>
+                                    <button class="btn btn-danger"
+                                        @click="deleteData(item.id_package_categories)">
+                                        <font-awesome-icon icon="trash" />
+                                    </button>
+                                </div>
+                            </div>
+                        </template>
+                    </EasyDataTable>
+                    <!-- <div class="table-responsive">
                         <table class="table table-bordered table-condensed table-striped" id="dataTable" width="100%"
                             cellspacing="0">
                             <thead>
@@ -47,7 +84,7 @@
                                 </tr>
                             </tfoot>
                         </table>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -79,7 +116,7 @@
                                 </Field>
                             </div>
                             <div class="form-group">
-                                <button class="btn btn-primary btn-block color-main-background" :disabled="loading">
+                                <button class="btn btn_theme btn-block" :disabled="loading">
                                     <span v-show="loading" class="spinner-border spinner-border-sm"></span>
                                     <font-awesome-icon icon="plus" /><span> Add New</span>
                                 </button>
@@ -124,13 +161,22 @@ export default {
                 .min(3, "Must be at least 3 characters!")
                 .max(1024, "Must be maximum 1024 characters!"),
         });
-
+        const themeColor = "#184fa7";
+        const headers = [
+            { text: "Name", value: "category" },
+            { text: "Description", value: "description" },
+            { text: "Guide Included", value: "guide_included" },
+            { text: "Action", value: "action" },
+        ];
         return {
+            themeColor,
+            headers,
             categories: [],
             successful: false,
             loading: false,
             message: "",
             schema,
+            statusLoad: false
         };
     },
     computed: {
@@ -217,11 +263,14 @@ export default {
             );
         },
         loadPackageCategory() {
+            this.statusLoad = true
             TourPackageCategoryService.getAll().then(
                 (response) => {
                     this.categories = response.data.data
+                    this.statusLoad = false
                 },
                 (error) => {
+                    this.statusLoad = false
                     this.content =
                         (error.response &&
                             error.response.data &&

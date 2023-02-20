@@ -1,44 +1,76 @@
 <template>
-  
-  <footer class="container-fluid bg-dark text-white-50 py-5 px-sm-3 px-lg-5">
-    <div class="container">
-    <div class="row pt-5">
-      <div class="col-lg-3 col-md-6 mb-5">
-        <router-link to="/" class="navbar-brand">
-          <h1 class="color-main">SIPENGUIDE</h1>
-        </router-link>
-        <p>
-          We provide the best services for both tour agents and guides to offer their product and services across the
-          country.
-        </p>
-      </div>
-      <div class="col-lg-6 col-md-6 mb-5">
-        <h5 class="color-main text-uppercase mb-4" style="letter-spacing: 5px">Usefull Links</h5>
-        <div class="d-flex flex-column justify-content-start">
-          <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Destinations</a>
-          <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Tour Packages</a>
-          <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>About</a>
-          <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Contact</a>
+  <div class="shadow mt-5">
+    <footer id="footer_area">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+            <div class="footer_heading_area">
+              <p>
+                We provide the best services for both tour agents and guides to offer their product and services across the
+                country.
+              </p>
+            </div>
+            <div class="footer_first_area">
+              <div class="footer_inquery_area">
+                <router-link to="/" class="navbar-brand">
+                  <h2 class="main-color">SIPENGUIDE</h2>
+                </router-link>
+              </div>
+              
+            </div>
+          </div>
+          <div class="col-lg-2 offset-lg-4 col-md-6 col-sm-6 col-12">
+            <div class="footer_heading_area">
+              <h5>Usefull Link</h5>
+            </div>
+            <div class="footer_link_area">
+              <ul>
+                <li><router-link to="/destinations">Destinations</router-link></li>
+                <li><router-link to="/packages">Tour Packages</router-link></li>
+                <li><router-link to="/about">About</router-link></li>
+                <li><router-link to="/login">Login</router-link></li>
+                <li><router-link to="/register">Register</router-link></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+            <div class="footer_heading_area">
+              <h5>More Information</h5>
+            </div>
+            <div class="footer_link_area">
+              <ul>
+                <li><font-awesome-icon icon="map" /> Denpasar, Bali</li>
+                <li><font-awesome-icon icon="phone" /> +6282237396688</li>
+                <li><font-awesome-icon icon="envelope" /> smara.putra2001@gmail.com</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="col-lg-3 col-md-6 mb-5">
-        <h5 class="color-main text-uppercase mb-4" style="letter-spacing: 5px">
-          Contact Us
-        </h5>
-        <p><i class="fa fa-map-marker-alt mr-2"></i>Denpasar, Bali</p>
-        <p><i class="fa fa-phone-alt mr-2"></i>+6282237396688</p>
-        <p><i class="fa fa-envelope mr-2"></i>smara.putra2001@gmail.com</p>
+    </footer>
+    <div class="copyright_area">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="co-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="copyright_left">
+              <!-- <p>Copyright © 2023 All Rights Reserved</p> -->
+            </div>
+          </div>
+          <!-- <div class="co-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="copyright_right">
+              <img src="../assets/img/common/cards.png" alt="img">
+            </div>
+          </div> -->
+        </div>
       </div>
     </div>
   </div>
-  </footer>
-
 </template>
 
 <script>
 export default {
-
-};
+  name: 'MyFooter'
+}
 </script>
 
 <style>

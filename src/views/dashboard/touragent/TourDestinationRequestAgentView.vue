@@ -4,7 +4,55 @@
         <h5 class="m-0 font-weight-bold color-main">Manage Tour Destination Requests</h5>
       </div>
       <div class="card-body">
-        <div class="table-responsive">
+        <EasyDataTable
+            show-index
+            alternating
+            :headers="headers" 
+            :items="destinations"
+            :theme-color="themeColor"
+            buttons-pagination
+            :loading="statusLoad"
+            >
+            <template #loading>
+                <div class="d-flex justify-content-center align-items-center">
+                    <div class="loader">
+                        <div class="box"></div>
+                        <div class="box"></div>
+                        <div class="box"></div>
+                        <div class="box"></div>
+                        <div class="box"></div>
+                    </div>
+                </div>
+            </template>
+            <template #item-image="item">
+                <img v-if="item.image_tourist_destination != null"
+                    :src="item.image_tourist_destination" alt=""
+                    class="card-img-top mt-2 rounded imgSmallTabel">
+                <img v-else src="../../../assets/img/home/image_placeholder.png" alt=""
+                    class="card-img-top mt-2 rounded imgSmallTabel">
+            </template>
+            <template #item-status="item">
+                <button v-if="item.approval_status == 'Yes'" class="btn btn-success w-100">{{
+                    item.approval_status
+                }}</button>
+                <button v-else-if="item.approval_status == 'No'" class="btn btn-danger w-100">
+                    {{ item.approval_status }}</button>
+                <button v-else class="btn btn-warning w-100">{{
+                    item.approval_status
+                }}</button>
+            </template>
+            <template #item-action="item">
+                <div class="operation-wrapper" style="min-width: 100px;" v-if="item.approval_status == 'Waiting Approval'">
+                    <div class="d-flex align-items-center align-middle pr-2 pt-2 pb-2">
+                        <button class="btn btn-danger"
+                            @click="deleteData(item.id_tourist_destination_requests)">
+                            <font-awesome-icon icon="trash" style="width: 20px; height: 20px;"/>
+                        </button>
+                    </div>
+                </div>
+            </template>
+        </EasyDataTable>
+        <!-- <div class="table-responsive">
           <table class="table table-bordered table-condensed table-striped" id="dataTable" width="100%" cellspacing="0">
             <thead>
               <tr>
@@ -24,7 +72,7 @@
                 <td style="width: 50px">{{index+1}}</td>
                 <td style="width: 100px">
                     <img v-if="destination.image_tourist_destination != null" :src="destination.image_tourist_destination" alt="" class="card-img-top mt-2 rounded imgSmallTabel">
-                    <img v-else src="../../../assets/image/home/image_placeholder.png" alt="" class="card-img-top mt-2 rounded imgSmallTabel">
+                    <img v-else src="../../../assets/img/home/image_placeholder.png" alt="" class="card-img-top mt-2 rounded imgSmallTabel">
                 </td>
                 <td>{{destination.name}}</td>
                 <td>{{destination.description}}</td>
@@ -42,13 +90,6 @@
                     }}</button>
                 </td>
                 <td>
-                    <!-- <div style="width: 50px; height: 50px;">
-                        <router-link style="width: 50px; height: 50px;" :to="{ name: 'tour-destination-update', params: { id_tourist_destinations: destination.id_tourist_destinations }}">
-                            <button class="btn btn-success">
-                                <font-awesome-icon icon="pencil" />
-                            </button>
-                        </router-link>
-                    </div> -->
                     <div v-if="destination.approval_status=='Waiting Approval'" style="width: 50px; height: 50px;">
                         <a class="btn btn-danger" @click="deleteData(destination.id_tourist_destination_requests)">
                             <font-awesome-icon icon="trash" />
@@ -63,7 +104,7 @@
                 </tr>
             </tfoot>
           </table>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -125,7 +166,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <button class="btn btn-primary btn-block color-main-background" :disabled="loading">
+                            <button class="btn btn_theme btn-block" :disabled="loading">
                                 <span v-show="loading" class="spinner-border spinner-border-sm"></span>
                                 <font-awesome-icon icon="plus" /><span> Add New</span>
                             </button>
@@ -143,7 +184,7 @@
 
 <script>
 import moment from 'moment'
-import previewImage from "../../../assets/image/home/image_placeholder.png"
+import previewImage from "../../../assets/img/home/image_placeholder.png"
 import TourDestinationRequestService from "../../../services/tour-destination-request.service";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
@@ -179,7 +220,21 @@ export default {
                 .required("Longitude is required!"),
         });
 
+        const themeColor = "#184fa7";
+        const headers = [
+            { text: "Image", value: "image" },
+            { text: "Destination Name", value: "name" },
+            { text: "Description", value: "description" },
+            { text: "Address", value: "address" },
+            { text: "Latitude", value: "latitude" },
+            { text: "Longitude", value: "longitude" },
+            { text: "Status", value: "Status" },
+            { text: "Action", value: "action" },
+        ];
         return {
+            themeColor,
+            headers,
+            statusLoad: false,
             successful: false,
             loading: false,
             message: "",
@@ -278,7 +333,7 @@ export default {
                     this.loading = false;
                     this.$swal.fire(
                         'Success!',
-                        'New destination successfully created.',
+                        'New destination request successfully created.',
                         'success'
                     )
                     this.loadDestination()
@@ -301,11 +356,14 @@ export default {
             );
         },
         loadDestination(){
+            this.statusLoad = true
             TourDestinationRequestService.getIndexTour().then(
                 (response) => {
+                    this.statusLoad = false
                     this.destinations = response.data.data
                 },
                 (error) => {
+                    this.statusLoad = false
                     this.content =
                         (error.response &&
                             error.response.data &&

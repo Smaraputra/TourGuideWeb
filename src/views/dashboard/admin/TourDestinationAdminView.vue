@@ -4,7 +4,53 @@
         <h5 class="m-0 font-weight-bold color-main">Manage Tour Destinations</h5>
       </div>
       <div class="card-body">
-        <div class="table-responsive">
+        <EasyDataTable
+            show-index
+            alternating
+            :headers="headers" 
+            :items="destinations"
+            :theme-color="themeColor"
+            buttons-pagination
+            :loading="statusLoad"
+            >
+            <template #loading>
+                <div class="d-flex justify-content-center align-items-center">
+                    <div class="loader">
+                        <div class="box"></div>
+                        <div class="box"></div>
+                        <div class="box"></div>
+                        <div class="box"></div>
+                        <div class="box"></div>
+                    </div>
+                </div>
+            </template>
+            <template #item-description="item">
+                {{ item.description.length > 200 ? `${item.description.slice(0,200)} ...` : item.description  }}
+            </template>
+            <template #item-image="item">
+                <img v-if="item.image_tourist_destination != null"
+                    :src="item.image_tourist_destination" alt=""
+                    class="card-img-top mt-2 rounded imgSmallTabel">
+                <img v-else src="../../../assets/img/home/image_placeholder.png" alt=""
+                    class="card-img-top mt-2 rounded imgSmallTabel">
+            </template>
+            <template #item-action="item">
+                <div class="operation-wrapper" style="min-width: 100px;">
+                    <div class="d-flex justify-content-evenly align-items-center align-middle pr-2 pt-2 pb-2">
+                        <router-link :to="{ name: 'tour-destination-update', params: { id_tourist_destinations: item.id_tourist_destinations }}">
+                            <button class="btn btn-success">
+                                <font-awesome-icon icon="pencil" />
+                            </button>
+                        </router-link>
+                        <button class="btn btn-danger"
+                            @click="deleteData(item.id_tourist_destinations)">
+                            <font-awesome-icon icon="trash" />
+                        </button>
+                    </div>
+                </div>
+            </template>
+        </EasyDataTable>
+        <!-- <div class="table-responsive">
           <table class="table table-bordered table-condensed table-striped" id="dataTable" width="100%" cellspacing="0">
             <thead>
               <tr>
@@ -23,9 +69,8 @@
                 <td style="width: 50px">{{index+1}}</td>
                 <td style="width: 100px">
                     <img v-if="destination.image_tourist_destination != null" :src="destination.image_tourist_destination" alt="" class="card-img-top mt-2 rounded imgSmallTabel">
-                    <img v-else src="../../../assets/image/home/image_placeholder.png" alt="" class="card-img-top mt-2 rounded imgSmallTabel">
+                    <img v-else src="../../../assets/img/home/image_placeholder.png" alt="" class="card-img-top mt-2 rounded imgSmallTabel">
                 </td>
-                <!-- <td>{{destination.image_tourist_destination}}</td> -->
                 <td>{{destination.name}}</td>
                 <td>{{destination.description}}</td>
                 <td>{{destination.address}}</td>
@@ -53,7 +98,7 @@
                 </tr>
             </tfoot>
           </table>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -115,7 +160,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <button class="btn btn-primary btn-block color-main-background" :disabled="loading">
+                            <button class="btn btn_theme btn-block" :disabled="loading">
                                 <span v-show="loading" class="spinner-border spinner-border-sm"></span>
                                 <font-awesome-icon icon="plus" /><span> Add New</span>
                             </button>
@@ -133,7 +178,7 @@
 
 <script>
 import moment from 'moment'
-import previewImage from "../../../assets/image/home/image_placeholder.png"
+import previewImage from "../../../assets/img/home/image_placeholder.png"
 import TourDestinationService from "../../../services/tour-destination.service";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
@@ -169,7 +214,19 @@ export default {
                 .required("Longitude is required!"),
         });
 
+        const themeColor = "#184fa7";
+        const headers = [
+            { text: "Image", value: "image" },
+            { text: "Destination Name", value: "name" },
+            { text: "Description", value: "description" },
+            { text: "Address", value: "address" },
+            { text: "Latitude", value: "latitude" },
+            { text: "Longitude", value: "longitude" },
+            { text: "Action", value: "action" },
+        ];
         return {
+            themeColor,
+            headers,
             successful: false,
             loading: false,
             message: "",
@@ -187,7 +244,8 @@ export default {
                         lat: -8.409518, lng: 115.188919
                     },
                 }
-            ]
+            ],
+            statusLoad: false
         };
     },
     computed: {
@@ -291,11 +349,14 @@ export default {
             );
         },
         loadDestination(){
+            this.statusLoad = true
             TourDestinationService.getAll().then(
                 (response) => {
                     this.destinations = response.data.data
+                    this.statusLoad = false
                 },
                 (error) => {
+                    this.statusLoad = false
                     this.content =
                         (error.response &&
                             error.response.data &&

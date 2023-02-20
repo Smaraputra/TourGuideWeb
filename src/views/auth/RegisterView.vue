@@ -1,5 +1,104 @@
 <template>
-    <section class="h-100 gradient-form">
+    <section id="common_banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="common_bannner_text">
+                        <h2>Register Page</h2>
+                        <ul>
+                            <li><router-link to="/">Home</router-link></li>
+                            <li><span><font-awesome-icon icon="circle" /></span>Register</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="common_author_area" class="mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                    <div class="common_author_boxed">
+                        <div class="common_author_heading">
+                            <h2>Register new account</h2>
+                            <h3 class="mt-2">Create your account to continue.</h3>
+                        </div>
+                        <div class="common_author_form">
+                            <Form @submit="handleRegister" :validation-schema="schema">                                
+                                <div class="form-group mb-4">
+                                    <label for="name">Full Name</label>
+                                    <Field name="name" type="text" class="form-control" />
+                                    <ErrorMessage name="name" class="error-feedback" />
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label for="email">Email</label>
+                                    <Field name="email" type="email" class="form-control" />
+                                    <ErrorMessage name="email" class="error-feedback" />
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+                                        <div class="form-group">
+                                            <label for="password">Password</label>
+                                            <Field name="password" type="password" class="form-control" />
+                                            <ErrorMessage name="password" class="error-feedback" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <div class="form-group">
+                                            <label for="password_confirmed">Password Confirmation</label>
+                                            <Field name="password_confirmed" type="password" class="form-control" />
+                                            <ErrorMessage name="password_confirmed" class="error-feedback" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+                                        <div class="form-group">
+                                            <label for="phone">Phone Number</label>
+                                            <Field name="phone" type="text" class="form-control" />
+                                            <ErrorMessage name="phone" class="error-feedback" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <label for="id_roles">Account Type</label>
+                                        <Field name="id_roles" as="select" class="form-control">
+                                            <option disabled selected value>-Account Type-</option>
+                                            <option value="2">Tour Agent</option>
+                                            <option value="3">Tour Guide</option>
+                                            <option value="4">Tourist</option>
+                                        </Field>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label for="address">Address</label>
+                                    <Field name="address" type="text" class="form-control" />
+                                    <ErrorMessage name="address" class="error-feedback" />
+                                </div>
+
+                                <div class="common_form_submit pt-4">
+                                    <button class="btn btn_theme btn_md" :disabled="loading">
+                                        <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+                                        <font-awesome-icon icon="user-plus" /><span> Register</span>
+                                    </button>
+                                </div>
+                            
+                                <div class="form-group mt-2">
+                                    <div v-if="message" class="alert alert-danger" role="alert">
+                                        {{ message }}
+                                    </div>
+                                </div>
+
+                                <div class="have_acount_area">
+                                    <p>Already have an account? <router-link to="/login">Login now</router-link></p>
+                                </div>
+                            </Form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- <section class="h-100 gradient-form">
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-xl-12">
@@ -93,13 +192,13 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 </template>
 
 <style scoped>
-    section  {
-        background-image: url("../../assets/image/login/login.jpg");
-    }
+    /* section  {
+        background-image: url("../../assets/img/login/login.jpg");
+    } */
 </style>
 
 <script>

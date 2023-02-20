@@ -10,34 +10,24 @@
       </div>
     </div>
     <div v-else>
-      <section class="bg-light">
-        <div class="text-center pt-4 pb-2">
-          <h2 class="color-main">Tour Destinations</h2>
-          <p class="lead text-muted">See tour destinations details.</p>
-        </div>
-      </section>
-      <section class="p-4">
-        <div class="row">
-          <div class="col">
-            <nav aria-label="breadcrumb" class="bg-light rounded-3 p-4">
-              <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item">
-                  <router-link to="/">
-                    <strong>Home</strong>
-                  </router-link>
-                </li>
-                <li class="breadcrumb-item">
-                  <router-link to="/destinations">
-                    <strong>Tour Destination</strong>
-                  </router-link>
-                </li>
-                <li class="breadcrumb-item active" aria-current="page">
-                  <strong>Detail</strong>
-                </li>
-              </ol>
-            </nav>
+      <section id="common_banner">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="common_bannner_text">
+                <h2>Tour Destination Details</h2>
+                <p class="text-white">See our tour packages destination details.</p>
+                <ul>
+                  <li><router-link to="/">Home</router-link></li>
+                  <li><span><font-awesome-icon icon="circle"/></span><router-link to="/destinations">Tour Destination</router-link></li>
+                  <li><span><font-awesome-icon icon="circle"/></span>Detail</li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
+      </section>
+      <section class="container p-4">
         <div class="card shadow border-0 mt-4">
           <div class="card-body">
             <div v-if="destinations != null">
@@ -45,14 +35,16 @@
                 <div class="col-md-4">
                   <img v-if="destinations.image_tourist_destination != null"
                   :src="destinations.image_tourist_destination" alt="" class="card-img-top imgTourPackage">
-                <img v-else src="../../assets/image/home/image_placeholder.png" alt=""
+                <img v-else src="../../assets/img/home/image_placeholder.png" alt=""
                   class="card-img-top imgTourPackage">
                 </div>
                 <div class="col-md-8">
-                  <h5 class="color-main">{{ destinations.name }}</h5>
-                  <p class="text-muted card-text">{{ destinations.description }}</p>
-                  <p class="text-muted card-text"><strong>Latitude : </strong><span>{{ destinations.latitude }}</span></p>
-                  <p class="text-muted card-text"><strong>Longitude : </strong><span>{{ destinations.longitude }}</span></p>
+                  <div class="dashboard_common_table">
+                    <h3 class="mb-4">{{ destinations.name }}</h3>
+                    <p class="text-muted card-text mb-4">{{ destinations.description }}</p>
+                    <p class="text-muted card-text"><strong>Latitude : </strong><span>{{ destinations.latitude }}</span></p>
+                    <p class="text-muted card-text"><strong>Longitude : </strong><span>{{ destinations.longitude }}</span></p>
+                  </div>
                 </div>
               </div>
             </div>

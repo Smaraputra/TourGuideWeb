@@ -1,4 +1,19 @@
 <template>
+    <section id="common_banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="common_bannner_text">
+                        <h2>Profile Filling Page</h2>
+                        <ul>
+                            <li><router-link to="/">Home</router-link></li>
+                            <li><span><font-awesome-icon icon="circle" /></span>Profile Filling</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     <section class="h-100 gradient-form">
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
@@ -29,7 +44,7 @@
                                                 <ErrorMessage name="description" class="error-feedback" />
                                             </div>
                                             <div class="form-group">
-                                                <button class="btn btn-primary btn-block color-main-background" :disabled="loading">
+                                                <button class="btn btn_theme btn-block" :disabled="loading">
                                                     <span v-show="loading" class="spinner-border spinner-border-sm"></span>
                                                     <font-awesome-icon icon="user-plus" /><span> Finish</span>
                                                 </button>
@@ -57,7 +72,7 @@
 
 <style scoped>
     section  {
-        background-image: url("../../assets/image/login/login.jpg");
+        background-image: url("../../assets/img/login/login.jpg");
     }
 </style>
 

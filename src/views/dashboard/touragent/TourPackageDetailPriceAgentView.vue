@@ -25,7 +25,7 @@
           <div class="col-md-4">
             <!-- <img src="../../../assets/image/home/image_placeholder.png" class="card-img-top mt-2 rounded"> -->
             <img v-if="tourpackages.cover_image != null" :src="tourpackages.cover_image" alt="" class="card-img-top mt-2 rounded img">
-            <img v-else src="../../../assets/image/home/image_placeholder.png" alt="" class="card-img-top mt-2 rounded img">
+            <img v-else src="../../../assets/img/home/image_placeholder.png" alt="" class="card-img-top mt-2 rounded img">
             <div class="form-outline mb-4">
               <label for="cover_image" class="mt-2">Cover Image</label>
               <Field name="cover_image">
@@ -70,7 +70,7 @@
                 </div>
               </div>
               <div class="form-group">
-                <button class="btn btn-primary btn-block color-main-background me-2 mt-2" :disabled="loading">
+                <button class="btn btn_theme btn-block me-2 mt-2" :disabled="loading">
                   <span v-show="loading" class="spinner-border spinner-border-sm"></span>
                   <font-awesome-icon icon="check" /><span> Update </span>
                 </button>
@@ -117,7 +117,7 @@
                   <td>{{ index + 1 }}</td>
                   <td style="width: 150px">
                     <img v-if="tourpackagesdetail.image_package_detail != null" :src="tourpackagesdetail.image_package_detail" alt="" class="card-img-top mt-2 rounded imgSmallTabel">
-                    <img v-else src="../../../assets/image/home/image_placeholder.png" alt="" class="card-img-top mt-2 rounded imgSmallTabel">
+                    <img v-else src="../../../assets/img/home/image_placeholder.png" alt="" class="card-img-top mt-2 rounded imgSmallTabel">
                   </td>
                   <td>{{ tourpackagesdetail.tourist_destination.name }}</td>
                   <td>{{ tourpackagesdetail.day }}</td>
@@ -194,7 +194,7 @@
                 <ErrorMessage name="duration" class="error-feedback" />
               </div>
               <div class="form-group">
-                <button class="btn btn-primary btn-block color-main-background" :disabled="loading2">
+                <button class="btn btn_theme btn-block" :disabled="loading2">
                   <span v-show="loading2" class="spinner-border spinner-border-sm"></span>
                   <font-awesome-icon icon="plus" /><span> Add New</span>
                 </button>
@@ -238,7 +238,7 @@
                   <td>{{ price.latitude }}</td>
                   <td>{{ price.longitude }}</td>
                   <td>{{ price.pickup_time }}</td>
-                  <td>{{ price.price }}</td>
+                  <td>{{ $filters.formatPrice(price.price) }}</td>
                   <td>
                     <div style="width: 50px; height: 50px;">
                       <router-link to="#">
@@ -322,7 +322,7 @@
                 <ErrorMessage name="price" class="error-feedback" />
               </div>
               <div class="form-group">
-                <button class="btn btn-primary btn-block color-main-background" :disabled="loading3">
+                <button class="btn btn_theme btn-block" :disabled="loading3">
                   <span v-show="loading3" class="spinner-border spinner-border-sm"></span>
                   <font-awesome-icon icon="plus" /><span> Add New</span>
                 </button>
@@ -340,7 +340,7 @@
 
 <script>
 import moment from 'moment'
-import previewImage from "../../../assets/image/home/image_placeholder.png"
+import previewImage from "../../../assets/img/home/image_placeholder.png"
 import TourPackageService from "../../../services/tour-package.service";
 import TourPackageCategoryService from "../../../services/tour-package-category.service";
 import TourPackageDetailService from "../../../services/tour-package-detail.service";

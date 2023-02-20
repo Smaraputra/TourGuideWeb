@@ -25,7 +25,7 @@
                     <div class="col-md-6">
                         <div class="form-outline mb-4">
                             <img v-if="destinations.image_tourist_destination != null" :src="destinations.image_tourist_destination" alt="" class="card-img-top mt-2 rounded img">
-                            <img v-else src="../../../assets/image/home/image_placeholder.png" alt="" class="card-img-top mt-2 rounded img">
+                            <img v-else src="../../../assets/img/home/image_placeholder.png" alt="" class="card-img-top mt-2 rounded img">
                             <label for="image_tourist_destination" class="mt-2">Cover Image</label>
                             <Field name="image_tourist_destination">
                                 <input name="image_tourist_destination" type="file" v-on:change="onChange" class="form-control" accept="image/*" />
@@ -71,7 +71,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <button class="btn btn-primary btn-block color-main-background me-2" :disabled="loading">
+                        <button class="btn btn_theme btn-block me-2" :disabled="loading">
                             <span v-show="loading" class="spinner-border spinner-border-sm"></span>
                             <font-awesome-icon icon="check" /><span> Update </span>
                         </button>

@@ -203,29 +203,29 @@
                             <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
                                 <ul class="navbar-nav ms-auto">
                                     <li class="nav-item px-3">
-                                        <router-link to="/destinations" class="link nav-link text-white">
+                                        <router-link to="/destinations" class="nav-link text-white">
                                             Destinations
                                         </router-link>
                                     </li>
                                     <li class="nav-item px-3">
-                                        <router-link to="/packages" class="link nav-link text-white">
+                                        <router-link to="/packages" class="nav-link text-white">
                                             Tour Packages
                                         </router-link>
                                     </li>
                                     <li class="nav-item px-3">
-                                        <router-link to="/about" class="link nav-link text-white">
+                                        <router-link to="/about" class="nav-link text-white">
                                             About
                                         </router-link>
                                     </li>
                                     <li class="nav-item">
                                         <div v-if="!currentUser" class="navbar-nav ml-auto">
                                             <li class="nav-item px-3">
-                                                <router-link to="/login" class="link nav-link text-white">
+                                                <router-link to="/login" class="nav-link text-white">
                                                     <font-awesome-icon icon="sign-in-alt" /> Login
                                                 </router-link>
                                             </li>
                                             <li class="nav-item px-3">
-                                                <router-link to="/register" class="link nav-link text-white">
+                                                <router-link to="/register" class="nav-link text-white">
                                                     <font-awesome-icon icon="user-plus" /> Sign Up
                                                 </router-link>
                                             </li>
@@ -233,7 +233,7 @@
 
                                         <div v-if="currentUser" class="navbar-nav ml-auto">
                                             <li class="nav-item dropdown">
-                                                <a class="link nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
+                                                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
                                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <font-awesome-icon icon="user"/>
                                                     <span> {{' ' + currentUser.name }}</span>

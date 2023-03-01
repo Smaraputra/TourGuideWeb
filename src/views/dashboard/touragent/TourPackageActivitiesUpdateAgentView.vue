@@ -1,36 +1,58 @@
 <template>
-    <div class="row">
+    <div class="row" v-if="activities && activities.package_detail">
         <div class="col">
             <nav aria-label="breadcrumb" class="bg-light rounded-3 p-4">
                 <ol class="breadcrumb mb-0">
                     <li class="breadcrumb-item">
-                        <router-link to="/dashboard/payment-method">
-                            <strong>Payment Methods</strong>
+                        <router-link to="/dashboard/tour-package">
+                            <strong>Tour Package</strong>
+                        </router-link>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <router-link
+                            :to="{ name: 'tour-package-see', params: { id_tour_packages: activities.package_detail.id_tour_packages } }">
+                            <strong>Tour Package Detail</strong>
+                        </router-link>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <router-link
+                        :to="{ name: 'tour-package-detail-see', params: { id_package_details: activities.id_package_details } }">
+                            <strong>Tour Activity - Facility Detail</strong>
                         </router-link>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">
-                        <strong>Payment Methods Detail</strong>
+                        <strong>Tour Activitiy</strong>
                     </li>
                 </ol>
             </nav>
         </div>
     </div>
-    <div class="card shadow mt-4">
+    <div class="card shadow mt-4" v-if="activities">
         <div class="card-header p-3 text-center">
-            <h5 class="m-0 font-weight-bold color-main">Payment Methods Detail</h5>
+            <h5 class="m-0 font-weight-bold color-main">Tour Activity</h5>
         </div>
         <div class="card-body">
-            <Form @submit="updateMethod" :validation-schema="schema">
-                <div v-if="methods">
+            <Form @submit="updateActivity" :validation-schema="schema">
+                <div>
                     <div class="form-outline mb-4">
-                        <label for="method">Payment Method</label>
-                        <Field name="method" type="text" class="form-control" v-model="methods.method"/>
-                        <ErrorMessage name="method" class="error-feedback" />
+                        <label for="start_time">Start Time</label>
+                        <Field name="start_time" type="time" class="form-control" v-model="activities.start_time"/>
+                        <ErrorMessage name="start_time" class="error-feedback" />
                     </div>
                     <div class="form-outline mb-4">
-                        <label for="description">Description</label>
-                        <Field as="textarea" name="description" type="multiline" class="form-control" v-model="methods.description"/>
-                        <ErrorMessage name="description" class="error-feedback" />
+                        <label for="end_time">End Time</label>
+                        <Field name="end_time" type="time" class="form-control" v-model="activities.end_time"/>
+                        <ErrorMessage name="end_time" class="error-feedback" />
+                    </div>
+                    <div class="form-outline mb-4">
+                        <label for="location">Location</label>
+                        <Field name="location" type="text" class="form-control" v-model="activities.location"/>
+                        <ErrorMessage name="location" class="error-feedback" />
+                    </div>
+                    <div class="form-outline mb-4">
+                        <label for="activity">Activitiy</label>
+                        <Field as="textarea" name="activity" type="text" class="form-control" v-model="activities.activity"/>
+                        <ErrorMessage name="activity" class="error-feedback" />
                     </div>
                     <div class="form-group">
                         <button class="btn btn_theme btn-block me-2" :disabled="loading">
@@ -38,7 +60,7 @@
                             <font-awesome-icon icon="check" /><span> Update </span>
                         </button>
                         <a class="btn btn-danger me-2"
-                            @click="deleteData(methods.id_payment_methods)">
+                            @click="deleteData(activities.id_tour_activities)">
                             <font-awesome-icon icon="trash" /><span> Delete </span>
                         </a>
                     </div>
@@ -52,11 +74,11 @@
 </template>
 
 <script>
-import PaymentMethodsService from "../../../services/payment-method.service";
+import TourPackageActivitiesService from "../../../services/tour-package-activities.service";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 export default {
-    name: "TourPackageCategoryAdminView",
+    name: "TourPackageActivitiesUpdateAgentView",
     components: {
         Form,
         Field,
@@ -64,20 +86,30 @@ export default {
     },
     data() {
         const schema = yup.object().shape({
-            method: yup
+            start_time: yup
                 .string()
-                .required("Name is required!")
+                .required("Start time is required!")
                 .min(3, "Must be at least 3 characters!")
                 .max(2048, "Must be maximum 2048 characters!"),
-            description: yup
+            end_time: yup
                 .string()
-                .required("Description is required!")
+                .required("End time is required!")
+                .min(3, "Must be at least 3 characters!")
+                .max(2048, "Must be maximum 2048 characters!"),
+            location: yup
+                .string()
+                .required("Location is required!")
+                .min(3, "Must be at least 3 characters!")
+                .max(2048, "Must be maximum 2048 characters!"),
+            activity: yup
+                .string()
+                .required("Activity is required!")
                 .min(3, "Must be at least 3 characters!")
                 .max(2048, "Must be maximum 2048 characters!"),
         });
 
         return {
-            methods: null,
+            activities: null,
             successful: false,
             loading: false,
             message: "",
@@ -96,10 +128,10 @@ export default {
         if (!this.loggedIn) {
             this.$router.push("/login");
         }
-        if (this.currentUser.role_id != 1) {
+        if (this.currentUser.role_id != 2) {
             this.$router.push("/dashboard");
         }
-        this.loadPaymentMethod()
+        this.loadTourActivity()
     },
     methods: {
         deleteData(id) {
@@ -113,19 +145,19 @@ export default {
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    PaymentMethodsService.delete(id).then(
+                    TourPackageActivitiesService.delete(id, this.activities.package_detail.id_tour_packages, this.activities.id_package_details).then(
                         () => {
                             this.$swal.fire(
                                 'Deleted!',
-                                'Payment method successfully deleted.',
+                                'Tour activity successfully deleted.',
                                 'success'
                             )
-                            this.$router.push("/dashboard/payment-method");
+                            this.$router.push({ name: 'tour-package-detail-see', params: { id_package_details: this.activities.id_package_details } })
                         },
                         () => {
                             this.$swal.fire(
                                 'Fail!',
-                                'Payment method is not deleted.',
+                                'Tour activity is not deleted.',
                                 'error'
                             )
                         }
@@ -133,22 +165,22 @@ export default {
                 }
             })
         },
-        updateMethod(schema) {
+        updateActivity(schema) {
             this.message = "";
             this.successful = false;
             this.loading = true;
 
-            PaymentMethodsService.update(schema, this.$route.params.id_payment_methods).then(
+            TourPackageActivitiesService.update(schema, this.activities.package_detail.id_tour_packages, this.activities.id_package_details, this.$route.params.id_tour_activities).then(
                 (data) => {
-                    this.message = "Payment method : " + data.data.method + " successfully updated.";
+                    this.message = "Tour activity of " + data.data.activity + " successfully updated.";
                     this.successful = true;
                     this.loading = false;
                     this.$swal.fire(
                         'Success!',
-                        'Payment method successfully updated.',
+                        'Tour activity successfully updated.',
                         'success'
                     )
-                    this.loadPaymentMethod()
+                    this.loadTourActivity()
                 },
                 (error) => {
                     this.message =
@@ -161,16 +193,16 @@ export default {
                     this.loading = false;
                     this.$swal.fire(
                         'Fail!',
-                        'Payment method is not updated.',
+                        'Tour activity is not updated.',
                         'error'
                     )
                 }
             );
         },
-        loadPaymentMethod() {
-            PaymentMethodsService.getOneById(this.$route.params.id_payment_methods).then(
+        loadTourActivity() {
+            TourPackageActivitiesService.getOneById(this.$route.params.id_tour_activities).then(
                 (response) => {
-                    this.methods = response.data
+                    this.activities = response.data
                 },
                 (error) => {
                     this.content =

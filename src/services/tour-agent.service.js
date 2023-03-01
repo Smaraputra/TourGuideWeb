@@ -9,6 +9,9 @@ class TourAgentService {
   getAll() {
     return axios.get(API_URL + 'index', { headers: authHeader() });
   }
+  archiveAccount() {
+    return axios.get(API_URL + 'archiveAccount', { headers: authHeader() });
+  }
   checkTourAgent() {
     return axios.get(API_URL + 'check', { headers: authHeader() });
   }

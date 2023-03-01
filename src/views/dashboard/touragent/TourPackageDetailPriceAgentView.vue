@@ -23,9 +23,8 @@
       <Form @submit="updatePackage" :validation-schema="schemaPackage">
         <div class="row" v-if="tourpackages">
           <div class="col-md-4">
-            <!-- <img src="../../../assets/image/home/image_placeholder.png" class="card-img-top mt-2 rounded"> -->
-            <img v-if="tourpackages.cover_image != null" :src="tourpackages.cover_image" alt="" class="card-img-top mt-2 rounded img">
-            <img v-else src="../../../assets/img/home/image_placeholder.png" alt="" class="card-img-top mt-2 rounded img">
+            <img v-if="tourpackages.cover_image != null" :src="tourpackages.cover_image" alt="" class="card-img-top mt-2 mb-2 rounded img">
+            <img v-else src="../../../assets/img/home/image_placeholder.png" alt="" class="card-img-top mt-2 mb-2 rounded img">
             <div class="form-outline mb-4">
               <label for="cover_image" class="mt-2">Cover Image</label>
               <Field name="cover_image">
@@ -43,7 +42,7 @@
               </div>
               <div class="form-outline mb-4" v-if="categories || categories.length">
                 <label for="id_package_categories">Tour Packages Category</label>
-                <Field as="select" name="id_package_categories" class="form-select"
+                <Field as="select" name="id_package_categories" class="form-control form-select"
                   v-model="tourpackages.id_package_categories">
                   <option disabled value>-Package Category-</option>
                   <option v-for="(category, index) in categories" :key="index" :value="category.id_package_categories"
@@ -98,7 +97,38 @@
           <h5 class="m-0 font-weight-bold color-main">Manage Tour Packages Detail</h5>
         </div>
         <div class="card-body">
-          <div class="table-responsive">
+          <EasyDataTable show-index alternating :headers="headers" :items="tourpackagesdetails" :theme-color="themeColor" style="z-index: 1;"
+            buttons-pagination :loading="statusLoad">
+            <template #loading>
+              <div class="d-flex justify-content-center align-items-center">
+                <div class="loader">
+                  <div class="box"></div>
+                  <div class="box"></div>
+                  <div class="box"></div>
+                  <div class="box"></div>
+                  <div class="box"></div>
+                </div>
+              </div>
+            </template>
+            <template #item-image="item">
+              <img v-if="item.image_package_detail != null" :src="item.image_package_detail" alt="" class="card-img-top mt-2 mb-2 rounded imgSmallTabel">
+              <img v-else src="../../../assets/img/home/image_placeholder.png" alt="" class="card-img-top mt-2 mb-2 rounded imgSmallTabel">
+            </template>
+            <template #item-action="item">
+              <div class="operation-wrapper" style="min-width: 100px;">
+                <div class="d-flex pr-2 pt-2 pb-2">
+                  <router-link class="btn btn-success"
+                    :to="{ name: 'tour-package-detail-see', params: { id_package_details: item.id_package_details } }">
+                    <font-awesome-icon icon="pencil" />
+                  </router-link>
+                  <button class="btn btn-danger mx-2" @click="deleteDataPackagesDetail(item.id_package_details)">
+                    <font-awesome-icon icon="trash" />
+                  </button>
+                </div>
+              </div>
+            </template>
+          </EasyDataTable>
+          <!-- <div class="table-responsive">
             <table class="table table-bordered table-condensed table-striped" id="dataTable" width="100%"
               cellspacing="0">
               <thead>
@@ -116,8 +146,8 @@
                 <tr v-for="(tourpackagesdetail, index) in tourpackagesdetails" :key="index">
                   <td>{{ index + 1 }}</td>
                   <td style="width: 150px">
-                    <img v-if="tourpackagesdetail.image_package_detail != null" :src="tourpackagesdetail.image_package_detail" alt="" class="card-img-top mt-2 rounded imgSmallTabel">
-                    <img v-else src="../../../assets/img/home/image_placeholder.png" alt="" class="card-img-top mt-2 rounded imgSmallTabel">
+                    <img v-if="tourpackagesdetail.image_package_detail != null" :src="tourpackagesdetail.image_package_detail" alt="" class="card-img-top mt-2 mb-2 rounded imgSmallTabel">
+                    <img v-else src="../../../assets/img/home/image_placeholder.png" alt="" class="card-img-top mt-2 mb-2 rounded imgSmallTabel">
                   </td>
                   <td>{{ tourpackagesdetail.tourist_destination.name }}</td>
                   <td>{{ tourpackagesdetail.day }}</td>
@@ -147,7 +177,7 @@
                 </tr>
               </tfoot>
             </table>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -161,7 +191,7 @@
             <p>Fill the form down below to add new tour package detail.</p>
             <div>
               <div class="form-outline mb-4">
-                <img v-if="urlImage" :src="urlImage" alt="" class="card-img-top mt-2 rounded img">
+                <img v-if="urlImage" :src="urlImage" alt="" class="card-img-top mt-2 mb-2 rounded img">
                 <label for="image_package_detail" class="mt-2">Package Detail Image</label>
                 <Field name="image_package_detail">
                   <input name="image_package_detail" type="file" v-on:change="onChange2" class="form-control" accept="image/*" />
@@ -170,7 +200,7 @@
               </div>
               <div class="form-outline mb-4" v-if="destinations || destinations.length">
                 <label for="id_tourist_destinations">Tour Destination</label>
-                <Field name="id_tourist_destinations" as="select" class="form-select">
+                <Field name="id_tourist_destinations" as="select" class="form-control form-select">
                   <option disabled selected value>-Tour Destinations-</option>
                   <option v-for="(destination, index) in destinations" :key="index"
                     :value="destination.id_tourist_destinations">
@@ -213,7 +243,36 @@
           <h5 class="m-0 font-weight-bold color-main">Manage Tour Packages Pricing</h5>
         </div>
         <div class="card-body">
-          <div class="table-responsive">
+          <EasyDataTable show-index alternating :headers="headers1" :items="prices" :theme-color="themeColor" style="z-index: 1;"
+            buttons-pagination :loading="statusLoad">
+            <template #loading>
+              <div class="d-flex justify-content-center align-items-center">
+                <div class="loader">
+                  <div class="box"></div>
+                  <div class="box"></div>
+                  <div class="box"></div>
+                  <div class="box"></div>
+                  <div class="box"></div>
+                </div>
+              </div>
+            </template>
+            <template #item-price="item">
+              {{ $filters.formatPrice(item.price) }}
+            </template>
+            <template #item-action="item">
+              <div class="operation-wrapper" style="min-width: 100px;">
+                <div class="d-flex pr-2 pt-2 pb-2">
+                  <router-link to="#" class="btn btn-success">
+                    <font-awesome-icon icon="pencil" />
+                  </router-link>
+                  <button class="btn btn-danger mx-2" @click="deleteDataPackagesPrice(item.id_package_prices)">
+                    <font-awesome-icon icon="trash" />
+                  </button>
+                </div>
+              </div>
+            </template>
+          </EasyDataTable>
+          <!-- <div class="table-responsive">
             <table class="table table-bordered table-condensed table-striped" id="dataTable" width="100%"
               cellspacing="0">
               <thead>
@@ -261,7 +320,7 @@
                 </tr>
               </tfoot>
             </table>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -361,7 +420,7 @@ export default {
         .string()
         .required("Package name is required!")
         .min(3, "Must be at least 3 characters!")
-        .max(1024, "Must be maximum 1024 characters!"),
+        .max(2048, "Must be maximum 2048 characters!"),
       id_package_categories: yup
         .string()
         .notOneOf(['-Package Category-'], 'Package category is required!'),
@@ -369,12 +428,12 @@ export default {
         .string()
         .required("Description is required!")
         .min(3, "Must be at least 3 characters!")
-        .max(1024, "Must be maximum 1024 characters!"),
+        .max(2048, "Must be maximum 2048 characters!"),
       terms: yup
         .string()
         .required("Terms and Conditions is required!")
         .min(3, "Must be at least 3 characters!")
-        .max(1024, "Must be maximum 1024 characters!"),
+        .max(2048, "Must be maximum 2048 characters!"),
     });
 
     const schemaPrice = yup.object().shape({
@@ -386,12 +445,12 @@ export default {
         .string()
         .required("Transportation is required!")
         .min(3, "Must be at least 3 characters!")
-        .max(1024, "Must be maximum 1024 characters!"),
+        .max(2048, "Must be maximum 2048 characters!"),
       pickup_location: yup
         .string()
         .required("Location is required!")
         .min(3, "Must be at least 3 characters!")
-        .max(1024, "Must be maximum 1024 characters!"),
+        .max(2048, "Must be maximum 2048 characters!"),
       price: yup
         .number()
         .required("Price is required!")
@@ -406,7 +465,7 @@ export default {
         .string()
         .required("Pickup time is required!")
         .min(3, "Must be at least 3 characters!")
-        .max(1024, "Must be maximum 1024 characters!"),
+        .max(2048, "Must be maximum 2048 characters!"),
     });
 
     const schemaDetail = yup.object().shape({
@@ -425,10 +484,35 @@ export default {
         .string()
         .required("Duration is required!")
         .min(3, "Must be at least 3 characters!")
-        .max(1024, "Must be maximum 1024 characters!"),
+        .max(2048, "Must be maximum 2048 characters!"),
     });
 
+    const themeColor = "#184fa7";
+    const headers = [
+      { text: "Image", value: "image" },
+      { text: "Destination", value: "tourist_destination.name" },
+      { text: "Day", value: "day" },
+      { text: "Sequence", value: "tour_sequence" },
+      { text: "Duration", value: "duration" },
+      { text: "Action", value: "action" },
+    ];
+
+    const headers1 = [
+      { text: "Pax Total", value: "pax_total" },
+      { text: "Transportation", value: "transportation" },
+      { text: "Pickup Location", value: "pickup_location" },
+      { text: "Latitude", value: "latitude" },
+      { text: "Longitude", value: "longitude" },
+      { text: "Pickup Time", value: "pickup_time" },
+      { text: "Price", value: "price" },
+      { text: "Action", value: "action" },
+    ];
+
     return {
+      themeColor,
+      headers,
+      headers1,
+      statusLoad: false,
       successful: false,
       loading: false,
       message: "",
@@ -792,11 +876,14 @@ export default {
       )
     },
     loadPackageDetailId() {
+      this.statusLoad = true
       TourPackageDetailService.getAllById(this.$route.params.id_tour_packages).then(
         (response) => {
+          this.statusLoad = false
           this.tourpackagesdetails = response.data
         },
         (error) => {
+          this.statusLoad = false
           this.content =
             (error.response &&
               error.response.data &&
@@ -807,11 +894,14 @@ export default {
       )
     },
     loadPackagePriceId() {
+      this.statusLoad = true
       TourPackagePriceService.getById(this.$route.params.id_tour_packages).then(
         (response) => {
+          this.statusLoad = false
           this.prices = response.data
         },
         (error) => {
+          this.statusLoad = false
           this.content =
             (error.response &&
               error.response.data &&

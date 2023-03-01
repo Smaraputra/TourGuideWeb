@@ -61,7 +61,7 @@
                                     </div>
                                     <div class="col-md-6 mb-4">
                                         <label for="id_roles">Account Type</label>
-                                        <Field name="id_roles" as="select" class="form-control">
+                                        <Field name="id_roles" as="select" class="form-control form-select">
                                             <option disabled selected value>-Account Type-</option>
                                             <option value="2">Tour Agent</option>
                                             <option value="3">Tour Guide</option>

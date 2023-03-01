@@ -1,6 +1,7 @@
 import axios from 'axios';
 import authHeader from './auth-header';
 import apiUrl from "./api-url";
+import fileHeader from './file-header';
 
 const API_URL = apiUrl() + 'guide/';
 
@@ -10,6 +11,12 @@ class TourGuideService {
   }
   getTopThree() {
     return axios.get(API_URL + "top", { headers: authHeader() });
+  }
+  getProfile() {
+    return axios.get(API_URL + 'getProfile', { headers: authHeader() });
+  }
+  archiveAccount() {
+    return axios.get(API_URL + "archiveAccount", { headers: authHeader() });
   }
   checkTourGuide() {
     return axios.get(API_URL + "check", { headers: authHeader() });
@@ -44,9 +51,20 @@ class TourGuideService {
       {
         id_tour_agents: guide.id_tour_agents,
         description: guide.description,
+        fee_out: guide.fee_out,
       },
       { headers: authHeader() }
     );
+  }
+
+  async update(guide, file) {
+    const response = await axios
+      .post(API_URL + 'update', {
+        description: guide.description,
+        fee_out: guide.fee_out,
+        photo: file
+      }, { headers: fileHeader() });
+    return response.data;
   }
 }
 

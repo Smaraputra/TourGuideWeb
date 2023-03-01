@@ -27,9 +27,9 @@
                 <template #item-photo="item">
                     <img v-if="item.users.photo != null"
                         :src="item.users.photo" alt=""
-                        class="card-img-top mt-2 rounded imgSmallTabel">
+                        class="card-img-top mt-2 mb-2 rounded imgSmallTabel">
                     <img v-else src="../../../assets/img/home/image_placeholder.png" alt=""
-                        class="card-img-top mt-2 rounded imgSmallTabel">
+                        class="card-img-top mt-2 mb-2 rounded imgSmallTabel">
                 </template>
                 <template #item-status="item">
                     <button v-if="item.status == 'Chosen'"

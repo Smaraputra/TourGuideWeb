@@ -28,12 +28,12 @@
                         </template>
                         <template #item-action="item">
                             <div class="operation-wrapper" style="min-width: 100px;">
-                                <div class="d-flex justify-content-evenly align-items-center align-middle pr-2 pt-2 pb-2">
+                                <div class="d-flex pr-2 pt-2 pb-2">
                                     <router-link class="btn btn-success"
                                         :to="{ name: 'payment-detail-detail', params: { id_payment_method_details: item.id_payment_method_details }}">
                                         <font-awesome-icon icon="pencil" />
                                     </router-link>
-                                    <button class="btn btn-danger"
+                                    <button class="btn btn-danger mx-2"
                                         @click="deleteData(item.id_payment_method_details)">
                                         <font-awesome-icon icon="trash" />
                                     </button>
@@ -95,7 +95,7 @@
                         <div>
                             <div class="form-outline mb-4" v-if="methods || methods.length">
                                 <label for="id_payment_methods">Payment Methods</label>
-                                <Field name="id_payment_methods" as="select" class="form-select">
+                                <Field name="id_payment_methods" as="select" class="form-control form-select">
                                     <option disabled selected value>-Payment Methods-</option>
                                     <option v-for="(method, index) in methods" :key="index"
                                         :value="method.id_payment_methods">
@@ -151,12 +151,12 @@ export default {
                 .string()
                 .required("Payment Number/ID is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(1024, "Must be maximum 1024 characters!"),
+                .max(2048, "Must be maximum 2048 characters!"),
             description: yup
                 .string()
                 .required("Description is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(1024, "Must be maximum 1024 characters!"),
+                .max(2048, "Must be maximum 2048 characters!"),
         });
 
         const themeColor = "#184fa7";

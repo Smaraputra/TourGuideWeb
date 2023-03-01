@@ -24,7 +24,7 @@
                 <div v-if="details">
                     <div class="form-outline mb-4" v-if="methods || methods.length">
                         <label for="id_payment_methods">Payment Methods</label>
-                        <Field name="id_payment_methods" as="select" class="form-select" v-model="details.id_payment_methods">
+                        <Field name="id_payment_methods" as="select" class="form-control form-select" v-model="details.id_payment_methods">
                             <option disabled selected value>-Payment Methods-</option>
                             <option v-for="(method, index) in methods" :key="index"
                                 :value="method.id_payment_methods">
@@ -82,12 +82,12 @@ export default {
                 .string()
                 .required("Payment Number/ID is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(1024, "Must be maximum 1024 characters!"),
+                .max(2048, "Must be maximum 2048 characters!"),
             description: yup
                 .string()
                 .required("Description is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(1024, "Must be maximum 1024 characters!"),
+                .max(2048, "Must be maximum 2048 characters!"),
         });
 
         return {

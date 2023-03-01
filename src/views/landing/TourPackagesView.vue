@@ -121,13 +121,20 @@ export default {
       categories: [],
       packages: [],
       destinations: [],
-      package_name: null,
+      package_name: '',
       slt_categories: [],
       statusLoad: false,
       statusPackage: false,
       statusCategory: false,
       statusDestination: false,
     };
+  },
+  mounted() {
+    this.getAllPackage()
+    this.getAllCategory()
+    this.getAllDestination()
+    this.package_name = this.$route.query.package_name
+    this.searchFilter()
   },
   methods: {
     getAllPackage() {
@@ -208,11 +215,6 @@ export default {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
     },
-  },
-  mounted() {
-    this.getAllPackage()
-    this.getAllCategory()
-    this.getAllDestination()
   },
 };
 </script>

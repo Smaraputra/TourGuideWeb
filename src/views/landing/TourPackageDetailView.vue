@@ -20,7 +20,7 @@
                                 <ul>
                                     <li><router-link to="/">Home</router-link></li>
                                     <li><span><font-awesome-icon icon="circle" /></span><router-link to="/packages">Tour
-                                            Destination</router-link></li>
+                                            Package</router-link></li>
                                     <li><span><font-awesome-icon icon="circle" /></span>Package Detail</li>
                                 </ul>
                             </div>
@@ -57,93 +57,7 @@
                                     <hr class="hr" />
                                     <p>{{ tourpackages.description }}</p>
                                 </div>
-                                <div class="accordion mt-3" id="accordionDetail">
-                                    <div v-if="tourpackagesdetails" class="mb-4">
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header" id="headingDetail">
-                                                <button class="accordion-button collapsed" type="button"
-                                                    data-bs-toggle="collapse" data-bs-target="#collapseDetail"
-                                                    aria-expanded="true" aria-controls="collapseDetail">
-                                                    <strong>Tour Details</strong>
-                                                </button>
-                                            </h2>
-                                            <div id="collapseDetail" class="accordion-collapse collapse"
-                                                aria-labelledby="headingOne" data-bs-parent="#accordionDetail">
-                                                <div class="accordion-body">
-                                                    <div class="main-timeline-2">
-                                                        <div v-for="(detail, index) in tourpackagesdetails"
-                                                            :key="index">
-                                                            <div class="timeline-2 left-2" v-if="index % 2 == 0">
-                                                                <div class="card">
-                                                                    <img v-if="detail.image_package_detail"
-                                                                        :src="detail.image_package_detail"
-                                                                        class="card-img-top img2" alt="">
-                                                                    <img v-else
-                                                                        src="../../assets/img/home/image_placeholder.png"
-                                                                        class="card-img-top img2" alt="">
-                                                                    <div class="card-body p-4">
-                                                                        <h4 class="fw-bold">
-                                                                            {{ detail.tourist_destination.name }}</h4>
-                                                                        <p class="text-muted">Day {{ detail.day }} |
-                                                                            Duration {{
-                                                                                detail.duration
-                                                                            }}</p>
-                                                                        <h4 class="mt-4">Facility</h4>
-                                                                        <hr class="hr" />
-                                                                        <div v-for="(facility, index2) in detail.package_facilities"
-                                                                            :key="index2">
-                                                                            <p>- {{ facility.facilities }}</p>
-                                                                        </div>
-                                                                        <h4 class="mt-4">Activity</h4>
-                                                                        <hr class="hr" />
-                                                                        <div v-for="(act, index2) in detail.tour_activity"
-                                                                            :key="index2">
-                                                                            <p>- {{ act.activity }} |
-                                                                                {{ act.start_time }}-{{ act.end_time }}
-                                                                            </p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="timeline-2 right-2" v-else>
-                                                                <div class="card">
-                                                                    <img v-if="detail.image_package_detail"
-                                                                        :src="detail.image_package_detail"
-                                                                        class="card-img-top img2" alt="">
-                                                                    <img v-else
-                                                                        src="../../assets/img/home/image_placeholder.png"
-                                                                        class="card-img-top img2" alt="">
-                                                                    <div class="card-body p-4">
-                                                                        <h4 class="fw-bold">
-                                                                            {{ detail.tourist_destination.name }}</h4>
-                                                                        <p class="text-muted">Day {{ detail.day }} |
-                                                                            Duration {{
-                                                                                detail.duration
-                                                                            }}</p>
-                                                                        <h4 class="mt-4">Facility</h4>
-                                                                        <hr class="hr" />
-                                                                        <div v-for="(facility, index2) in detail.package_facilities"
-                                                                            :key="index2">
-                                                                            <p>- {{ facility.facilities }}</p>
-                                                                        </div>
-                                                                        <h4 class="mt-4">Activity</h4>
-                                                                        <hr class="hr" />
-                                                                        <div v-for="(act, index2) in detail.tour_activity"
-                                                                            :key="index2">
-                                                                            <p>- {{ act.activity }} |
-                                                                                {{ act.start_time }}-{{ act.end_time }}
-                                                                            </p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <TourTimeline :tourpackagesdetails="tourpackagesdetails"></TourTimeline>
                                 <div>
                                     <div class="mt-4">
                                         <h4 class="mt-4">Package Pricing</h4>
@@ -191,11 +105,11 @@
                             <div class="dashboard_common_table">
                                 <h3 class="mb-2">Order Form</h3>
                                 <Form @submit="addTransaction" :validation-schema="schemaTransaction">
-                                    <p>Fill the form down below to add new tour package activity.</p>
+                                    <p>Fill the form down below to order tour package.</p>
                                     <div>
                                         <div class="form-outline mb-4">
                                             <label for="id_package_prices">Choose Your Pax Price</label>
-                                            <Field name="id_package_prices" as="select" class="form-select"
+                                            <Field name="id_package_prices" as="select" class="form-control form-select"
                                                 v-model="id_package_prices" @change="getPrice">
                                                 <option disabled selected value>-Pax-</option>
                                                 <option v-for="(price, index) in tourpackages.package_price"
@@ -266,9 +180,9 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <a class="btn btn-primary btn-block"
+                                                                <button class="btn btn_theme btn-block"
                                                                     @click="clearLatLong">Clear Custom Pickup
-                                                                    Location</a>
+                                                                    Location</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -277,19 +191,19 @@
                                         </div>
                                         <h3 class="mb-3">Summary</h3>
                                         <p>Package price: <span v-if="initial">{{ $filters.formatPrice(initial) }}</span><span
-                                                v-else>0</span></p>
+                                                v-else>{{ $filters.formatPrice(0) }}</span></p>
                                         <p>Additional fee: <span v-if="addFee">{{ $filters.formatPrice(addFee) }}</span><span
-                                                v-else>0</span></p>
+                                                v-else>{{ $filters.formatPrice(0) }}</span></p>
                                         <div v-if="distances">
                                             <p v-for="(distance, index) in distances" :key="index">- Day {{ index+ 1}}:
                                                 {{ distance }} Km.</p>
                                         </div>
                                         <hr class="hr" />
-                                        <h4 class="mb-4">Total price: <span v-if="total">{{ $filters.formatPrice(total) }}</span><span v-else>0</span>
+                                        <h4 class="mb-4">Total price: <span v-if="total">{{ $filters.formatPrice(total) }}</span><span v-else>{{ $filters.formatPrice(0) }}</span>
                                         </h4>
                                         <div class="form-outline mb-4" v-if="methods || methods.length">
                                             <label for="id_payment_method_details">Choose Your Payment Methods</label>
-                                            <Field name="id_payment_method_details" as="select" class="form-select">
+                                            <Field name="id_payment_method_details" as="select" class="form-control form-select">
                                                 <option disabled selected value>-Payment Methods-</option>
                                                 <option v-for="(method, index) in methods" :key="index"
                                                     :value="method.id_payment_method_details">
@@ -325,6 +239,7 @@ import TourPackageService from "../../services/tour-package.service";
 import TourAgentService from "../../services/tour-agent.service";
 import OrderService from "../../services/order.service";
 import HaversineGeolocation from 'haversine-geolocation';
+import TourTimeline from "../../components/global/TourTimeline.vue";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 export default {
@@ -333,6 +248,7 @@ export default {
         Form,
         Field,
         ErrorMessage,
+        TourTimeline,
     },
     data() {
         const schemaTransaction = yup.object().shape({
@@ -528,7 +444,12 @@ export default {
                 this.successful = false;
                 this.loading = true;
 
-                OrderService.store(schemaTransaction, this.addFee, this.total).then(
+                let tourduration = this.tourpackagesdetails.at(-1).day - 1
+                const date = new Date(schemaTransaction.order_date)
+                date.setDate(date.getDate() + tourduration)
+                let enddate = this.moment(date).format('YYYY-MM-DD');
+
+                OrderService.store(schemaTransaction, this.addFee, this.total, enddate).then(
                     () => {
                         this.message = "New order successfully placed.";
                         this.successful = true;

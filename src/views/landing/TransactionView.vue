@@ -19,10 +19,7 @@
                                 <p class="text-white">See all your transactions.</p>
                                 <ul>
                                     <li><router-link to="/">Home</router-link></li>
-                                    <li><span><font-awesome-icon icon="circle" /></span><router-link
-                                            to="/destinations">Tour
-                                            Destination</router-link></li>
-                                    <li><span><font-awesome-icon icon="circle" /></span>Detail</li>
+                                    <li><span><font-awesome-icon icon="circle" /></span>Transaction</li>
                                 </ul>
                             </div>
                         </div>

@@ -29,12 +29,63 @@
             </section>
             <section class="container p-4">
                 <div class="row" v-if="transaction">
+                    <div class="col-md-12 mt-4" v-if="transaction['order_status'] == 'Finished'">
+                        <div class="card shadow border-0">
+                            <div class="dashboard_common_table">
+                                <h3 class="mb-4">Thank you for trusting us. We tried our best to provide the best tour package dan guide!</h3>
+                                <div class="row">
+                                    <div class="col-md-6 mb-2">
+                                        <form @submit.prevent="handleSaveTour()" class="card shadow border-0 dashboard_common_table">
+                                            <p class="text-center">Rate your tour package!</p>
+                                            <fieldset class="rating"> 
+                                                <input type="radio" name="tourRating" value="5" id="tourRating5" v-model="tourRating" required :disabled="tourRatingStatus"><label for="tourRating5">☆</label> 
+                                                <input type="radio" name="tourRating" value="4" id="tourRating4" v-model="tourRating" required :disabled="tourRatingStatus"><label for="tourRating4">☆</label> 
+                                                <input type="radio" name="tourRating" value="3" id="tourRating3" v-model="tourRating" required :disabled="tourRatingStatus"><label for="tourRating3">☆</label> 
+                                                <input type="radio" name="tourRating" value="2" id="tourRating2" v-model="tourRating" required :disabled="tourRatingStatus"><label for="tourRating2">☆</label> 
+                                                <input type="radio" name="tourRating" value="1" id="tourRating1" v-model="tourRating" required :disabled="tourRatingStatus"><label for="tourRating1">☆</label>
+                                            </fieldset>
+                                            <button type="submit" class="mt-2 btn btn_theme btn-block text-white" v-if="!tourRatingStatus"
+                                                :disabled="loading3">
+                                                <span v-show="loading3" class="spinner-border spinner-border-sm"></span>
+                                                <font-awesome-icon icon="star" /><span> Give Tour Package Rating</span>
+                                            </button>
+                                        </form>
+                                        <div v-if="message3" class="alert mt-2"
+                                            :class="successful3 ? 'alert-success' : 'alert-danger'">
+                                            {{ message3 }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" v-if="transaction.tour_packages.package_category.guide_included == 'Yes'">
+                                        <form @submit.prevent="handleSaveGuide()" class="card shadow border-0 dashboard_common_table">
+                                            <p class="text-center">Rate your guide!</p>
+                                            <fieldset class="rating"> 
+                                                <input type="radio" name="guideRating" value="5" id="guideRating5" v-model="guideRating" required :disabled="guideRatingStatus"><label for="guideRating5">☆</label> 
+                                                <input type="radio" name="guideRating" value="4" id="guideRating4" v-model="guideRating" required :disabled="guideRatingStatus"><label for="guideRating4">☆</label> 
+                                                <input type="radio" name="guideRating" value="3" id="guideRating3" v-model="guideRating" required :disabled="guideRatingStatus"><label for="guideRating3">☆</label> 
+                                                <input type="radio" name="guideRating" value="2" id="guideRating2" v-model="guideRating" required :disabled="guideRatingStatus"><label for="guideRating2">☆</label> 
+                                                <input type="radio" name="guideRating" value="1" id="guideRating1" v-model="guideRating" required :disabled="guideRatingStatus"><label for="guideRating1">☆</label>
+                                            </fieldset>
+                                            <button type="submit" class="mt-2 btn btn_theme btn-block text-white" v-if="!guideRatingStatus"
+                                                :disabled="loading4">
+                                                <span v-show="loading4" class="spinner-border spinner-border-sm"></span>
+                                                <font-awesome-icon icon="star" /><span> Give Guide Rating</span>
+                                            </button>
+                                        </form>
+                                        <div v-if="message4" class="alert mt-2"
+                                            :class="successful4 ? 'alert-success' : 'alert-danger'">
+                                            {{ message4 }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-md-8 mt-4">
                         <div class="card shadow border-0">
                             <div class="dashboard_common_table">
                                 <button v-if="transaction['order_status'] == 'Finished'" style="float: right; padding-bottom: 2px;"
                                     class="btn btn-success">{{ transaction['order_status'] }}</button>
-                                <button v-else-if="transaction['order_status'] == 'Cancelled'" style="float: right; padding-bottom: 2px;"
+                                <button v-else-if="transaction['order_status'] == 'Cancelled' || transaction['order_status'] == 'Refused by Agent'" style="float: right; padding-bottom: 2px;"
                                     class="btn btn-danger">{{ transaction['order_status'] }}</button>
                                 <button v-else style="float: right; padding-bottom: 2px;" class="btn btn-warning">{{
                                         transaction['order_status']
@@ -78,20 +129,15 @@
                                 </div>
                                 <div class="form-outline mb-4">
                                     <label for="total_price">Total Price</label>
-                                    <Field name="total_price" type="text" :value="'Rp. ' + transaction['total_price']"
+                                    <Field name="total_price" type="text" :value="$filters.formatPrice(transaction['total_price'])"
                                         class="form-control" disabled />
                                     <ErrorMessage name="total_price" class="error-feedback" />
                                 </div>
-                                <div class="form-outline mb-4" v-if="transaction['rating_package'] != null && transaction['rating_package'] > 0">
+                                <!-- <div class="form-outline mb-4" v-if="transaction['rating_package'] != null && transaction['rating_package'] > 0 && transaction['order_status'] == 'Finished'">
                                     <label for="rating_package">Rating</label>
                                     <Field name="rating_package" type="text" class="form-control" :value="transaction['rating_package'] + ' Stars'" disabled/>
                                     <ErrorMessage name="rating_package" class="error-feedback" />
-                                </div>
-                                <div class="form-outline mb-4" v-else-if="transaction['rating_package'] == null && transaction['order_status'] == 'Finished'">
-                                    <label for="rating_package">Rating</label>
-                                    <Field name="rating_package" type="number" class="form-control"/>
-                                    <ErrorMessage name="rating_package" class="error-feedback" />
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                         <div class="card shadow border-0 mt-4">
@@ -119,78 +165,7 @@
                                     <h4 class="mt-4">Start - End Date</h4>
                                     <p>{{ transaction.order_date }} to {{ enddate }}</p>
                                 </div>
-                                <div class="accordion mt-4">
-                                    <div class="accordion-item" v-if="tourpackagesdetails">
-                                        <h2 class="accordion-header" id="headingDetail">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                                data-bs-target="#collapseDetail" aria-expanded="true"
-                                                aria-controls="collapseDetail">
-                                                <strong>Tour Details</strong>
-                                            </button>
-                                        </h2>
-                                        <div id="collapseDetail" class="accordion-collapse collapse"
-                                            aria-labelledby="headingDetail">
-                                            <div class="accordion-body">
-                                                <div class="main-timeline-2">
-                                                    <div v-for="(detail, index) in tourpackagesdetails" :key="index">
-                                                        <div class="timeline-2 left-2" v-if="index % 2 == 0">
-                                                            <div class="card">
-                                                                <img v-if="detail.image_package_detail" :src="detail.image_package_detail" class="card-img-top img2"
-                                                                    alt="">
-                                                                <img v-else src="../../assets/img/home/image_placeholder.png" class="card-img-top img2" alt="">
-                                                                <div class="card-body p-4">
-                                                                    <h4 class="fw-bold">
-                                                                        {{ detail.tourist_destination.name }}</h4>
-                                                                    <p class="text-muted">Day {{ detail.day }} |
-                                                                        Duration {{
-                                                                        detail.duration
-                                                                        }}</p>
-                                                                    <h6 class="mt-4">Facility</h6>
-                                                                    <hr class="hr" />
-                                                                    <div v-for="(facility, index2) in detail.package_facilities" :key="index2">
-                                                                        <p>- {{ facility.facilities }}</p>
-                                                                    </div>
-                                                                    <h6 class="mt-4">Activity</h6>
-                                                                    <hr class="hr" />
-                                                                    <div v-for="(act, index2) in detail.tour_activity" :key="index2">
-                                                                        <p>- {{ act.activity }} |
-                                                                            {{ act.start_time }}-{{ act.end_time }}</p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="timeline-2 right-2" v-else>
-                                                            <div class="card">
-                                                                <img v-if="detail.image_package_detail" :src="detail.image_package_detail" class="card-img-top img2"
-                                                                    alt="">
-                                                                <img v-else src="../../assets/img/home/image_placeholder.png" class="card-img-top img2" alt="">
-                                                                <div class="card-body p-4">
-                                                                    <h4 class="fw-bold">
-                                                                        {{ detail.tourist_destination.name }}</h4>
-                                                                    <p class="text-muted">Day {{ detail.day }} |
-                                                                        Duration {{
-                                                                        detail.duration
-                                                                        }}</p>
-                                                                    <h6 class="mt-4">Facility</h6>
-                                                                    <hr class="hr" />
-                                                                    <div v-for="(facility, index2) in detail.package_facilities" :key="index2">
-                                                                        <p>- {{ facility.facilities }}</p>
-                                                                    </div>
-                                                                    <h6 class="mt-4">Activity</h6>
-                                                                    <hr class="hr" />
-                                                                    <div v-for="(act, index2) in detail.tour_activity" :key="index2">
-                                                                        <p>- {{ act.activity }} |
-                                                                            {{ act.start_time }}-{{ act.end_time }}</p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <TourTimeline :tourpackagesdetails="tourpackagesdetails"></TourTimeline>
                                 <div class="accordion mt-2">
                                     <div class="accordion-item">
                                         <h2 class="accordion-header" id="headingGuide">
@@ -258,54 +233,62 @@
                                         transaction.payments[0].payment_status
                                 }}</button>
                                 <h3 class="mb-4">Payment</h3>
-                                <img v-if="transaction.payments[0].payment_proof != null"
+                                <template v-if="transaction.payments[0].payment_status != 'Cancelled' && transaction['order_status'] != 'Refused by Agent'">
+                                    <img v-if="transaction.payments[0].payment_proof != null"
                                     :src="transaction.payments[0].payment_proof" alt=""
                                     class="card-img-top mt-2 rounded">
-                                <img v-else src="../../assets/img/home/image_placeholder.png" alt=""
-                                    class="card-img-top mt-2 rounded">
-                                <div v-if="transaction.payments[0].payment_status != 'Paid'">
-                                    <hr>
-                                    <p class="mt-2"><strong>Total Payment : </strong><span> Rp. {{ transaction.total_price
-                                            }} </span>
-                                    </p>
-                                    <p class="mt-2"><strong>Complete Your Payment before : </strong><span>
-                                            {{ transaction.payments[0].payment_date }} </span></p>
-                                    <hr>
-                                </div> 
-                                <Form @submit="uploadPayment" enctype="multipart/form-data"
-                                    v-if="transaction.payments[0].payment_status != 'Cancelled' && transaction.payments[0].payment_status != 'Paid'">
-                                    <div class="form-outline mb-4">
-                                        <label for="payment_proof">Payment Proof</label>
-                                        <Field name="payment_proof">
-                                            <input name="payment_proof" type="file" v-on:change="onChange"
-                                                class="form-control" accept="image/*" />
-                                        </Field>
-                                        <ErrorMessage name="payment_proof" class="error-feedback" />
+                                    <img v-else src="../../assets/img/home/image_placeholder.png" alt=""
+                                        class="card-img-top mt-2 rounded">
+                                    <div v-if="transaction.payments[0].payment_status != 'Paid'">
+                                        <hr>
+                                        <p class="mt-2"><strong>Payment Method : </strong><span> {{ transaction.payments[0].payment_method_detail.payment_method.method + ' (' + transaction.payments[0].payment_method_detail.payment_number + ')'
+                                                }} </span>
+                                        </p>
+                                        <p class="mt-2"><strong>Total Payment : </strong><span> {{ $filters.formatPrice(transaction.total_price)
+                                                }} </span>
+                                        </p>
+                                        <p class="mt-2"><strong>Complete Your Payment before : </strong><span>
+                                                {{ transaction.payments[0].payment_date }} </span></p>
+                                        <hr>
+                                    </div> 
+                                    <Form @submit="uploadPayment" enctype="multipart/form-data"
+                                        v-if="transaction.payments[0].payment_status != 'Cancelled' && transaction.payments[0].payment_status != 'Paid'">
+                                        <div class="form-outline mb-4">
+                                            <label for="payment_proof">Payment Proof</label>
+                                            <Field name="payment_proof">
+                                                <input name="payment_proof" type="file" v-on:change="onChange"
+                                                    class="form-control" accept="image/*" />
+                                            </Field>
+                                            <ErrorMessage name="payment_proof" class="error-feedback" />
+                                        </div>
+                                        <div class="form-group mt-4">
+                                            <button class="btn btn_theme btn-block"
+                                                :disabled="loading">
+                                                <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+                                                <font-awesome-icon icon="credit-card" /><span> Upload</span>
+                                            </button>
+                                        </div>
+                                        <div v-if="message" class="alert mt-2"
+                                            :class="successful ? 'alert-success' : 'alert-danger'">
+                                            {{ message }}
+                                        </div>
+                                    </Form>
+                                    <div
+                                        v-if="transaction.order_status == 'Waiting Payment' && (transaction.payments[0].payment_status == 'Waiting Payment' || transaction.payments[0].payment_status == 'Rejected')">
+                                        <hr>
+                                        <a class="btn btn-danger me-2" @click="cancelOrder()" :disabled="loading2">
+                                            <span v-show="loading2" class="spinner-border spinner-border-sm"></span>
+                                            <font-awesome-icon icon="times" /><span> Cancel Order </span>
+                                        </a>
+                                        <div v-if="message2" class="alert mt-2"
+                                            :class="successful2 ? 'alert-success' : 'alert-danger'">
+                                            {{ message2 }}
+                                        </div>
                                     </div>
-                                    <div class="form-group mt-4">
-                                        <button class="btn btn_theme btn-block"
-                                            :disabled="loading">
-                                            <span v-show="loading" class="spinner-border spinner-border-sm"></span>
-                                            <font-awesome-icon icon="credit-card" /><span> Upload</span>
-                                        </button>
-                                    </div>
-                                    <div v-if="message" class="alert mt-2"
-                                        :class="successful ? 'alert-success' : 'alert-danger'">
-                                        {{ message }}
-                                    </div>
-                                </Form>
-                                <div
-                                    v-if="transaction.order_status == 'Waiting Payment' && (transaction.payments[0].payment_status == 'Waiting Payment' || transaction.payments[0].payment_status == 'Rejected')">
-                                    <hr>
-                                    <a class="btn btn-danger me-2" @click="cancelOrder()" :disabled="loading2">
-                                        <span v-show="loading2" class="spinner-border spinner-border-sm"></span>
-                                        <font-awesome-icon icon="times" /><span> Cancel Order </span>
-                                    </a>
-                                    <div v-if="message2" class="alert mt-2"
-                                        :class="successful2 ? 'alert-success' : 'alert-danger'">
-                                        {{ message2 }}
-                                    </div>
-                                </div>
+                                </template>
+                                <template v-else>
+                                    The order is {{ transaction['order_status'] }}.
+                                </template>
                             </div>
                         </div>
                     </div>
@@ -321,6 +304,7 @@ import OrderService from "../../services/order.service";
 import TourPackageService from "../../services/tour-package.service";
 import GuideSelectionService from "../../services/guide-selection.service";
 import { Form, Field, ErrorMessage } from "vee-validate";
+import TourTimeline from '@/components/global/TourTimeline.vue';
 // import * as rules from "@vee-validate/rules";
 
 // Object.keys(rules).forEach((rule) => {
@@ -333,6 +317,7 @@ export default {
         Form,
         Field,
         ErrorMessage,
+        TourTimeline
     },
     data() {
         return {
@@ -342,6 +327,12 @@ export default {
             successful2: false,
             loading2: false,
             message2: "",
+            successful3: false,
+            loading3: false,
+            message3: "",
+            successful4: false,
+            loading4: false,
+            message4: "",
             file: '',
             selectedGuide: null,
             transaction: null,
@@ -352,6 +343,13 @@ export default {
             statusLoad: false,
             statusPac: false,
             statusGuide: false,
+
+            tourRating: 0,
+            guideRating: 0,
+
+            tourRatingStatus: false,
+            guideRatingStatus: false,
+
         };
     },
     computed: {
@@ -422,6 +420,14 @@ export default {
             OrderService.getOneByIdUser(this.$route.params.id_orders).then(
                 (response) => {
                     this.transaction = response.data
+                    this.transaction.guideRating = response.data.guide_selections.filter(function(items) {
+                        return items.status == 'Chosen';
+                    })
+                    this.tourRating = this.transaction.rating_package ? this.transaction.rating_package : 0
+                    this.tourRatingStatus = this.tourRating != 0 ? true : false
+                    this.guideRating = this.transaction.guideRating[0].guide_services[0] ? this.transaction.guideRating[0].guide_services[0].rating_guide : 0
+                    this.guideRatingStatus = this.guideRating != 0 ? true : false
+                    console.log(this.transaction)
                     TourPackageService.getByIdDetail(this.transaction.tour_packages.id_tour_packages).then(
                         (response) => {
                             this.tourpackage = response.data
@@ -502,6 +508,76 @@ export default {
                     this.$swal.fire(
                         'Fail!',
                         'Payment is not uploaded.',
+                        'error'
+                    )
+                }
+            );
+        },
+
+        handleSaveTour() {
+            this.message3 = "";
+            this.successful3 = false;
+            this.loading3 = true;
+
+            OrderService.saveRating(this.tourRating, this.$route.params.id_orders).then(
+                () => {
+                    this.message3 = "Tour Package Rating Uploaded";
+                    this.successful3 = true;
+                    this.loading3 = false;
+                    this.$swal.fire(
+                        'Success!',
+                        'Tour package rating successfully uploaded.',
+                        'success'
+                    )
+                    this.loadTransaction()
+                },
+                (error) => {
+                    this.message3 =
+                        (error.response &&
+                            error.response.data &&
+                            error.response.data.message) ||
+                        error.message ||
+                        error.toString();
+                    this.successful3 = false;
+                    this.loading3 = false;
+                    this.$swal.fire(
+                        'Fail!',
+                        'Tour package rating is not uploaded.',
+                        'error'
+                    )
+                }
+            );
+        },
+
+        handleSaveGuide() {
+            this.message4 = "";
+            this.successful4 = false;
+            this.loading4 = true;
+
+            OrderService.saveGuideRating(this.guideRating, this.$route.params.id_orders, this.transaction.guideRating[0].id_guide_selections, this.transaction.guideRating[0].id_guides).then(
+                () => {
+                    this.message4 = "Guide Rating Uploaded";
+                    this.successful4 = true;
+                    this.loading4 = false;
+                    this.$swal.fire(
+                        'Success!',
+                        'Guide rating successfully uploaded.',
+                        'success'
+                    )
+                    this.loadTransaction()
+                },
+                (error) => {
+                    this.message4 =
+                        (error.response &&
+                            error.response.data &&
+                            error.response.data.message) ||
+                        error.message ||
+                        error.toString();
+                    this.successful4 = false;
+                    this.loading4 = false;
+                    this.$swal.fire(
+                        'Fail!',
+                        'Guide rating is not uploaded.',
                         'error'
                     )
                 }

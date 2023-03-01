@@ -1,17 +1,17 @@
 <template>
-  <div class="row">
+  <div class="row" v-if="profile">
     <div class="col-md-4 mb-4">
       <div class="dashboard_sidebar">
         <div class="dashboard_sidebar_user">
           <button style="border: 0; background: #F3F6FD;">
-            <img v-if="profile.photo != null && profile.photo != ''" :src="file == null ? profile.photo : urlImage"
+            <img v-if="profile.users.photo != null && profile.users.photo != ''" :src="file == null ? profile.users.photo : urlImage"
               @click="$refs.file.click()" alt="img">
-            <img v-if="profile.photo == null || profile.photo == ''" :src="urlImage" @click="$refs.file.click()" alt="img">
+            <img v-if="profile.users.photo == null || profile.users.photo == ''" :src="urlImage" @click="$refs.file.click()" alt="img">
           </button>
           <input type="file" ref="file" style="display: none" @change="onChange" accept="image/*" />
-          <h3>{{ profile.name }}</h3>
-          <p>{{ profile.phone }}</p>
-          <p>{{ profile.email }}</p>
+          <h3>{{ profile.users.name }}</h3>
+          <p>{{ profile.users.phone }}</p>
+          <p>{{ profile.users.email }}</p>
         </div>
         <div class="dashboard_menu_area">
           <ul>
@@ -26,33 +26,18 @@
     </div>
     <div class="col-md-8 mb-4">
       <div class="dashboard_common_table">
-        <h3>Tour Agent Profile</h3>
+        <h3>Guide Profile</h3>
         <div class="profile_update_form">
           <Form @submit="handleUpdate" :validation-schema="schema" id="profile_form_area">
-            <div class="form-group mb-4">
-              <label for="agent_name">Tour Agent Name</label>
-              <Field name="agent_name" type="text" class="form-control" v-model="profile.agent_name" />
-              <ErrorMessage name="agent_name" class="error-feedback" />
-            </div>
             <div class="form-group mb-4">
               <label for="description">Description</label>
               <Field as="textarea" name="description" type="description" class="form-control" v-model="profile.description" />
               <ErrorMessage name="description" class="error-feedback" />
             </div>
             <div class="form-group mb-4">
-              <label for="email">Email</label>
-              <Field name="email" disabled type="email" class="form-control" v-model="profile.email" />
-              <ErrorMessage name="email" class="error-feedback" />
-            </div>
-            <div class="form-group mb-4">
-              <label for="phone">Phone Number</label>
-              <Field name="phone" type="text" class="form-control" v-model="profile.phone" />
-              <ErrorMessage name="phone" class="error-feedback" />
-            </div>
-            <div class="form-group mb-4">
-              <label for="address">Address</label>
-              <Field name="address" type="text" class="form-control" v-model="profile.address" />
-              <ErrorMessage name="address" class="error-feedback" />
+              <label for="fee_out">Fee (IDR/Day)</label>
+              <Field name="fee_out" type="number" class="form-control" v-model="profile.fee_out" />
+              <ErrorMessage name="fee_out" class="error-feedback" />
             </div>
 
             <div class="pt-2">
@@ -76,12 +61,12 @@
 </template>
 
 <script>
-import TourAgentService from "../../../services/tour-agent.service";
+import TourGuideService from "../../../services/tour-guide.service";
 import previewImage from "../../../assets/img/home/image_placeholder.png"
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 export default {
-  name: 'TourAgentProfileAgentView',
+  name: 'GuideProfileAgentView',
   components: {
     Form,
     Field,
@@ -97,29 +82,15 @@ export default {
   },
   data() {
     const schema = yup.object().shape({
-      agent_name: yup
-        .string()
-        .required("Agent Name is required!")
-        .min(3, "Must be at least 3 characters!")
-        .max(255, "Must be maximum 255 characters!"),
-      email: yup
-        .string()
-        .required("Email is required!")
-        .min(3, "Must be at least 3 characters!")
-        .max(255, "Must be maximum 255 characters!"),
       description: yup
         .string()
         .required("Description is required!")
         .min(3, "Must be at least 3 characters!")
         .max(2048, "Must be maximum 2048 characters!"),
-      address: yup
-        .string()
-        .required("Address is required!")
-        .min(3, "Must be at least 3 characters!")
-        .max(255, "Must be maximum 255 characters!"),
-      phone: yup
-        .string()
-        .required("Phone number is required!"),
+      fee_out: yup
+        .number()
+        .required("Fee is required!")
+        .min(1, "Must be at least 1 IDR!"),
     });
     return {
       profile: '',
@@ -138,14 +109,14 @@ export default {
     if (!this.loggedIn) {
       this.$router.push("/login");
     }
-    if (this.currentUser.role_id != 2) {
+    if (this.currentUser.role_id != 3) {
       this.$router.push("/dashboard");
     }
     this.loadData()
   },
   methods: {
     archiveAccount() {
-      TourAgentService.archiveAccount().then(
+      TourGuideService.archiveAccount().then(
         () => {
           this.$store.dispatch('logout').then(
             () => {
@@ -164,8 +135,9 @@ export default {
       )
     },
     loadData() {
-      TourAgentService.getProfile().then(
+      TourGuideService.getProfile().then(
         (response) => {
+          console.log(response.data.data)
           this.profile = response.data.data
         },
         (error) => {
@@ -187,14 +159,14 @@ export default {
       this.successful = false;
       this.loading = true;
 
-      TourAgentService.update(schema, this.file).then(
+      TourGuideService.update(schema, this.file).then(
         (user) => {
-          this.message = "Tour agent profile successfully updated.";
+          this.message = "Guide profile successfully updated.";
           this.successful = true;
           this.loading = false;
           this.$swal.fire(
             'Success!',
-            'Tour agent profile successfully updated.',
+            'Guide profile successfully updated.',
             'success'
           )
           console.log(user)
@@ -210,7 +182,7 @@ export default {
           this.loading = false;
           this.$swal.fire(
             'Fail!',
-            'Tour agent profile is not updated.',
+            'Guide profile is not updated.',
             'error'
           )
         }

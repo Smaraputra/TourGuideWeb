@@ -20,7 +20,7 @@
             <div class="card shadow mb-4">
                 <div class="card-header p-3">
                     <div style="display: block;height: 30px;clear: both;">
-                        <h4 class="color-main" style="float: left;">Order Detail</h4>
+                        <h4 class="color-main p-2" style="float: left;">Order Detail</h4>
                         <button v-if="transaction['order_status'] == 'Finished'" style="float: right;"
                             class="btn btn-success">{{ transaction['order_status'] }}</button>
                         <button v-else-if="transaction['order_status'] == 'Cancelled' || transaction['order_status'] == 'Refused by Agent'" style="float: right;"
@@ -67,101 +67,32 @@
         <div class="col-md-8">
             <div class="card shadow mb-4">
                 <div class="card-header p-3">
-                    <h4 class="color-main">Tour Information</h4>
+                    <h4 class="color-main p-2">Tour Information</h4>
                 </div>
                 <div class="card-body p-4">
                     <div class="col-md-12" v-if="tourpackage">
-                        <h6>Description</h6>
+                        <h4 class="">Description</h4>
                         <p>{{ tourpackage.description }}</p>
-                        <h6>Terms and Conditions</h6>
+                        <h4 class="mt-4">Terms and Conditions</h4>
                         <p>{{ tourpackage.terms }}</p>
                         <div class="row">
                             <div class="col-md-6">
-                                <h6>Pickup Location</h6>
-                                <p v-if="transaction.order_details[0]">{{ transaction.order_details[0].location }}
+                                <h4 class="mt-4">Pickup Location</h4>
+                                <p v-if="transaction.order_details[0]">{{
+                                    transaction.order_details[0].location
+                                }}
                                 </p>
                                 <p v-else>{{ transaction.package_price.pickup_location }}</p>
                             </div>
                             <div class="col-md-6">
-                                <h6>Pickup Time</h6>
+                                <h4 class="mt-4">Pickup Time</h4>
                                 <p>{{ transaction.package_price.pickup_time }} WITA</p>
                             </div>
                         </div>
-                        <h6>Start - End Date</h6>
+                        <h4 class="mt-4">Start - End Date</h4>
                         <p>{{ transaction.order_date }} to {{ enddate }}</p>
                     </div>
-                    <div class="accordion">
-                        <div class="accordion-item" v-if="tourpackagesdetails">
-                            <h2 class="accordion-header" id="headingDetail">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseDetail" aria-expanded="true" aria-controls="collapseDetail">
-                                    <strong>Tour Details</strong>
-                                </button>
-                            </h2>
-                            <div id="collapseDetail" class="accordion-collapse collapse" aria-labelledby="headingDetail">
-                                <div class="accordion-body">
-                                    <div class="main-timeline-2">
-                                        <div v-for="(detail, index) in tourpackagesdetails" :key="index">
-                                            <div class="timeline-2 left-2" v-if="index % 2 == 0">
-                                                <div class="card">
-                                                    <img v-if="detail.image_package_detail" :src="detail.image_package_detail"
-                                                        class="card-img-top img2" alt="">
-                                                    <img v-else src="../../../assets/img/home/image_placeholder.png"
-                                                        class="card-img-top img2" alt="">
-                                                    <div class="card-body p-4">
-                                                        <h4 class="fw-bold">
-                                                            {{ detail.tourist_destination.name }}</h4>
-                                                        <p class="text-muted">Day {{ detail.day }} |
-                                                            Duration {{
-                                                            detail.duration
-                                                            }}</p>
-                                                        <h6 class="mt-4">Facility</h6>
-                                                        <hr class="hr" />
-                                                        <div v-for="(facility, index2) in detail.package_facilities" :key="index2">
-                                                            <p>- {{ facility.facilities }}</p>
-                                                        </div>
-                                                        <h6 class="mt-4">Activity</h6>
-                                                        <hr class="hr" />
-                                                        <div v-for="(act, index2) in detail.tour_activity" :key="index2">
-                                                            <p>- {{ act.activity }} |
-                                                                {{ act.start_time }}-{{ act.end_time }}</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="timeline-2 right-2" v-else>
-                                                <div class="card">
-                                                    <img v-if="detail.image_package_detail" :src="detail.image_package_detail"
-                                                        class="card-img-top img2" alt="">
-                                                    <img v-else src="../../../assets/img/home/image_placeholder.png"
-                                                        class="card-img-top img2" alt="">
-                                                    <div class="card-body p-4">
-                                                        <h4 class="fw-bold">
-                                                            {{ detail.tourist_destination.name }}</h4>
-                                                        <p class="text-muted">Day {{ detail.day }} |
-                                                            Duration {{
-                                                            detail.duration
-                                                            }}</p>
-                                                        <h6 class="mt-4">Facility</h6>
-                                                        <hr class="hr" />
-                                                        <div v-for="(facility, index2) in detail.package_facilities" :key="index2">
-                                                            <p>- {{ facility.facilities }}</p>
-                                                        </div>
-                                                        <h6 class="mt-4">Activity</h6>
-                                                        <hr class="hr" />
-                                                        <div v-for="(act, index2) in detail.tour_activity" :key="index2">
-                                                            <p>- {{ act.activity }} |
-                                                                {{ act.start_time }}-{{ act.end_time }}</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <TourTimeline :tourpackagesdetails="tourpackagesdetails"></TourTimeline>
                     <div class="accordion mt-2">
                         <div class="accordion-item" v-if="tourpackage">
                             <h2 class="accordion-header" id="headingGuide">
@@ -175,7 +106,7 @@
                                     <div class="row">
                                         <div class="col-md-12 col-lg-12 col-xl-12">
                                             <div class="card border-0" style="border-radius: 15px;">
-                                                <div class="card-body" v-if="tourpackage.package_category['guide_included'] === 'Included'">
+                                                <div class="card-body" v-if="tourpackage.package_category['guide_included'] === 'Yes'">
                                                     <div class="row" v-if="selectedGuide">
                                                         <div class="col-sm-12 col-md-3 text-center">
                                                             <img v-if="selectedGuide.users.photo != null" :src="selectedGuide.users.photo" alt="Guide"
@@ -209,19 +140,25 @@
                         </div>
                     </div>
                     <template v-if="guide">
-                        <div class="row" v-if="guide.guide_approval == 'Waiting Approval' && guide.status == 'Waiting Approval'">
-                            <div class="col-sm mt-2">
+                        <div v-if="guide.guide_approval == 'Waiting Approval' && guide.status == 'Waiting Approval'">
+                            <tr>
+                                <td>
+                                    <div class="mt-2">
                                 <button class="btn btn-success" @click="approval(guide.id_guide_selections, 'Approved')">
                                     <font-awesome-icon icon="check" style="width: 20px; height: 20px;" />
                                     Approve
                                 </button>
                             </div>
-                            <div class="col-sm mt-2">
+                                </td>
+                                <td>
+                                    <div class="mt-2 mx-2">
                                 <button class="btn btn-danger" @click="approval(guide.id_guide_selections, 'Rejected')">
                                     <font-awesome-icon icon="times" style="width: 20px; height: 20px;" />
                                     Reject
                                 </button>
                             </div>
+                                </td>
+                            </tr>
                         </div>
                     </template>
                 </div>
@@ -236,12 +173,14 @@ import OrderService from "../../../services/order.service";
 import TourPackageService from "../../../services/tour-package.service";
 import GuideSelectionService from "../../../services/guide-selection.service";
 import { Field, ErrorMessage } from "vee-validate";
+import TourTimeline from "@/components/global/TourTimeline.vue";
 
 export default {
     name: "GuideJobDetailGuideView",
     components: {
         Field,
         ErrorMessage,
+        TourTimeline
     },
     data() {
         return {

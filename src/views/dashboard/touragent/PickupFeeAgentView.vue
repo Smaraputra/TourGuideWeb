@@ -31,14 +31,12 @@
                         </template>
                         <template #item-action="item">
                             <div class="operation-wrapper" style="min-width: 100px;">
-                                <div class="d-flex justify-content-evenly align-items-center align-middle pr-2 pt-2 pb-2">
-                                    <router-link
+                                <div class="d-flex pr-2 pt-2 pb-2">
+                                    <router-link class="btn btn-success"
                                         :to="{ name: 'pickup-fee-detail', params: { id_pickup_fees: item.id_pickup_fees }}">
-                                        <button class="btn btn-success">
-                                            <font-awesome-icon icon="pencil" />
-                                        </button>
+                                        <font-awesome-icon icon="pencil" />
                                     </router-link>
-                                    <button class="btn btn-danger"
+                                    <button class="btn btn-danger mx-2"
                                         @click="deleteData(item.id_pickup_fees)">
                                         <font-awesome-icon icon="trash" />
                                     </button>

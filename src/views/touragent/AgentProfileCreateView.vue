@@ -14,7 +14,61 @@
             </div>
         </div>
     </section>
-    <section class="h-100 gradient-form">
+    <section id="common_author_area" class="mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                    <div class="common_author_boxed">
+                        <div class="common_author_heading">
+                            <h2>Tour Agent Profile</h2>
+                            <h3 class="mt-2">Fill the required field to complete your registration.</h3>
+                        </div>
+                        <div class="common_author_form">
+                            <Form @submit="handleProfileCreate" :validation-schema="schema">
+                                <div>
+                                    <div class="form-outline mb-4">
+                                        <label for="agent_name">Tour Agent Name</label>
+                                        <Field name="agent_name" type="text" class="form-control" />
+                                        <ErrorMessage name="agent_name" class="error-feedback" />
+                                    </div>
+                                    <div class="form-outline mb-4">
+                                        <label for="description">Description</label>
+                                        <Field name="description" type="text" class="form-control" />
+                                        <ErrorMessage name="description" class="error-feedback" />
+                                    </div>
+                                    <div class="form-outline mb-4">
+                                        <label for="email">Email</label>
+                                        <Field name="email" type="email" class="form-control" />
+                                        <ErrorMessage name="email" class="error-feedback" />
+                                    </div>
+                                    <div class="form-outline mb-4">
+                                        <label for="phone">Phone Number</label>
+                                        <Field name="phone" type="text" class="form-control" />
+                                        <ErrorMessage name="phone" class="error-feedback" />
+                                    </div>
+                                    <div class="form-outline mb-4">
+                                        <label for="address">Address</label>
+                                        <Field name="address" type="text" class="form-control" />
+                                        <ErrorMessage name="address" class="error-feedback" />
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn_theme btn-block" :disabled="loading">
+                                            <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+                                            <font-awesome-icon icon="user-plus" /><span> Finish</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div v-if="message" class="alert mt-2" :class="successful ? 'alert-success' : 'alert-danger'">
+                                    {{ message }}
+                                </div>
+                            </Form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- <section class="h-100 gradient-form">
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-xl-12">
@@ -78,13 +132,13 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 </template>
 
 <style scoped>
-    section  {
+    /* section  {
         background-image: url("../../assets/img/login/login.jpg");
-    }
+    } */
 </style>
 
 <script>

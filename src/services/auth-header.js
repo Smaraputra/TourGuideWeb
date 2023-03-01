@@ -4,6 +4,6 @@ export default function authHeader() {
   if (user && user.jwt) {
     return {Authorization: "Bearer " + user.jwt};
   } else {
-    return {};
+    return null;
   }
 }

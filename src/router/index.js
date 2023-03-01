@@ -33,6 +33,8 @@ import TourDestinationRequestAgentView from "../views/dashboard/touragent/TourDe
 import TourPackageAgentView from "../views/dashboard/touragent/TourPackageAgentView.vue";
 import TourPackageDetailPriceAgentView from "../views/dashboard/touragent/TourPackageDetailPriceAgentView.vue";
 import TourPackageFacilitiesActivitiesAgentView from "../views/dashboard/touragent/TourPackageFacilitiesActivitiesAgentView.vue";
+import TourFacilitiesAgentView from "../views/dashboard/touragent/TourPackageFacilitiesUpdateAgentView.vue";
+import TourActivitiesAgentView from "../views/dashboard/touragent/TourPackageActivitiesUpdateAgentView.vue";
 import TourGuideAgentView from "../views/dashboard/touragent/TourGuideAgentView.vue";
 import GuideJobApprovalAgentView from "../views/dashboard/touragent/GuideJobApprovalAgentView.vue";
 import GuideJobDetailAgentView from "../views/dashboard/touragent/GuideJobDetailAgentView.vue";
@@ -43,6 +45,7 @@ import PaymentMethodDetailAgentView from "../views/dashboard/touragent/PaymentMe
 import PaymentMethodDetailsUpdateAgentView from "../views/dashboard/touragent/PaymentMethodDetailsUpdateAgentView.vue";
 import TransactionDetailAgentView from "../views/dashboard/touragent/TransactionDetailAgentView.vue";
 
+import GuideProfileGuideView from "../views/dashboard/tourguide/GuideProfileGuideView.vue";
 import GuideJobApprovalGuideView from "../views/dashboard/tourguide/GuideJobApprovalGuideView.vue";
 import GuideDestinationGuideView from "../views/dashboard/tourguide/GuideDestinationGuideView.vue";
 import GuideJobDetailGuideView from "../views/dashboard/tourguide/GuideJobDetailGuideView.vue";
@@ -201,6 +204,16 @@ const routes = [
         component: TourPackageFacilitiesActivitiesAgentView,
       },
       {
+        path: "tour-activity-detail/:id_tour_activities",
+        name: "tour-activity-detail-see",
+        component: TourActivitiesAgentView,
+      },
+      {
+        path: "tour-facility-detail/:id_package_facilities",
+        name: "tour-facility-detail-see",
+        component: TourFacilitiesAgentView,
+      },
+      {
         path: "manage-tour-guide",
         name: "manage-tour-guide",
         component: TourGuideAgentView,
@@ -247,6 +260,11 @@ const routes = [
       },
 
       //Tour Guide
+      {
+        path: "tour-guide-profile",
+        name: "tour-guide-profile",
+        component: GuideProfileGuideView,
+      },
       {
         path: "job-offer",
         name: "job-offer",

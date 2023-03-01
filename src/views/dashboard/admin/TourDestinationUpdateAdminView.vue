@@ -24,8 +24,8 @@
                 <div class="row" v-if="destinations">
                     <div class="col-md-6">
                         <div class="form-outline mb-4">
-                            <img v-if="destinations.image_tourist_destination != null" :src="destinations.image_tourist_destination" alt="" class="card-img-top mt-2 rounded img">
-                            <img v-else src="../../../assets/img/home/image_placeholder.png" alt="" class="card-img-top mt-2 rounded img">
+                            <img v-if="destinations.image_tourist_destination != null" :src="destinations.image_tourist_destination" alt="" class="card-img-top mt-2 mb-2 rounded img">
+                            <img v-else src="../../../assets/img/home/image_placeholder.png" alt="" class="card-img-top mt-2 mb-2 rounded img">
                             <label for="image_tourist_destination" class="mt-2">Cover Image</label>
                             <Field name="image_tourist_destination">
                                 <input name="image_tourist_destination" type="file" v-on:change="onChange" class="form-control" accept="image/*" />
@@ -107,17 +107,17 @@ export default {
                 .string()
                 .required("Name is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(1024, "Must be maximum 1024 characters!"),
+                .max(2048, "Must be maximum 2048 characters!"),
             description: yup
                 .string()
                 .required("Description is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(1024, "Must be maximum 1024 characters!"),
+                .max(2048, "Must be maximum 2048 characters!"),
             address: yup
                 .string()
                 .required("Address is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(1024, "Must be maximum 1024 characters!"),
+                .max(2048, "Must be maximum 2048 characters!"),
             latitude: yup
                 .string()
                 .required("Latitude is required!"),

@@ -27,9 +27,9 @@
                 <template #item-image="item">
                     <img v-if="item.image_tourist_destination != null"
                         :src="item.image_tourist_destination" alt=""
-                        class="card-img-top mt-2 rounded imgSmallTabel">
+                        class="card-img-top mt-2 mb-2 rounded imgSmallTabel">
                     <img v-else src="../../../assets/img/home/image_placeholder.png" alt=""
-                        class="card-img-top mt-2 rounded imgSmallTabel">
+                        class="card-img-top mt-2 mb-2 rounded imgSmallTabel">
                 </template>
                 <template #item-status="item">
                     <button v-if="item.approval_status == 'Yes'" class="btn btn-success btn-block">{{
@@ -43,13 +43,13 @@
                 </template>
                 <template #item-action="item">
                     <div class="operation-wrapper" style="min-width: 100px;" v-if="item.approval_status == 'Waiting Approval'">
-                        <div class="d-flex justify-content-evenly align-items-center align-middle pr-2 pt-2 pb-2">
+                        <div class="d-flex pr-2 pt-2 pb-2">
                             <button class="btn btn-success"
                                 @click="approveRequest(item.id_tourist_destination_requests, 1)">
                                 <font-awesome-icon icon="check" style="width: 20px; height: 20px;" />
                                 Approve
                             </button>
-                            <button class="btn btn-danger"
+                            <button class="btn btn-danger mx-2"
                                 @click="approveRequest(item.id_tourist_destination_requests, 0)">
                                 <font-awesome-icon icon="times" style="width: 20px; height: 20px;" />
                                 Reject
@@ -80,9 +80,9 @@
                             <td style="width: 100px">
                                 <img v-if="destination.image_tourist_destination != null"
                                     :src="destination.image_tourist_destination" alt=""
-                                    class="card-img-top mt-2 rounded imgSmallTabel">
+                                    class="card-img-top mt-2 mb-2 rounded imgSmallTabel">
                                 <img v-else src="../../../assets/img/home/image_placeholder.png" alt=""
-                                    class="card-img-top mt-2 rounded imgSmallTabel">
+                                    class="card-img-top mt-2 mb-2 rounded imgSmallTabel">
                             </td>
                             <td>{{ destination.name }}</td>
                             <td>{{ destination.description }}</td>

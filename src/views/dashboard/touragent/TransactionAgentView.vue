@@ -73,11 +73,9 @@
                         <template #item-action="item">
                             <div class="operation-wrapper" style="min-width: 100px;">
                                 <div class="d-flex align-items-center align-middle pr-2 pt-2 pb-2">
-                                    <router-link
+                                    <router-link class="btn btn_theme"
                                         :to="{ name: 'transactions-see-agent', params: { id_orders: item.id_orders } }">
-                                        <button class="btn btn_theme">
-                                            <font-awesome-icon icon="eye" />
-                                        </button>
+                                        <font-awesome-icon icon="eye" />
                                     </router-link>
                                 </div>
                             </div>

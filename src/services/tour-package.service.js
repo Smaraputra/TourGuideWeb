@@ -55,14 +55,25 @@ class TourPackageService {
     return response.data;
   }
   async getByIdDetail(id) {
-    const response = await axios.post(
-      API_URL + "getByIdDetail",
-      {
-        curid: id,
-      },
-      { headers: authHeader() }
-    );
-    return response.data;
+    if(authHeader()){
+      const response = await axios.post(
+        API_URL + "getByIdDetailAuth",
+        {
+          curid: id,
+        },
+        { headers: authHeader() }
+      );
+      return response.data;
+    }else{
+      const response = await axios.post(
+        API_URL + "getByIdDetail",
+        {
+          curid: id,
+        },
+        { headers: authHeader() }
+      );
+      return response.data;
+    }
   }
   async getByAllId(id) {
     const response = await axios.post(

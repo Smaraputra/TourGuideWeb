@@ -30,19 +30,17 @@
             <template #item-image="item">
                 <img v-if="item.image_tourist_destination != null"
                     :src="item.image_tourist_destination" alt=""
-                    class="card-img-top mt-2 rounded imgSmallTabel">
+                    class="card-img-top mt-2 mb-2 rounded imgSmallTabel">
                 <img v-else src="../../../assets/img/home/image_placeholder.png" alt=""
-                    class="card-img-top mt-2 rounded imgSmallTabel">
+                    class="card-img-top mt-2 mb-2 rounded imgSmallTabel">
             </template>
             <template #item-action="item">
                 <div class="operation-wrapper" style="min-width: 100px;">
-                    <div class="d-flex justify-content-evenly align-items-center align-middle pr-2 pt-2 pb-2">
-                        <router-link :to="{ name: 'tour-destination-update', params: { id_tourist_destinations: item.id_tourist_destinations }}">
-                            <button class="btn btn-success">
-                                <font-awesome-icon icon="pencil" />
-                            </button>
+                    <div class="d-flex pr-2 pt-2 pb-2">
+                        <router-link class="btn btn-success" :to="{ name: 'tour-destination-update', params: { id_tourist_destinations: item.id_tourist_destinations }}">
+                            <font-awesome-icon icon="pencil" />
                         </router-link>
-                        <button class="btn btn-danger"
+                        <button class="btn btn-danger mx-2"
                             @click="deleteData(item.id_tourist_destinations)">
                             <font-awesome-icon icon="trash" />
                         </button>
@@ -68,8 +66,8 @@
               <tr v-for="(destination, index) in destinations" :key="index">
                 <td style="width: 50px">{{index+1}}</td>
                 <td style="width: 100px">
-                    <img v-if="destination.image_tourist_destination != null" :src="destination.image_tourist_destination" alt="" class="card-img-top mt-2 rounded imgSmallTabel">
-                    <img v-else src="../../../assets/img/home/image_placeholder.png" alt="" class="card-img-top mt-2 rounded imgSmallTabel">
+                    <img v-if="destination.image_tourist_destination != null" :src="destination.image_tourist_destination" alt="" class="card-img-top mt-2 mb-2 rounded imgSmallTabel">
+                    <img v-else src="../../../assets/img/home/image_placeholder.png" alt="" class="card-img-top mt-2 mb-2 rounded imgSmallTabel">
                 </td>
                 <td>{{destination.name}}</td>
                 <td>{{destination.description}}</td>
@@ -114,7 +112,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-outline mb-4">
-                                <img v-if="urlImage" :src="urlImage" alt="" class="card-img-top mt-2 rounded img">
+                                <img v-if="urlImage" :src="urlImage" alt="" class="card-img-top mt-2 mb-2 rounded img">
                                 <label for="image_tourist_destination" class="mt-2">Cover Image</label>
                                 <Field name="image_tourist_destination">
                                     <input name="image_tourist_destination" type="file" v-on:change="onChange" class="form-control" accept="image/*" />
@@ -195,17 +193,17 @@ export default {
                 .string()
                 .required("Name is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(1024, "Must be maximum 1024 characters!"),
+                .max(2048, "Must be maximum 2048 characters!"),
             description: yup
                 .string()
                 .required("Description is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(1024, "Must be maximum 1024 characters!"),
+                .max(2048, "Must be maximum 2048 characters!"),
             address: yup
                 .string()
                 .required("Address is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(1024, "Must be maximum 1024 characters!"),
+                .max(2048, "Must be maximum 2048 characters!"),
             latitude: yup
                 .string()
                 .required("Latitude is required!"),

@@ -8,69 +8,69 @@
         </div>
         <ul class="list-group list-group-flush components" v-if="this.currentUser.role_id == '1'">
             <li>
-                <router-link class="link-dash" to="/dashboard/"><span>Dashboard</span></router-link>
+                <router-link class="link-dash link" to="/dashboard/"><span>Dashboard</span></router-link>
             </li>
             <li>
-                <router-link class="link-dash" to="/dashboard/tour-destination"><span>Tour Destinations</span></router-link>
+                <router-link class="link-dash link" to="/dashboard/tour-destination"><span>Tour Destinations</span></router-link>
             </li>
             <li>
-                <router-link class="link-dash" to="/dashboard/verify-tour-destination"><span>Verify Destination Request</span></router-link>
+                <router-link class="link-dash link" to="/dashboard/verify-tour-destination"><span>Verify Destination Request</span></router-link>
             </li>
             <li>
-                <router-link class="link-dash" to="/dashboard/tour-category"><span>Tour Category</span></router-link>
+                <router-link class="link-dash link" to="/dashboard/tour-category"><span>Tour Category</span></router-link>
             </li>
             <li>
-                <router-link class="link-dash" to="/dashboard/verify-agent"><span>Tour Agent</span></router-link>
+                <router-link class="link-dash link" to="/dashboard/verify-agent"><span>Tour Agent</span></router-link>
             </li>
             <li>
-                <router-link class="link-dash" to="/dashboard/payment-method"><span>Payment Methods</span></router-link>
+                <router-link class="link-dash link" to="/dashboard/payment-method"><span>Payment Methods</span></router-link>
             </li>
         </ul>
         <ul class="list-group list-group-flush components" v-if="this.currentUser.role_id == '2'">
             <li>
-                <router-link class="link-dash" to="/dashboard/"><span>Dashboard</span></router-link>
+                <router-link class="link-dash link" to="/dashboard/"><span>Dashboard</span></router-link>
             </li>
             <li>
-                <router-link class="link-dash" to="/dashboard/tour-agent-profile"><span>Profile</span></router-link>
+                <router-link class="link-dash link" to="/dashboard/tour-agent-profile"><span>Profile</span></router-link>
             </li>
             <li>
-                <router-link class="link-dash" to="/dashboard/manage-tour-guide"><span>Tour Guide</span></router-link>
+                <router-link class="link-dash link" to="/dashboard/manage-tour-guide"><span>Tour Guide</span></router-link>
             </li>
             <li>
-                <router-link class="link-dash" to="/dashboard/guide-job-approval"><span>Guide Job Approval</span></router-link>
+                <router-link class="link-dash link" to="/dashboard/guide-job-approval"><span>Guide Job Approval</span></router-link>
             </li>
             <li>
-                <router-link class="link-dash" to="/dashboard/tour-destination-request"><span>Request Tour Destination</span></router-link>
+                <router-link class="link-dash link" to="/dashboard/tour-destination-request"><span>Request Tour Destination</span></router-link>
             </li>
             <li>
-                <router-link class="link-dash" to="/dashboard/tour-package"><span>Tour Package</span></router-link>
+                <router-link class="link-dash link" to="/dashboard/tour-package"><span>Tour Package</span></router-link>
             </li>
             <li>
-                <router-link class="link-dash" to="/dashboard/pickup-fee"><span>Pickup Fee</span></router-link>
+                <router-link class="link-dash link" to="/dashboard/pickup-fee"><span>Pickup Fee</span></router-link>
             </li>
             <li>
-                <router-link class="link-dash" to="/dashboard/payment-detail"><span>Payment Method Details</span></router-link>
+                <router-link class="link-dash link" to="/dashboard/payment-detail"><span>Payment Method Details</span></router-link>
             </li>
             <li>
-                <router-link class="link-dash" to="/dashboard/verify-transactions"><span>Check Transactions</span></router-link>
+                <router-link class="link-dash link" to="/dashboard/verify-transactions"><span>Check Transactions</span></router-link>
             </li>
         </ul>
         <ul class="list-group list-group-flush components" v-if="this.currentUser.role_id == '3'">
             <li>
-                <router-link class="link-dash" to="/dashboard/"><span>Dashboard</span></router-link>
+                <router-link class="link-dash link" to="/dashboard/"><span>Dashboard</span></router-link>
             </li>
             <li>
-                <router-link class="link-dash" to="/dashboard/tour-guide-profile"><span>Profile</span></router-link>
+                <router-link class="link-dash link" to="/dashboard/tour-guide-profile"><span>Profile</span></router-link>
             </li>
             <li>
-                <router-link class="link-dash" to="/dashboard/guide-destination"><span>Guide Destination</span></router-link>
+                <router-link class="link-dash link" to="/dashboard/guide-destination"><span>Guide Destination</span></router-link>
             </li>
             <li>
-                <router-link class="link-dash" to="/dashboard/job-offer"><span>Job Offer</span></router-link>
+                <router-link class="link-dash link" to="/dashboard/job-offer"><span>Job Offer / History</span></router-link>
             </li>
-            <li>
-                <router-link class="link-dash" to="/dashboard/job-history"><span>Job History</span></router-link>
-            </li>
+            <!-- <li>
+                <router-link class="link-dash link" to="/dashboard/job-history"><span>Job History</span></router-link>
+            </li> -->
         </ul>
         <router-link to="/" class="btn btn-light w-100 mt-2" style="border-radius: 0%; "><span class="color-main">Exit Panel</span></router-link>
     </nav>

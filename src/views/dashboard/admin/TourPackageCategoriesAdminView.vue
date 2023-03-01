@@ -28,14 +28,12 @@
                         </template>
                         <template #item-action="item">
                             <div class="operation-wrapper" style="min-width: 100px;">
-                                <div class="d-flex justify-content-evenly align-items-center align-middle pr-2 pt-2 pb-2">
-                                    <router-link
+                                <div class="d-flex pr-2 pt-2 pb-2">
+                                    <router-link class="btn btn-success"
                                     :to="{ name: 'tour-category-detail', params: { id_package_categories: item.id_package_categories }}">
-                                        <button class="btn btn-success">
-                                            <font-awesome-icon icon="pencil" />
-                                        </button>
+                                        <font-awesome-icon icon="pencil" />
                                     </router-link>
-                                    <button class="btn btn-danger"
+                                    <button class="btn btn-danger mx-2"
                                         @click="deleteData(item.id_package_categories)">
                                         <font-awesome-icon icon="trash" />
                                     </button>
@@ -109,7 +107,7 @@
                             </div>
                             <div class="form-outline mb-4">
                                 <label for="guide_included">Guide Included</label>
-                                <Field name="guide_included" as="select" class="form-select">
+                                <Field name="guide_included" as="select" class="form-control form-select">
                                     <option disabled selected value>-Select Guide Included Status-</option>
                                     <option value="Included">Included</option>
                                     <option value="Not Included">Not Included</option>
@@ -149,17 +147,17 @@ export default {
                 .string()
                 .required("Name is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(1024, "Must be maximum 1024 characters!"),
+                .max(2048, "Must be maximum 2048 characters!"),
             description: yup
                 .string()
                 .required("Description is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(1024, "Must be maximum 1024 characters!"),
+                .max(2048, "Must be maximum 2048 characters!"),
             guide_included: yup
                 .string()
                 .required("Guide included status is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(1024, "Must be maximum 1024 characters!"),
+                .max(2048, "Must be maximum 2048 characters!"),
         });
         const themeColor = "#184fa7";
         const headers = [

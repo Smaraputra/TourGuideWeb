@@ -28,14 +28,12 @@
                         </template>
                         <template #item-action="item">
                             <div class="operation-wrapper" style="min-width: 100px;">
-                                <div class="d-flex justify-content-evenly align-items-center align-middle pr-2 pt-2 pb-2">
-                                    <router-link
+                                <div class="d-flex pr-2 pt-2 pb-2">
+                                    <router-link class="btn btn-success"
                                         :to="{ name: 'payment-method-detail', params: { id_payment_methods: item.id_payment_methods }}">
-                                        <button class="btn btn-success">
-                                            <font-awesome-icon icon="pencil" />
-                                        </button>
+                                        <font-awesome-icon icon="pencil" />
                                     </router-link>
-                                    <button class="btn btn-danger"
+                                    <button class="btn btn-danger mx-2"
                                         @click="deleteData(item.id_payment_methods)">
                                         <font-awesome-icon icon="trash" />
                                     </button>
@@ -145,12 +143,12 @@ export default {
                 .string()
                 .required("Name is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(1024, "Must be maximum 1024 characters!"),
+                .max(2048, "Must be maximum 2048 characters!"),
             description: yup
                 .string()
                 .required("Description is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(1024, "Must be maximum 1024 characters!"),
+                .max(2048, "Must be maximum 2048 characters!"),
         });
 
         return {

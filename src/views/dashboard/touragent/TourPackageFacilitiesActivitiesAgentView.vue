@@ -1,23 +1,24 @@
 <template>
     <div class="row" v-if="tourpackagesdetails">
         <div class="col">
-        <nav aria-label="breadcrumb" class="bg-light rounded-3 p-4">
-            <ol class="breadcrumb mb-0">
-            <li class="breadcrumb-item">
-                <router-link to="/dashboard/tour-package">
-                <strong>Tour Package</strong>
-                </router-link>
-            </li>
-            <li class="breadcrumb-item">
-                <router-link :to="{ name: 'tour-package-see', params: { id_tour_packages: this.tourpackagesdetails.id_tour_packages }}">
-                <strong>Tour Package Detail</strong>
-                </router-link>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">
-                <strong>Tour Package Detail</strong>
-            </li>
-            </ol>
-        </nav>
+            <nav aria-label="breadcrumb" class="bg-light rounded-3 p-4">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item">
+                        <router-link to="/dashboard/tour-package">
+                            <strong>Tour Package</strong>
+                        </router-link>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <router-link
+                            :to="{ name: 'tour-package-see', params: { id_tour_packages: this.tourpackagesdetails.id_tour_packages } }">
+                            <strong>Tour Package Detail</strong>
+                        </router-link>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        <strong>Tour Package Detail</strong>
+                    </li>
+                </ol>
+            </nav>
         </div>
     </div>
     <div class="card shadow mt-4">
@@ -25,23 +26,28 @@
             <h5 class="m-0 font-weight-bold color-main">Tour Package Detail</h5>
         </div>
         <div class="card-body">
-            <Form @submit="updatePackageDetail" :validation-schema="schemaDetail" >
+            <Form @submit="updatePackageDetail" :validation-schema="schemaDetail">
                 <div v-if="tourpackagesdetails" class="row">
                     <div class="col-md-4">
-                        <img v-if="tourpackagesdetails.image_package_detail != null" :src="tourpackagesdetails.image_package_detail" alt="" class="card-img-top mt-2 rounded img">
-                        <img v-else src="../../../assets/img/home/image_placeholder.png" alt="" class="card-img-top mt-2 rounded img">
+                        <img v-if="tourpackagesdetails.image_package_detail != null"
+                            :src="tourpackagesdetails.image_package_detail" alt=""
+                            class="card-img-top mt-2 mb-2 rounded img">
+                        <img v-else src="../../../assets/img/home/image_placeholder.png" alt=""
+                            class="card-img-top mt-2 mb-2 rounded img">
                         <div class="form-outline mb-4">
-                        <label for="image_package_detail " class="mt-2">Package Detail Image</label>
-                        <Field name="image_package_detail ">
-                            <input name="image_package_detail " type="file" v-on:change="onChange" class="form-control" accept="image/*" />
-                        </Field>
-                        <ErrorMessage name="image_package_detail " class="error-feedback" />
+                            <label for="image_package_detail " class="mt-2">Package Detail Image</label>
+                            <Field name="image_package_detail ">
+                                <input name="image_package_detail " type="file" v-on:change="onChange" class="form-control"
+                                    accept="image/*" />
+                            </Field>
+                            <ErrorMessage name="image_package_detail " class="error-feedback" />
                         </div>
                     </div>
                     <div class="col-md-8">
                         <div class="form-outline mb-4" v-if="destinations || destinations.length">
                             <label for="id_tourist_destinations">Tour Destination</label>
-                            <Field name="id_tourist_destinations" as="select" class="form-select" v-model="tourpackagesdetails.id_tourist_destinations">
+                            <Field name="id_tourist_destinations" as="select" class="form-control form-select"
+                                v-model="tourpackagesdetails.id_tourist_destinations">
                                 <option disabled selected value>-Tour Destinations-</option>
                                 <option v-for="(destination, index) in destinations" :key="index"
                                     :value="destination.id_tourist_destinations"
@@ -52,8 +58,7 @@
                         </div>
                         <div class="form-outline mb-4">
                             <label for="day">Day (Number)</label>
-                            <Field name="day" type="number" class="form-control" 
-                                v-model="tourpackagesdetails.day" />
+                            <Field name="day" type="number" class="form-control" v-model="tourpackagesdetails.day" />
                             <ErrorMessage name="day" class="error-feedback" />
                         </div>
                         <div class="form-outline mb-4">
@@ -93,7 +98,35 @@
                     <h5 class="m-0 font-weight-bold color-main">Manage Tour Packages Activities</h5>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
+                    <EasyDataTable show-index alternating :headers="headers" :items="tourpackagesactivities" :theme-color="themeColor"
+                        style="z-index: 1;" buttons-pagination :loading="statusLoad">
+                        <template #loading>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <div class="loader">
+                                    <div class="box"></div>
+                                    <div class="box"></div>
+                                    <div class="box"></div>
+                                    <div class="box"></div>
+                                    <div class="box"></div>
+                                </div>
+                            </div>
+                        </template>
+                        <template #item-action="item">
+                            <div class="operation-wrapper" style="min-width: 100px;">
+                                <div class="d-flex pr-2 pt-2 pb-2">
+                                    <router-link class="btn btn-success"
+                                        :to="{ name: 'tour-activity-detail-see', params: { id_tour_activities: item.id_tour_activities } }">
+                                        <font-awesome-icon icon="pencil" />
+                                    </router-link>
+                                    <button class="btn btn-danger mx-2"
+                                        @click="deleteDataPackagesActivities(item.id_tour_activities)">
+                                        <font-awesome-icon icon="trash" />
+                                    </button>
+                                </div>
+                            </div>
+                        </template>
+                    </EasyDataTable>
+                    <!-- <div class="table-responsive">
                         <table class="table table-bordered table-condensed table-striped" id="dataTable" width="100%"
                             cellspacing="0">
                             <thead>
@@ -135,7 +168,7 @@
                                 </tr>
                             </tfoot>
                         </table>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -188,7 +221,41 @@
                     <h5 class="m-0 font-weight-bold color-main">Manage Tour Packages Facility</h5>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
+                    <EasyDataTable show-index alternating :headers="headers1" :items="tourpackagesfacilities" :theme-color="themeColor"
+                        style="z-index: 1;" buttons-pagination :loading="statusLoad">
+                        <template #loading>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <div class="loader">
+                                    <div class="box"></div>
+                                    <div class="box"></div>
+                                    <div class="box"></div>
+                                    <div class="box"></div>
+                                    <div class="box"></div>
+                                </div>
+                            </div>
+                        </template>
+                        <template #item-description_public="item">
+                            {{ item.description_public? item.description_public: '-' }}
+                        </template>
+                        <template #item-description_agent="item">
+                            {{ item.description_agent? item.description_agent: '-' }}
+                        </template>
+                        <template #item-action="item">
+                            <div class="operation-wrapper" style="min-width: 100px;">
+                                <div class="d-flex pr-2 pt-2 pb-2">
+                                    <router-link class="btn btn-success"
+                                        :to="{ name: 'tour-facility-detail-see', params: { id_package_facilities: item.id_package_facilities } }">
+                                        <font-awesome-icon icon="pencil" />
+                                    </router-link>
+                                    <button class="btn btn-danger mx-2"
+                                        @click="deleteDataPackagesFacilities(item.id_package_facilities)">
+                                        <font-awesome-icon icon="trash" />
+                                    </button>
+                                </div>
+                            </div>
+                        </template>
+                    </EasyDataTable>
+                    <!-- <div class="table-responsive">
                         <table class="table table-bordered table-condensed table-striped" id="dataTable" width="100%"
                             cellspacing="0">
                             <thead>
@@ -225,7 +292,7 @@
                                 </tr>
                             </tfoot>
                         </table>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -242,6 +309,16 @@
                                 <label for="facilities">Facility</label>
                                 <Field name="facilities" type="text" class="form-control" />
                                 <ErrorMessage name="facilities" class="error-feedback" />
+                            </div>
+                            <div class="form-outline mb-4">
+                                <label for="description_public">Description (Public)</label>
+                                <Field as="textarea" name="description_public" type="text" class="form-control" />
+                                <ErrorMessage name="description_public" class="error-feedback" />
+                            </div>
+                            <div class="form-outline mb-4">
+                                <label for="description_agent">Note (Only Agent)</label>
+                                <Field as="textarea" name="description_agent" type="text" class="form-control" />
+                                <ErrorMessage name="description_agent" class="error-feedback" />
                             </div>
                             <div class="form-group">
                                 <button class="btn btn_theme btn-block" :disabled="loading3">
@@ -292,7 +369,7 @@ export default {
                 .string()
                 .required("Duration is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(1024, "Must be maximum 1024 characters!"),
+                .max(2048, "Must be maximum 2048 characters!"),
         });
 
         const schemaFacility = yup.object().shape({
@@ -300,7 +377,15 @@ export default {
                 .string()
                 .required("Facility is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(1024, "Must be maximum 1024 characters!"),
+                .max(2048, "Must be maximum 2048 characters!"),
+            description_agent: yup
+                .string()
+                .nullable()
+                .max(2048, "Must be maximum 2048 characters!"),
+            description_public: yup
+                .string()
+                .nullable()
+                .max(2048, "Must be maximum 2048 characters!"),
         });
 
         const schemaActivity = yup.object().shape({
@@ -308,25 +393,45 @@ export default {
                 .string()
                 .required("Start time is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(1024, "Must be maximum 1024 characters!"),
+                .max(2048, "Must be maximum 2048 characters!"),
             end_time: yup
                 .string()
                 .required("End time is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(1024, "Must be maximum 1024 characters!"),
+                .max(2048, "Must be maximum 2048 characters!"),
             location: yup
                 .string()
                 .required("Location is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(1024, "Must be maximum 1024 characters!"),
+                .max(2048, "Must be maximum 2048 characters!"),
             activity: yup
                 .string()
                 .required("Activity is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(1024, "Must be maximum 1024 characters!"),
+                .max(2048, "Must be maximum 2048 characters!"),
         });
 
+        const themeColor = "#184fa7";
+        const headers = [
+            { text: "Start Time", value: "start_time" },
+            { text: "End Time", value: "end_time" },
+            { text: "Location", value: "location" },
+            { text: "Activitiy", value: "activity" },
+            { text: "Action", value: "action" },
+        ];
+
+        const headers1 = [
+            { text: "Facility", value: "facilities" },
+            { text: "Description (Public)", value: "description_public" },
+            { text: "Note (Agent Only)", value: "description_agent" },
+            { text: "Action", value: "action" },
+        ];
+
         return {
+            themeColor,
+            headers,
+            headers1,
+            statusLoad: false,
             successful: false,
             loading: false,
             message: "",
@@ -361,9 +466,9 @@ export default {
         if (this.currentUser.role_id != 2) {
             this.$router.push("/dashboard");
         }
-        this.loadDestination(),
+        this.loadDestination()
         this.loadPackageDetailId()
-        this.loadPackageActivitiyId(),
+        this.loadPackageActivitiyId()
         this.loadPackageFacilitiesId()
         this.moment = moment
     },
@@ -391,8 +496,8 @@ export default {
                 (error) => {
                     this.message2 =
                         (error.response &&
-                        error.response.data &&
-                        error.response.data.message) ||
+                            error.response.data &&
+                            error.response.data.message) ||
                         error.message ||
                         error.toString();
                     this.successful2 = false;
@@ -425,8 +530,8 @@ export default {
                 (error) => {
                     this.message3 =
                         (error.response &&
-                        error.response.data &&
-                        error.response.data.message) ||
+                            error.response.data &&
+                            error.response.data.message) ||
                         error.message ||
                         error.toString();
                     this.successful3 = false;
@@ -443,7 +548,7 @@ export default {
             this.message = "";
             this.successful = false;
             this.loading = true;
-            TourPackageDetailService.update(schemaDetail, this.tourpackagesdetails.id_package_details ,this.tourpackagesdetails.id_tour_packages, this.file).then(
+            TourPackageDetailService.update(schemaDetail, this.tourpackagesdetails.id_package_details, this.tourpackagesdetails.id_tour_packages, this.file).then(
                 () => {
                     this.message = "Package detail successfully updated.";
                     this.successful = true;
@@ -458,8 +563,8 @@ export default {
                 (error) => {
                     this.message =
                         (error.response &&
-                        error.response.data &&
-                        error.response.data.message) ||
+                            error.response.data &&
+                            error.response.data.message) ||
                         error.message ||
                         error.toString();
                     this.successful = false;
@@ -596,11 +701,14 @@ export default {
             )
         },
         loadPackageActivitiyId() {
+            this.statusLoad = true
             TourPackageActivitiesService.getById(this.$route.params.id_package_details).then(
                 (response) => {
+                    this.statusLoad = false
                     this.tourpackagesactivities = response.data
                 },
                 (error) => {
+                    this.statusLoad = false
                     this.content =
                         (error.response &&
                             error.response.data &&
@@ -611,11 +719,14 @@ export default {
             )
         },
         loadPackageFacilitiesId() {
+            this.statusLoad = true
             TourPackageFacilitiesService.getById(this.$route.params.id_package_details).then(
                 (response) => {
+                    this.statusLoad = false
                     this.tourpackagesfacilities = response.data
                 },
                 (error) => {
+                    this.statusLoad = false
                     this.content =
                         (error.response &&
                             error.response.data &&
@@ -632,6 +743,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

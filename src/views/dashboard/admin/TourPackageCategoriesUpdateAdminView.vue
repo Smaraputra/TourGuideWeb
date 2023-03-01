@@ -34,7 +34,7 @@
                     </div>
                     <div class="form-outline mb-4">
                         <label for="guide_included">Guide Included</label>
-                        <Field name="guide_included" as="select" class="form-select" v-model="categories.guide_included">
+                        <Field name="guide_included" as="select" class="form-control form-select" v-model="categories.guide_included">
                             <option disabled value>-Select Guide Included Status-</option>
                             <option value="Yes">Included</option>
                             <option value="No">Not Included</option>
@@ -76,17 +76,17 @@ export default {
                 .string()
                 .required("Name is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(1024, "Must be maximum 1024 characters!"),
+                .max(2048, "Must be maximum 2048 characters!"),
             description: yup
                 .string()
                 .required("Description is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(1024, "Must be maximum 1024 characters!"),
+                .max(2048, "Must be maximum 2048 characters!"),
             guide_included: yup
                 .string()
                 .required("Guide included status is required!")
                 .min(3, "Must be at least 3 characters!")
-                .max(1024, "Must be maximum 1024 characters!"),
+                .max(2048, "Must be maximum 2048 characters!"),
         });
 
         return {

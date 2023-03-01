@@ -24,18 +24,7 @@
                                                 <li class="nav-item" role="presentation">
                                                     <button class="nav-link active" id="full-tab" data-bs-toggle="tab"
                                                         data-bs-target="#full" type="button" role="tab"
-                                                        aria-controls="full" aria-selected="true">Full Course</button>
-                                                </li>
-                                                <li class="nav-item" role="presentation">
-                                                    <button class="nav-link" id="standard-tab" data-bs-toggle="tab"
-                                                        data-bs-target="#standard" type="button" role="tab"
-                                                        aria-controls="standard"
-                                                        aria-selected="false">Standard Accomodation</button>
-                                                </li>
-                                                <li class="nav-item" role="presentation">
-                                                    <button class="nav-link" id="guide-tab" data-bs-toggle="tab"
-                                                        data-bs-target="#guide" type="button" role="tab"
-                                                        aria-controls="guide" aria-selected="false">Guide Only</button>
+                                                        aria-controls="full" aria-selected="true"></button>
                                                 </li>
                                             </ul>
                                         </div>
@@ -46,43 +35,10 @@
                                         aria-labelledby="full-tab">
                                         <div class="row">
                                             <div class="col-lg-12">
-                                                <p>Search your desired tour packages based on category and destination.</p>
+                                                <p>Search your desired tour packages based on package name.</p>
                                                 <div class="full_search_form">
-                                                    <form action="#!"> 
-                                                        <input class="form-control border" type="search" placeholder="Tour Destination" v-model="destinationName">
-                                                        <div class="top_form_search_button">
-                                                            <button class="btn btn_theme btn_md">Search</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="standard" role="tabpanel"
-                                        aria-labelledby="standard-tab">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <p>Search your desired tour packages based on category and destination.</p>
-                                                <div class="full_search_form">
-                                                    <form action="#!">
-                                                        <input class="form-control border" type="search" placeholder="Tour Destination" v-model="destinationName">
-                                                        <div class="top_form_search_button">
-                                                            <button class="btn btn_theme btn_md">Search</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="tab-pane fade" id="guide" role="tabpanel"
-                                        aria-labelledby="guide-tab">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <p>Search your desired tour packages based on category and destination.</p>
-                                                <div class="full_search_form">
-                                                    <form action="#!">
-                                                        <input class="form-control border" type="search" placeholder="Tour Destination" v-model="destinationName">
+                                                    <form @submit="search"> 
+                                                        <input class="form-control border" type="search" placeholder="Package Name" v-model="packageName">
                                                         <div class="top_form_search_button">
                                                             <button class="btn btn_theme btn_md">Search</button>
                                                         </div>
@@ -110,11 +66,13 @@ export default {
 
     data() {
         return {
-            destinationName: "",
+            packageName: "",
         };
     },
     methods: {
-        
+        search(){
+            this.$router.push({ name: 'packages', query: { package_name: this.packageName } })
+        }
     }
 };
 </script>

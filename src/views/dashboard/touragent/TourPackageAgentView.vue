@@ -19,9 +19,9 @@
         </template>
         <template #item-image="item">
           <img v-if="item.cover_image != null" :src="item.cover_image" alt="" style="min-width: 100px;"
-            class="card-img-top mt-2 rounded imgSmallTabel">
+            class="card-img-top mt-2 mb-2 rounded imgSmallTabel">
           <img v-else src="../../../assets/img/home/image_placeholder.png" alt="" style="min-width: 100px;"
-            class="card-img-top mt-2 rounded imgSmallTabel">
+            class="card-img-top mt-2 mb-2 rounded imgSmallTabel">
         </template>
         <template #item-published="item">
           <button v-if="item.published === 'Yes'" style="float: right;" class="btn btn-success w-100">
@@ -37,14 +37,12 @@
         </template>
         <template #item-action="item">
           <div class="operation-wrapper" style="min-width: 100px;">
-            <div class="d-flex justify-content-evenly align-items-center align-middle pr-2 pt-2 pb-2">
-              <router-link
+            <div class="d-flex pr-2 pt-2 pb-2">
+              <router-link class="btn btn-success"
                 :to="{ name: 'tour-package-see', params: { id_tour_packages: item.id_tour_packages } }">
-                <button class="btn btn-success">
-                  <font-awesome-icon icon="pencil" />
-                </button>
+                <font-awesome-icon icon="pencil" />
               </router-link>
-              <button class="btn btn-danger" @click="deleteData(item.id_tour_packages)">
+              <button class="btn btn-danger mx-2" @click="deleteData(item.id_tour_packages)">
                 <font-awesome-icon icon="trash" />
               </button>
             </div>
@@ -71,9 +69,9 @@
               <td style="width: 50px">{{ index + 1 }}</td>
               <td style="width: 100px">
                 <img v-if="tourpackage.cover_image != null" :src="tourpackage.cover_image" alt=""
-                  class="card-img-top mt-2 rounded imgSmallTabel">
+                  class="card-img-top mt-2 mb-2 rounded imgSmallTabel">
                 <img v-else src="../../../assets/img/home/image_placeholder.png" alt=""
-                  class="card-img-top mt-2 rounded imgSmallTabel">
+                  class="card-img-top mt-2 mb-2 rounded imgSmallTabel">
               </td>
               <td>{{ tourpackage.package_name }}</td>
               <td>{{ tourpackage.package_category.category }}</td>
@@ -126,7 +124,7 @@
       <Form @submit="addPackage" :validation-schema="schema" class="row">
         <div class="col-md-4">
           <div class="form-outline mb-4">
-            <img v-if="urlImage" :src="urlImage" alt="" class="card-img-top mt-2 rounded img">
+            <img v-if="urlImage" :src="urlImage" alt="" class="card-img-top mt-2 mb-2 rounded img">
             <label for="cover_image" class="mt-2">Cover Image</label>
             <Field name="cover_image">
               <input name="cover_image" type="file" v-on:change="onChange" class="form-control" accept="image/*" />
@@ -144,7 +142,7 @@
             </div>
             <div class="form-outline mb-4" v-if="categories || categories.length">
               <label for="id_package_categories">Tour Package Category</label>
-              <Field name="id_package_categories" as="select" class="form-select">
+              <Field name="id_package_categories" as="select" class="form-control form-select">
                 <option disabled selected value>-Package Category-</option>
                 <option v-for="(category, index) in categories" :key="index" :value="category.id_package_categories">
                   {{ category.category }}
@@ -197,7 +195,7 @@ export default {
         .string()
         .required("Package name is required!")
         .min(3, "Must be at least 3 characters!")
-        .max(1024, "Must be maximum 1024 characters!"),
+        .max(2048, "Must be maximum 2048 characters!"),
       id_package_categories: yup
         .string()
         .notOneOf(['-Package Category-'], 'Package category is required!'),
@@ -205,12 +203,12 @@ export default {
         .string()
         .required("Description is required!")
         .min(3, "Must be at least 3 characters!")
-        .max(1024, "Must be maximum 1024 characters!"),
+        .max(2048, "Must be maximum 2048 characters!"),
       terms: yup
         .string()
         .required("Terms and Conditions is required!")
         .min(3, "Must be at least 3 characters!")
-        .max(1024, "Must be maximum 1024 characters!"),
+        .max(2048, "Must be maximum 2048 characters!"),
     });
 
     const themeColor = "#184fa7";

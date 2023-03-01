@@ -1,36 +1,53 @@
 <template>
-    <div class="row">
+    <div class="row" v-if="facilities && facilities.package_detail">
         <div class="col">
             <nav aria-label="breadcrumb" class="bg-light rounded-3 p-4">
                 <ol class="breadcrumb mb-0">
                     <li class="breadcrumb-item">
-                        <router-link to="/dashboard/payment-method">
-                            <strong>Payment Methods</strong>
+                        <router-link to="/dashboard/tour-package">
+                            <strong>Tour Package</strong>
+                        </router-link>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <router-link
+                            :to="{ name: 'tour-package-see', params: { id_tour_packages: facilities.package_detail.id_tour_packages } }">
+                            <strong>Tour Package Detail</strong>
+                        </router-link>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <router-link
+                        :to="{ name: 'tour-package-detail-see', params: { id_package_details: facilities.id_package_details } }">
+                            <strong>Tour Activity - Facility Detail</strong>
                         </router-link>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">
-                        <strong>Payment Methods Detail</strong>
+                        <strong>Tour Facility</strong>
                     </li>
                 </ol>
             </nav>
         </div>
     </div>
-    <div class="card shadow mt-4">
+    <div class="card shadow mt-4" v-if="facilities">
         <div class="card-header p-3 text-center">
-            <h5 class="m-0 font-weight-bold color-main">Payment Methods Detail</h5>
+            <h5 class="m-0 font-weight-bold color-main">Tour Facility</h5>
         </div>
         <div class="card-body">
-            <Form @submit="updateMethod" :validation-schema="schema">
-                <div v-if="methods">
+            <Form @submit="updateFacility" :validation-schema="schema">
+                <div>
                     <div class="form-outline mb-4">
-                        <label for="method">Payment Method</label>
-                        <Field name="method" type="text" class="form-control" v-model="methods.method"/>
-                        <ErrorMessage name="method" class="error-feedback" />
+                        <label for="facilities">Facility</label>
+                        <Field name="facilities" type="text" class="form-control" v-model="facilities.facilities"/>
+                        <ErrorMessage name="facilities" class="error-feedback" />
                     </div>
                     <div class="form-outline mb-4">
-                        <label for="description">Description</label>
-                        <Field as="textarea" name="description" type="multiline" class="form-control" v-model="methods.description"/>
-                        <ErrorMessage name="description" class="error-feedback" />
+                        <label for="description_public">Description (Public)</label>
+                        <Field as="textarea" name="description_public" type="text" class="form-control" v-model="facilities.description_public"/>
+                        <ErrorMessage name="description_public" class="error-feedback" />
+                    </div>
+                    <div class="form-outline mb-4">
+                        <label for="description_agent">Note (Only Agent)</label>
+                        <Field as="textarea" name="description_agent" type="text" class="form-control" v-model="facilities.description_agent"/>
+                        <ErrorMessage name="description_agent" class="error-feedback" />
                     </div>
                     <div class="form-group">
                         <button class="btn btn_theme btn-block me-2" :disabled="loading">
@@ -38,7 +55,7 @@
                             <font-awesome-icon icon="check" /><span> Update </span>
                         </button>
                         <a class="btn btn-danger me-2"
-                            @click="deleteData(methods.id_payment_methods)">
+                            @click="deleteData(facilities.id_package_facilities)">
                             <font-awesome-icon icon="trash" /><span> Delete </span>
                         </a>
                     </div>
@@ -52,11 +69,11 @@
 </template>
 
 <script>
-import PaymentMethodsService from "../../../services/payment-method.service";
+import TourPackageFacilitiesService from "../../../services/tour-package-facilities.service";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 export default {
-    name: "TourPackageCategoryAdminView",
+    name: "TourPackageFacilitiesUpdateAgentView",
     components: {
         Form,
         Field,
@@ -64,20 +81,23 @@ export default {
     },
     data() {
         const schema = yup.object().shape({
-            method: yup
+            facilities: yup
                 .string()
-                .required("Name is required!")
+                .required("Facility is required!")
                 .min(3, "Must be at least 3 characters!")
                 .max(2048, "Must be maximum 2048 characters!"),
-            description: yup
+            description_agent: yup
                 .string()
-                .required("Description is required!")
-                .min(3, "Must be at least 3 characters!")
+                .nullable()
+                .max(2048, "Must be maximum 2048 characters!"),
+            description_public: yup
+                .string()
+                .nullable()
                 .max(2048, "Must be maximum 2048 characters!"),
         });
 
         return {
-            methods: null,
+            facilities: null,
             successful: false,
             loading: false,
             message: "",
@@ -96,10 +116,10 @@ export default {
         if (!this.loggedIn) {
             this.$router.push("/login");
         }
-        if (this.currentUser.role_id != 1) {
+        if (this.currentUser.role_id != 2) {
             this.$router.push("/dashboard");
         }
-        this.loadPaymentMethod()
+        this.loadTourActivity()
     },
     methods: {
         deleteData(id) {
@@ -113,19 +133,19 @@ export default {
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    PaymentMethodsService.delete(id).then(
+                    TourPackageFacilitiesService.delete(id, this.facilities.package_detail.id_tour_packages, this.facilities.id_package_details).then(
                         () => {
                             this.$swal.fire(
                                 'Deleted!',
-                                'Payment method successfully deleted.',
+                                'Facility successfully deleted.',
                                 'success'
                             )
-                            this.$router.push("/dashboard/payment-method");
+                            this.$router.push({ name: 'tour-package-detail-see', params: { id_package_details: this.facilities.id_package_details } })
                         },
                         () => {
                             this.$swal.fire(
                                 'Fail!',
-                                'Payment method is not deleted.',
+                                'Facility is not deleted.',
                                 'error'
                             )
                         }
@@ -133,22 +153,22 @@ export default {
                 }
             })
         },
-        updateMethod(schema) {
+        updateFacility(schema) {
             this.message = "";
             this.successful = false;
             this.loading = true;
 
-            PaymentMethodsService.update(schema, this.$route.params.id_payment_methods).then(
+            TourPackageFacilitiesService.update(schema, this.facilities.package_detail.id_tour_packages, this.facilities.id_package_details, this.$route.params.id_package_facilities).then(
                 (data) => {
-                    this.message = "Payment method : " + data.data.method + " successfully updated.";
+                    this.message = "Facility of " + data.data.facilities + " successfully updated.";
                     this.successful = true;
                     this.loading = false;
                     this.$swal.fire(
                         'Success!',
-                        'Payment method successfully updated.',
+                        'Facility successfully updated.',
                         'success'
                     )
-                    this.loadPaymentMethod()
+                    this.loadTourActivity()
                 },
                 (error) => {
                     this.message =
@@ -161,16 +181,16 @@ export default {
                     this.loading = false;
                     this.$swal.fire(
                         'Fail!',
-                        'Payment method is not updated.',
+                        'Facility is not updated.',
                         'error'
                     )
                 }
             );
         },
-        loadPaymentMethod() {
-            PaymentMethodsService.getOneById(this.$route.params.id_payment_methods).then(
+        loadTourActivity() {
+            TourPackageFacilitiesService.getOneById(this.$route.params.id_package_facilities).then(
                 (response) => {
-                    this.methods = response.data
+                    this.facilities = response.data
                 },
                 (error) => {
                     this.content =

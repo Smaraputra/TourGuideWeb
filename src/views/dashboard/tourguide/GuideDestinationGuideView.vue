@@ -6,7 +6,38 @@
                     <h5 class="m-0 font-weight-bold color-main">Manage Guide Destination Details</h5>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
+                    <EasyDataTable
+                        show-index
+                        alternating
+                        :headers="headers" 
+                        :items="details"
+                        :theme-color="themeColor"
+                        buttons-pagination
+                        :loading="statusLoad"
+                        >
+                        <template #loading>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <div class="loader">
+                                    <div class="box"></div>
+                                    <div class="box"></div>
+                                    <div class="box"></div>
+                                    <div class="box"></div>
+                                    <div class="box"></div>
+                                </div>
+                            </div>
+                        </template>
+                        <template #item-action="item">
+                            <div class="operation-wrapper" style="min-width: 100px;">
+                                <div class="d-flex align-items-center align-middle pr-2 pt-2 pb-2">
+                                    <button class="btn btn-danger"
+                                        @click="deleteData(item.id_guide_destinations)">
+                                        <font-awesome-icon icon="trash" />
+                                    </button>
+                                </div>
+                            </div>
+                        </template>
+                    </EasyDataTable>
+                    <!-- <div class="table-responsive">
                         <table class="table table-bordered table-condensed table-striped" id="dataTable" width="100%"
                             cellspacing="0">
                             <thead>
@@ -21,11 +52,6 @@
                                     <td style="width: 50px">{{ index + 1 }}</td>
                                     <td>{{ dest.tourist_destination.name }}</td>
                                     <td>
-                                        <!-- <div style="width: 50px; height: 50px;">
-                                            <button class="btn btn-success">
-                                                <font-awesome-icon icon="pencil" />
-                                            </button>
-                                        </div> -->
                                         <div style="width: 50px; height: 50px;">
                                             <button class="btn btn-danger" @click="deleteData(dest.id_guide_destinations)">
                                                 <font-awesome-icon icon="trash" />
@@ -40,7 +66,7 @@
                                 </tr>
                             </tfoot>
                         </table>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -55,7 +81,7 @@
                         <div>
                             <div class="form-outline mb-4" v-if="destinations || destinations.length">
                                 <label for="id_tourist_destinations">Tour Destination</label>
-                                <Field name="id_tourist_destinations" as="select" class="form-select">
+                                <Field name="id_tourist_destinations" as="select" class="form-control form-select">
                                     <option disabled selected value>-Select Tour Destination-</option>
                                     <option v-for="(destination, index) in destinations" :key="index"
                                         :value="destination.id_tourist_destinations">
@@ -100,8 +126,16 @@ export default {
                 .notOneOf(['-Select Tour Destination-'], 'Tourist destination is required!'),
         });
 
+        const themeColor = "#184fa7";
+        const headers = [
+            { text: "Tour Destinations", value: "tourist_destination.name" },
+            { text: "Action", value: "action" },
+        ];
+
         return {
-            loadingData: false,
+            themeColor,
+            headers,
+            statusLoad: false,
             details: [],
             destinations: [],
             successful: false,
@@ -194,12 +228,12 @@ export default {
             );
         },
         loadData() {
-            this.loadingData = true
+            this.statusLoad = true
             Promise.all([
                 GuideDestinationService.indexGuide(),
                 TourDestinationService.getAll(),
             ]).then((response) => {
-                this.statusLoad = true
+                this.statusLoad = false
                 const [guidedest, dest] = response
                 if(dest.data.data){
                     this.destinations = dest.data.data
@@ -208,7 +242,7 @@ export default {
                     this.details = guidedest.data.data
                 }
             }).catch(() => {
-                this.loadingData = false
+                this.statusLoad = false
                 alert('error')
             })
         },

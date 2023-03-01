@@ -5,6 +5,6 @@ export default function apiURL() {
     console.log('http://'+location.host+'/api/')
     return 'http://'+location.host+'/api/'
   }else if(location.host=='sipenguide.artanode.com'){
-    return 'https://sipenguideapiapi.artanode.com/api/'
+    return 'https://sipenguideapi.artanode.com/api/'
   }
 }

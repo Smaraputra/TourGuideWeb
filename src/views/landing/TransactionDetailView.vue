@@ -29,53 +29,69 @@
             </section>
             <section class="container p-4">
                 <div class="row" v-if="transaction">
-                    <div class="col-md-12 mt-4" v-if="transaction['order_status'] == 'Finished'">
+                    <div class="col-md-12 mt-4" v-if="transaction['order_status'] == 'Active' || transaction['order_status'] == 'Finished' && (this.moment(new Date()).format('YYYY-MM-DD') > this.moment(new Date(transaction.end_date)).format('YYYY-MM-DD'))">
                         <div class="card shadow border-0">
                             <div class="dashboard_common_table">
                                 <h3 class="mb-4">Thank you for trusting us. We tried our best to provide the best tour package dan guide!</h3>
-                                <div class="row">
-                                    <div class="col-md-6 mb-2">
-                                        <form @submit.prevent="handleSaveTour()" class="card shadow border-0 dashboard_common_table">
-                                            <p class="text-center">Rate your tour package!</p>
-                                            <fieldset class="rating"> 
-                                                <input type="radio" name="tourRating" value="5" id="tourRating5" v-model="tourRating" required :disabled="tourRatingStatus"><label for="tourRating5">☆</label> 
-                                                <input type="radio" name="tourRating" value="4" id="tourRating4" v-model="tourRating" required :disabled="tourRatingStatus"><label for="tourRating4">☆</label> 
-                                                <input type="radio" name="tourRating" value="3" id="tourRating3" v-model="tourRating" required :disabled="tourRatingStatus"><label for="tourRating3">☆</label> 
-                                                <input type="radio" name="tourRating" value="2" id="tourRating2" v-model="tourRating" required :disabled="tourRatingStatus"><label for="tourRating2">☆</label> 
-                                                <input type="radio" name="tourRating" value="1" id="tourRating1" v-model="tourRating" required :disabled="tourRatingStatus"><label for="tourRating1">☆</label>
-                                            </fieldset>
-                                            <button type="submit" class="mt-2 btn btn_theme btn-block text-white" v-if="!tourRatingStatus"
-                                                :disabled="loading3">
-                                                <span v-show="loading3" class="spinner-border spinner-border-sm"></span>
-                                                <font-awesome-icon icon="star" /><span> Give Tour Package Rating</span>
+                                <div class="row" :class="transaction['order_status'] == 'Active' ? 'justify-content-md-center' : ''">
+                                    <div class="col-md-6 mb-2" v-if="transaction['order_status'] =='Active'">
+                                        <form @submit.prevent="handleFinishTour()" class="card shadow border-0 dashboard_common_table">
+                                            <h4 class="text-center">Have fun with your trip? Remember to finish your transaction by clicking the button below.</h4>
+                                            <button type="submit" class="mt-2 btn btn_theme btn-block text-white"
+                                                :disabled="loading5">
+                                                <span v-show="loading5" class="spinner-border spinner-border-sm"></span>
+                                                <font-awesome-icon icon="star" /><span> Finish Order</span>
                                             </button>
                                         </form>
-                                        <div v-if="message3" class="alert mt-2"
-                                            :class="successful3 ? 'alert-success' : 'alert-danger'">
-                                            {{ message3 }}
+                                        <div v-if="message5" class="alert mt-2"
+                                            :class="successful5 ? 'alert-success' : 'alert-danger'">
+                                            {{ message5 }}
                                         </div>
                                     </div>
-                                    <div class="col-md-6" v-if="transaction.tour_packages.package_category.guide_included == 'Yes'">
-                                        <form @submit.prevent="handleSaveGuide()" class="card shadow border-0 dashboard_common_table">
-                                            <p class="text-center">Rate your guide!</p>
-                                            <fieldset class="rating"> 
-                                                <input type="radio" name="guideRating" value="5" id="guideRating5" v-model="guideRating" required :disabled="guideRatingStatus"><label for="guideRating5">☆</label> 
-                                                <input type="radio" name="guideRating" value="4" id="guideRating4" v-model="guideRating" required :disabled="guideRatingStatus"><label for="guideRating4">☆</label> 
-                                                <input type="radio" name="guideRating" value="3" id="guideRating3" v-model="guideRating" required :disabled="guideRatingStatus"><label for="guideRating3">☆</label> 
-                                                <input type="radio" name="guideRating" value="2" id="guideRating2" v-model="guideRating" required :disabled="guideRatingStatus"><label for="guideRating2">☆</label> 
-                                                <input type="radio" name="guideRating" value="1" id="guideRating1" v-model="guideRating" required :disabled="guideRatingStatus"><label for="guideRating1">☆</label>
-                                            </fieldset>
-                                            <button type="submit" class="mt-2 btn btn_theme btn-block text-white" v-if="!guideRatingStatus"
-                                                :disabled="loading4">
-                                                <span v-show="loading4" class="spinner-border spinner-border-sm"></span>
-                                                <font-awesome-icon icon="star" /><span> Give Guide Rating</span>
-                                            </button>
-                                        </form>
-                                        <div v-if="message4" class="alert mt-2"
-                                            :class="successful4 ? 'alert-success' : 'alert-danger'">
-                                            {{ message4 }}
+                                    <template v-if="transaction['order_status'] == 'Finished'">
+                                        <div class="col-md-6 mb-2">
+                                            <form @submit.prevent="handleSaveTour()" class="card shadow border-0 dashboard_common_table">
+                                                <p class="text-center">Rate your tour package!</p>
+                                                <fieldset class="rating"> 
+                                                    <input type="radio" name="tourRating" value="5" id="tourRating5" v-model="tourRating" required :disabled="tourRatingStatus"><label for="tourRating5">☆</label> 
+                                                    <input type="radio" name="tourRating" value="4" id="tourRating4" v-model="tourRating" required :disabled="tourRatingStatus"><label for="tourRating4">☆</label> 
+                                                    <input type="radio" name="tourRating" value="3" id="tourRating3" v-model="tourRating" required :disabled="tourRatingStatus"><label for="tourRating3">☆</label> 
+                                                    <input type="radio" name="tourRating" value="2" id="tourRating2" v-model="tourRating" required :disabled="tourRatingStatus"><label for="tourRating2">☆</label> 
+                                                    <input type="radio" name="tourRating" value="1" id="tourRating1" v-model="tourRating" required :disabled="tourRatingStatus"><label for="tourRating1">☆</label>
+                                                </fieldset>
+                                                <button type="submit" class="mt-2 btn btn_theme btn-block text-white" v-if="!tourRatingStatus"
+                                                    :disabled="loading3">
+                                                    <span v-show="loading3" class="spinner-border spinner-border-sm"></span>
+                                                    <font-awesome-icon icon="star" /><span> Give Tour Package Rating</span>
+                                                </button>
+                                            </form>
+                                            <div v-if="message3" class="alert mt-2"
+                                                :class="successful3 ? 'alert-success' : 'alert-danger'">
+                                                {{ message3 }}
+                                            </div>
                                         </div>
-                                    </div>
+                                        <div class="col-md-6" v-if="transaction.tour_packages.package_category.guide_included == 'Yes'">
+                                            <form @submit.prevent="handleSaveGuide()" class="card shadow border-0 dashboard_common_table">
+                                                <p class="text-center">Rate your guide!</p>
+                                                <fieldset class="rating"> 
+                                                    <input type="radio" name="guideRating" value="5" id="guideRating5" v-model="guideRating" required :disabled="guideRatingStatus"><label for="guideRating5">☆</label> 
+                                                    <input type="radio" name="guideRating" value="4" id="guideRating4" v-model="guideRating" required :disabled="guideRatingStatus"><label for="guideRating4">☆</label> 
+                                                    <input type="radio" name="guideRating" value="3" id="guideRating3" v-model="guideRating" required :disabled="guideRatingStatus"><label for="guideRating3">☆</label> 
+                                                    <input type="radio" name="guideRating" value="2" id="guideRating2" v-model="guideRating" required :disabled="guideRatingStatus"><label for="guideRating2">☆</label> 
+                                                    <input type="radio" name="guideRating" value="1" id="guideRating1" v-model="guideRating" required :disabled="guideRatingStatus"><label for="guideRating1">☆</label>
+                                                </fieldset>
+                                                <button type="submit" class="mt-2 btn btn_theme btn-block text-white" v-if="!guideRatingStatus"
+                                                    :disabled="loading4">
+                                                    <span v-show="loading4" class="spinner-border spinner-border-sm"></span>
+                                                    <font-awesome-icon icon="star" /><span> Give Guide Rating</span>
+                                                </button>
+                                            </form>
+                                            <div v-if="message4" class="alert mt-2"
+                                                :class="successful4 ? 'alert-success' : 'alert-danger'">
+                                                {{ message4 }}
+                                            </div>
+                                        </div>
+                                    </template>
                                 </div>
                             </div>
                         </div>
@@ -333,6 +349,9 @@ export default {
             successful4: false,
             loading4: false,
             message4: "",
+            successful5: false,
+            loading5: false,
+            message5: "",
             file: '',
             selectedGuide: null,
             transaction: null,
@@ -425,7 +444,7 @@ export default {
                     })
                     this.tourRating = this.transaction.rating_package ? this.transaction.rating_package : 0
                     this.tourRatingStatus = this.tourRating != 0 ? true : false
-                    this.guideRating = this.transaction.guideRating[0].guide_services[0] ? this.transaction.guideRating[0].guide_services[0].rating_guide : 0
+                    this.guideRating = this.transaction.guideRating[0] && this.transaction.guideRating[0].guide_services[0] ? this.transaction.guideRating[0].guide_services[0].rating_guide : 0
                     this.guideRatingStatus = this.guideRating != 0 ? true : false
                     console.log(this.transaction)
                     TourPackageService.getByIdDetail(this.transaction.tour_packages.id_tour_packages).then(
@@ -508,6 +527,41 @@ export default {
                     this.$swal.fire(
                         'Fail!',
                         'Payment is not uploaded.',
+                        'error'
+                    )
+                }
+            );
+        },
+
+        handleFinishTour() {
+            this.message5 = "";
+            this.successful5 = false;
+            this.loading5 = true;
+
+            OrderService.finishTour(this.$route.params.id_orders).then(
+                () => {
+                    this.message5 = "Order Finished";
+                    this.successful5 = true;
+                    this.loading5 = false;
+                    this.$swal.fire(
+                        'Success!',
+                        'Order successfully finished.',
+                        'success'
+                    )
+                    this.loadTransaction()
+                },
+                (error) => {
+                    this.message5 =
+                        (error.response &&
+                            error.response.data &&
+                            error.response.data.message) ||
+                        error.message ||
+                        error.toString();
+                    this.successful5 = false;
+                    this.loading5 = false;
+                    this.$swal.fire(
+                        'Fail!',
+                        'Order is not finished.',
                         'error'
                     )
                 }

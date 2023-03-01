@@ -106,6 +106,17 @@ class TourOrderService {
     return response.data;
   }
 
+  async finishTour(id) {
+    const response = await axios.post(
+      API_URL + "finishTour",
+      {
+        id_orders: id,
+      },
+      { headers: authHeader() }
+    );
+    return response.data;
+  }
+
   async searchFilterAgent(order_status) {
     const response = await axios
       .post(API_URL + 'searchFilterAgent', {

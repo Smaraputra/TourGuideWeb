@@ -5,8 +5,8 @@ on:
   workflow_dispatch:
   
 jobs:
-  SSH-Build:
-    name: SSH Build
+  FTP-Build:
+    name: FTP Build
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
@@ -23,14 +23,25 @@ jobs:
       run: npm rebuild
     - name: Build dependencies
       run: npm run build
-    - name: Deploy to Server
-      uses: easingthemes/ssh-deploy@main
-      env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          ARGS: "-rlgoDzvc -i --delete"
-          SOURCE: "dist/"
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
-          TARGET: ${{ secrets.REMOTE_TARGET }}
-          EXCLUDE: "/dist/, /node_modules/"
+    - name: Archive production artifact
+      uses: actions/upload-artifact@main
+      with:
+        name: dist
+        path: dist
+  FTP-Deploy:
+    name: FTP Deploy
+    needs: FTP-Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@main
+    - name: Download artifact
+      uses: actions/download-artifact@main
+      with: 
+        name: dist
+    - name: Sync files
+      uses: SamKirkland/FTP-Deploy-Action@4.3.2
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}

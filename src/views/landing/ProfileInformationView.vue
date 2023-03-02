@@ -33,7 +33,7 @@
               <div class="dashboard_sidebar">
                 <div class="dashboard_sidebar_user">
                   <button style="border: 0; background: #F3F6FD;">
-                    <img v-if="currentUser.data.photo != null" :src="file == null ? currentUser.data.photo : urlImage"
+                    <img v-if="currentUser.data.photo != null" :src="file == null ? this.$prefix.imgUrl(currentUser.data.photo) : urlImage"
                       @click="$refs.file.click()" alt="img">
                     <img v-if="currentUser.data.photo == null" :src="urlImage" @click="$refs.file.click()" alt="img">
                   </button>

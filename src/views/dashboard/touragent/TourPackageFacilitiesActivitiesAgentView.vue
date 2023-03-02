@@ -30,7 +30,7 @@
                 <div v-if="tourpackagesdetails" class="row">
                     <div class="col-md-4">
                         <img v-if="tourpackagesdetails.image_package_detail != null"
-                            :src="tourpackagesdetails.image_package_detail" alt=""
+                            :src="this.$prefix.imgUrl(tourpackagesdetails.image_package_detail)" alt=""
                             class="card-img-top mt-2 mb-2 rounded img">
                         <img v-else src="../../../assets/img/home/image_placeholder.png" alt=""
                             class="card-img-top mt-2 mb-2 rounded img">

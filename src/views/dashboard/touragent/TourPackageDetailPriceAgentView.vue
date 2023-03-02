@@ -23,7 +23,7 @@
       <Form @submit="updatePackage" :validation-schema="schemaPackage">
         <div class="row" v-if="tourpackages">
           <div class="col-md-4">
-            <img v-if="tourpackages.cover_image != null" :src="tourpackages.cover_image" alt="" class="card-img-top mt-2 mb-2 rounded img">
+            <img v-if="tourpackages.cover_image != null" :src="this.$prefix.imgUrl(tourpackages.cover_image)" alt="" class="card-img-top mt-2 mb-2 rounded img">
             <img v-else src="../../../assets/img/home/image_placeholder.png" alt="" class="card-img-top mt-2 mb-2 rounded img">
             <div class="form-outline mb-4">
               <label for="cover_image" class="mt-2">Cover Image</label>
@@ -111,7 +111,7 @@
               </div>
             </template>
             <template #item-image="item">
-              <img v-if="item.image_package_detail != null" :src="item.image_package_detail" alt="" class="card-img-top mt-2 mb-2 rounded imgSmallTabel">
+              <img v-if="item.image_package_detail != null" :src="this.$prefix.imgUrl(item.image_package_detail)" alt="" class="card-img-top mt-2 mb-2 rounded imgSmallTabel">
               <img v-else src="../../../assets/img/home/image_placeholder.png" alt="" class="card-img-top mt-2 mb-2 rounded imgSmallTabel">
             </template>
             <template #item-action="item">

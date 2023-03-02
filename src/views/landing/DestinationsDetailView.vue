@@ -32,9 +32,9 @@
           <div class="card-body">
             <div v-if="destinations != null">
               <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-4 mb-2">
                   <img v-if="destinations.image_tourist_destination != null"
-                  :src="destinations.image_tourist_destination" alt="" class="card-img-top imgTourPackage">
+                  :src="this.$prefix.imgUrl(destinations.image_tourist_destination)" alt="" class="card-img-top imgTourPackage">
                 <img v-else src="../../assets/img/home/image_placeholder.png" alt=""
                   class="card-img-top imgTourPackage">
                 </div>

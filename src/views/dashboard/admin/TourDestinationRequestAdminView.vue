@@ -26,7 +26,7 @@
                 </template>
                 <template #item-image="item">
                     <img v-if="item.image_tourist_destination != null"
-                        :src="item.image_tourist_destination" alt=""
+                        :src="this.$prefix.imgUrl(item.image_tourist_destination)" alt=""
                         class="card-img-top mt-2 mb-2 rounded imgSmallTabel">
                     <img v-else src="../../../assets/img/home/image_placeholder.png" alt=""
                         class="card-img-top mt-2 mb-2 rounded imgSmallTabel">

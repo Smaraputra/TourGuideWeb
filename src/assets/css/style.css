@@ -1278,13 +1278,14 @@ section {
 }
 
 .theme_nav_tab_item .nav-tabs .nav-link {
-    margin-bottom: 0;
+    margin-bottom: 10px;
     background: 0 0;
     border: 1px solid var(--main-color);
     color: var(--black-color);
     padding: 8px 30px;
     border-radius: 5px;
-    margin-right: 35px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .theme_nav_tab_item .nav-tabs .nav-link:last-child {

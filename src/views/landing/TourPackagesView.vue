@@ -69,7 +69,7 @@
                       <div class="theme_common_box_two img_hover">
                         <div class="theme_two_box_img">
                           <router-link :to="{ name: 'packages-detail-see', params: { id_tour_packages: pack.id_tour_packages } }">
-                            <img v-if="pack.cover_image" :src="pack.cover_image" class="card-img-top rounded img" alt="">
+                            <img v-if="pack.cover_image" :src="this.$prefix.imgUrl(pack.cover_image)" class="card-img-top rounded img" alt="">
                             <img v-else src="../../assets/img/home/image_placeholder.png" class="card-img-top rounded img" alt="">
                           </router-link>
                           <p>{{ pack.tour_agent.agent_name }}</p>

@@ -15,7 +15,7 @@
                             <div v-for="(detail, index) in tourpackagesdetails" :key="index">
                                 <div class="timeline-2 left-2" v-if="index % 2 == 0">
                                     <div class="card">
-                                        <img v-if="detail.image_package_detail" :src="detail.image_package_detail"
+                                        <img v-if="detail.image_package_detail" :src="this.$prefix.imgUrl(detail.image_package_detail)"
                                             class="card-img-top img2" alt="">
                                         <img v-else src="../../assets/img/home/image_placeholder.png"
                                             class="card-img-top img2" alt="">
@@ -57,7 +57,7 @@
                                 </div>
                                 <div class="timeline-2 right-2" v-else>
                                     <div class="card">
-                                        <img v-if="detail.image_package_detail" :src="detail.image_package_detail"
+                                        <img v-if="detail.image_package_detail" :src="this.$prefix.imgUrl(detail.image_package_detail)"
                                             class="card-img-top img2" alt="">
                                         <img v-else src="../../assets/img/home/image_placeholder.png"
                                             class="card-img-top img2" alt="">
@@ -116,7 +116,7 @@ export default {
         },
     },
     mounted() {
-        console.log(this.packages)
+
     },
 };
 </script>

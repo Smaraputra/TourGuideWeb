@@ -23,7 +23,7 @@
                             <h2>Register new account</h2>
                             <h3 class="mt-2">Create your account to continue.</h3>
                         </div>
-                        <div class="common_author_form">
+                        <div class="mt-4">
                             <Form @submit="handleRegister" :validation-schema="schema">                                
                                 <div class="form-group mb-4">
                                     <label for="name">Full Name</label>

@@ -4,7 +4,7 @@
       <div class="dashboard_sidebar">
         <div class="dashboard_sidebar_user">
           <button style="border: 0; background: #F3F6FD;">
-            <img v-if="profile.photo != null && profile.photo != ''" :src="file == null ? profile.photo : urlImage"
+            <img v-if="profile.photo != null && profile.photo != ''" :src="file == null ? this.$prefix.imgUrl(profile.photo) : urlImage"
               @click="$refs.file.click()" alt="img">
             <img v-if="profile.photo == null || profile.photo == ''" :src="urlImage" @click="$refs.file.click()" alt="img">
           </button>

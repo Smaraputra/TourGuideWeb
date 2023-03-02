@@ -73,7 +73,7 @@
                         <div class="theme_common_box_two img_hover">
                           <div class="theme_two_box_img">
                             <router-link :to="{ name: 'destinations-see', params: { id_tourist_destinations: destination.id_tourist_destinations } }">
-                              <img v-if="destination.image_tourist_destination != null" :src="destination.image_tourist_destination" alt="" class="card-img-top imgTourPackage">
+                              <img v-if="destination.image_tourist_destination != null" :src="this.$prefix.imgUrl(destination.image_tourist_destination)" alt="" class="card-img-top imgTourPackage">
                               <img v-else src="../../assets/img/home/image_placeholder.png" alt="" class="card-img-top imgTourPackage">
                             </router-link>
                           </div>

@@ -166,7 +166,7 @@
                                                                 {{ `${item.tour_agents_assigned.agent_name} (${item.tour_agents_assigned.phone})` }}
                                                             </template>
                                                             <template #item-photo="item">
-                                                                <img class="card-img-top mt-2 mb-2 rounded imgSmallTabel" v-if="item.users.photo != null && item.users.photo != ''" :src=item.users.photo
+                                                                <img class="card-img-top mt-2 mb-2 rounded imgSmallTabel" v-if="item.users.photo != null && item.users.photo != ''" :src=this.$prefix.imgUrl(item.users.photo)
                                                                     style="width: 100px">
                                                                 <img class="card-img-top mt-2 mb-2 rounded imgSmallTabel" v-else src="../../../assets/img/home/photo_placeholder.png"
                                                                     style="width: 100px">
@@ -268,7 +268,7 @@
                                                                         {{ `${item.agent_name}(${item.phone})` }}
                                                                     </template>
                                                                     <template #item-photo="item">
-                                                                        <img class="card-img-top mt-2 mb-2 rounded imgSmallTabel" v-if="item.guide_photo != null && item.guide_photo != ''" :src=item.guide_photo
+                                                                        <img class="card-img-top mt-2 mb-2 rounded imgSmallTabel" v-if="item.guide_photo != null && item.guide_photo != ''" :src=this.$prefix.imgUrl(item.guide_photo)
                                                                             style="width: 100px">
                                                                         <img class="card-img-top mt-2 mb-2 rounded imgSmallTabel" v-else src="../../../assets/img/home/photo_placeholder.png"
                                                                             style="width: 100px">
@@ -419,7 +419,7 @@
                     </div>
                 </div>
                 <div class="card-body p-4">
-                    <img v-if="transaction.payments[0].payment_proof != null" :src="transaction.payments[0].payment_proof"
+                    <img v-if="transaction.payments[0].payment_proof != null" :src="this.$prefix.imgUrl(transaction.payments[0].payment_proof)"
                         alt="" class="card-img-top mt-2 mb-4 rounded">
                     <img v-else src="../../../assets/img/home/image_placeholder.png" alt=""
                         class="card-img-top mt-2 mb-4 rounded">

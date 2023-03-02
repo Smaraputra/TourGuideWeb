@@ -34,7 +34,7 @@
                         <div class="card shadow border-0">
                             <div class="card-body p-4">
                                 <div class="col-md-12">
-                                    <img v-if="tourpackages.cover_image != null" :src="tourpackages.cover_image" alt=""
+                                    <img v-if="tourpackages.cover_image != null" :src="this.$prefix.imgUrl(tourpackages.cover_image)" alt=""
                                         class="card-img-top img">
                                     <img v-else src="../../assets/img/home/image_placeholder.png" alt=""
                                         class="card-img-top img">

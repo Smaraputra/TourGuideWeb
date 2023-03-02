@@ -200,7 +200,7 @@
                                                             <div class="card-body" v-if="tourpackage.package_category['guide_included'] === 'Yes'">
                                                                 <div v-if="selectedGuide != null" class="row">
                                                                     <div class="col-sm-12 col-md-3 text-center">
-                                                                        <img v-if="selectedGuide.users.photo != null" :src="selectedGuide.users.photo" alt="Guide"
+                                                                        <img v-if="selectedGuide.users.photo != null" :src="this.$prefix.imgUrl(selectedGuide.users.photo)" alt="Guide"
                                                                             class="img-fluid" style="height: 200px;border-radius: 10px;">
                                                                         <img v-else src="../../assets/img/home/photo_placeholder.png" alt="Guide"
                                                                             class="img-fluid" style="height: 200px;border-radius: 10px;">
@@ -251,7 +251,7 @@
                                 <h3 class="mb-4">Payment</h3>
                                 <template v-if="transaction.payments[0].payment_status != 'Cancelled' && transaction['order_status'] != 'Refused by Agent'">
                                     <img v-if="transaction.payments[0].payment_proof != null"
-                                    :src="transaction.payments[0].payment_proof" alt=""
+                                    :src="this.$prefix.imgUrl(transaction.payments[0].payment_proof)" alt=""
                                     class="card-img-top mt-2 rounded">
                                     <img v-else src="../../assets/img/home/image_placeholder.png" alt=""
                                         class="card-img-top mt-2 rounded">

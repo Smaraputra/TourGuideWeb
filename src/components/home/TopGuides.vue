@@ -42,7 +42,7 @@
             <div class="row">
                 <div v-for="(tourGuide, index) in items" :key="index" class="col-lg-4 col-md-6 col-sm-12 col-12">
                     <div class="tour_guides_boxed">
-                        <img v-if="tourGuide.users.photo" class="guide-photo" :src="tourGuide.users.photo" alt="">
+                        <img v-if="tourGuide.users.photo" class="guide-photo" :src="this.$prefix.imgUrl(tourGuide.users.photo)" alt="">
                         <img v-else src="../../assets/img/home/image_placeholder.png" class="guide-photo" alt="">
                         <div class="tour_guide_content">
                             <ul>

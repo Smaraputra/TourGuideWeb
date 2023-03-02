@@ -109,7 +109,7 @@
                                                 <div class="card-body" v-if="tourpackage.package_category['guide_included'] === 'Yes'">
                                                     <div class="row" v-if="selectedGuide">
                                                         <div class="col-sm-12 col-md-3 text-center">
-                                                            <img v-if="selectedGuide.users.photo != null" :src="selectedGuide.users.photo" alt="Guide"
+                                                            <img v-if="selectedGuide.users.photo != null" :src="this.$prefix.imgUrl(selectedGuide.users.photo)" alt="Guide"
                                                                 class="img-fluid" style="height: 200px;border-radius: 10px;">
                                                             <img v-else src="../../../assets/img/home/photo_placeholder.png" alt="Guide"
                                                                 class="img-fluid" style="height: 200px;border-radius: 10px;">

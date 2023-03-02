@@ -17,10 +17,16 @@ import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 // import './assets/css/main.css';
 import './assets/app.css'
+import urlHost from '../src/services/url-host'
 Axios.defaults.headers.common['Authorization'] = `Bearer ${store.state.token}`;
 window.$ = JQuery
 
-const app = createApp(App);
+const app = createApp(App)
+app.config.globalProperties.$prefix = {
+  imgUrl(value) {
+    return urlHost()+value
+  },
+}
 app.config.globalProperties.$filters = {
   formatPrice(value) {
     if (typeof value !== "number") {
@@ -33,9 +39,10 @@ app.config.globalProperties.$filters = {
     });
     return formatter.format(value);
   },
-};
+}
 app.use(router)
 app.use(store)
+app.use(urlHost)
 app.use(VueSweetalert2)
 app.use(ReadMore)
 app.use(VueGoogleMaps, {

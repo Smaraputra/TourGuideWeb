@@ -18,7 +18,7 @@
           </div>
         </template>
         <template #item-image="item">
-          <img v-if="item.cover_image != null" :src="item.cover_image" alt="" style="min-width: 100px;"
+          <img v-if="item.cover_image != null" :src="this.$prefix.imgUrl(item.cover_image)" alt="" style="min-width: 100px;"
             class="card-img-top mt-2 mb-2 rounded imgSmallTabel">
           <img v-else src="../../../assets/img/home/image_placeholder.png" alt="" style="min-width: 100px;"
             class="card-img-top mt-2 mb-2 rounded imgSmallTabel">

@@ -109,7 +109,8 @@
                                 <div class="container">
                                     <div class="logo">
                                         <router-link to="/">
-                                            <img src="../assets/img/logo-white.png" alt="logo" style="height: 55px; margin-bottom: 6px; margin-right: 6px;"> <strong class="navbar-brand text-white">SIPENGUIDE</strong>
+                                            <!-- <img src="../assets/img/logo-white.png" alt="logo" style="height: 55px; margin-bottom: 6px; margin-right: 6px;">  -->
+                                            <strong class="navbar-brand text-white">SIPENGUIDE</strong>
                                         </router-link>
                                     </div>
                                     <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"

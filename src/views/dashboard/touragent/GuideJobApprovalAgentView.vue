@@ -26,7 +26,7 @@
                 </template>
                 <template #item-photo="item">
                     <img v-if="item.users.photo != null"
-                        :src="item.users.photo" alt=""
+                        :src="this.$prefix.imgUrl(item.users.photo)" alt=""
                         class="card-img-top mt-2 mb-2 rounded imgSmallTabel">
                     <img v-else src="../../../assets/img/home/image_placeholder.png" alt=""
                         class="card-img-top mt-2 mb-2 rounded imgSmallTabel">

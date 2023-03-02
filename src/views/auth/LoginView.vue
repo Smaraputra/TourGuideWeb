@@ -23,7 +23,7 @@
                             <h2>Login your account</h2>
                             <h3 class="mt-2">Please login using your account to continue.</h3>
                         </div>
-                        <div class="common_author_form">
+                        <div class="mt-4 p-2">
                             <Form @submit="handleLogin" :validation-schema="schema">                                
                                 <div class="form-group">
                                     <label for="email">Email</label>

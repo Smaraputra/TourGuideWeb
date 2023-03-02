@@ -24,7 +24,7 @@
                 <div class="row" v-if="destinations">
                     <div class="col-md-6">
                         <div class="form-outline mb-4">
-                            <img v-if="destinations.image_tourist_destination != null" :src="destinations.image_tourist_destination" alt="" class="card-img-top mt-2 mb-2 rounded img">
+                            <img v-if="destinations.image_tourist_destination != null" :src="this.$prefix.imgUrl(destinations.image_tourist_destination)" alt="" class="card-img-top mt-2 mb-2 rounded img">
                             <img v-else src="../../../assets/img/home/image_placeholder.png" alt="" class="card-img-top mt-2 mb-2 rounded img">
                             <label for="image_tourist_destination" class="mt-2">Cover Image</label>
                             <Field name="image_tourist_destination">

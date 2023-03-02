@@ -5,11 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" 
-    content="
-      worker-src blob:; 
-      child-src blob: gap:;
-      img-src 'self' https://sipenguideapi.artanode.com 'unsafe-inline' blob: data: 'unsafe-eval';
-      default-src * 'self' https://sipenguideapi.artanode.com 'unsafe-inline' 'unsafe-eval' data: blob: gap: content:">
+      content="
+      default-src *  data: blob: filesystem: about: ws: wss: 'unsafe-inline' 'unsafe-eval' 'unsafe-dynamic'; 
+      script-src * data: blob: 'unsafe-inline' 'unsafe-eval'; 
+      connect-src * data: blob: 'unsafe-inline'; 
+      img-src * data: blob: 'unsafe-inline'; 
+      frame-src * data: blob: ; 
+      style-src * data: blob: 'unsafe-inline';
+      font-src * data: blob: 'unsafe-inline';
+      frame-ancestors * data: blob: 'unsafe-inline';">
     <link rel="icon" href="<%= BASE_URL %>sipenguide.png">
     <title>SIPENGUIDE</title>
   </head>

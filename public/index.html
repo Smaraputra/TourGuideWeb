@@ -8,7 +8,7 @@
     content="
       worker-src blob:; 
       child-src blob: gap:;
-      img-src 'self' https://sipenguideapi.artanode.com blob: data:;
+      img-src 'self' https://sipenguideapi.artanode.com 'unsafe-inline' blob: data: 'unsafe-eval';
       default-src * 'self' https://sipenguideapi.artanode.com 'unsafe-inline' 'unsafe-eval' data: blob: gap: content:">
     <link rel="icon" href="<%= BASE_URL %>sipenguide.png">
     <title>SIPENGUIDE</title>

@@ -582,7 +582,18 @@ export default {
     },
     onChange2(e) {
       this.file2 = e.target.files[0];
-      this.urlImage = URL.createObjectURL(this.file2);
+      let base64img = ''
+      const reader = new FileReader()
+      reader.readAsDataURL(this.file2)
+      reader.onload = function () {
+        base64img = reader.result
+      }
+      reader.onerror = function (error) {
+        console.log('Error: ', error)
+      }
+      setTimeout(() => {
+        this.urlImage = base64img
+      }, 2000)
     },
     mark(event) {
       this.markers = [

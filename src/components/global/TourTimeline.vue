@@ -33,7 +33,7 @@
                                                     <p>- {{ facility.facilities }}</p>
                                                     <p>{{ facility.description_public }}</p>
                                                     <template v-if="facility.description_agent">
-                                                        <p>({{ facility.description_agent }})</p>
+                                                        <p v-html="facility.description_agent"></p>
                                                     </template>
                                                 </div>
                                             </template>
@@ -75,7 +75,7 @@
                                                     <p>- {{ facility.facilities }}</p>
                                                     <p>{{ facility.description_public }}</p>
                                                     <template v-if="facility.description_agent">
-                                                        <p>({{ facility.description_agent }})</p>
+                                                        <div v-html="facility.description_agent"></div>
                                                     </template>
                                                 </div>
                                             </template>

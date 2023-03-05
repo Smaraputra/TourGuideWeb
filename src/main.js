@@ -9,6 +9,8 @@ import VueGoogleMaps from '@fawmi/vue-google-maps'
 import { FontAwesomeIcon } from './plugins/font-awesome'
 import ReadMore from 'vue-read-more';
 import Vue3EasyDataTable from 'vue3-easy-data-table';
+import { VueEditor } from "vue3-editor";
+import { VSelect } from 'vuetify/lib/components';
 import 'vue3-easy-data-table/dist/style.css';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
@@ -40,9 +42,10 @@ app.config.globalProperties.$filters = {
     return formatter.format(value);
   },
 }
+app.use(VSelect)
+app.use(VueEditor)
 app.use(router)
 app.use(store)
-app.use(urlHost)
 app.use(VueSweetalert2)
 app.use(ReadMore)
 app.use(VueGoogleMaps, {

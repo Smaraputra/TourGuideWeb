@@ -143,7 +143,7 @@
             <div class="form-outline mb-4" v-if="categories || categories.length">
               <label for="id_package_categories">Tour Package Category</label>
               <Field name="id_package_categories" as="select" class="form-control form-select">
-                <option disabled selected value>-Package Category-</option>
+                <option disabled selected value="">-Package Category-</option>
                 <option v-for="(category, index) in categories" :key="index" :value="category.id_package_categories">
                   {{ category.category }}
                 </option>
@@ -156,7 +156,9 @@
             </div>
             <div class="form-outline mb-4">
               <label for="terms">Terms and Conditions</label>
-              <Field as="textarea" name="terms" type="text" class="form-control" />
+              <Field name="terms" class="form-control" v-model="termCond">
+                <VueEditor v-model="termCond" theme="snow"/>
+              </Field>
               <ErrorMessage name="terms" class="error-feedback" />
             </div>
             <div class="form-group">
@@ -177,17 +179,20 @@
 
 <script>
 import moment from 'moment'
+import { VueEditor } from "vue3-editor";
 import previewImage from "../../../assets/img/home/image_placeholder.png"
 import TourPackageService from "../../../services/tour-package.service";
 import TourPackageCategoryService from "../../../services/tour-package-category.service";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
+
 export default {
   name: "TourPackageAgentView",
   components: {
     Form,
     Field,
     ErrorMessage,
+    VueEditor
   },
   data() {
     const schema = yup.object().shape({
@@ -207,7 +212,7 @@ export default {
       terms: yup
         .string()
         .required("Terms and Conditions is required!")
-        .min(3, "Must be at least 3 characters!")
+        .min(1, "Terms and Conditions is required!")
         .max(2048, "Must be maximum 2048 characters!"),
     });
 
@@ -217,13 +222,14 @@ export default {
       { text: "Package Name", value: "package_name" },
       { text: "Category", value: "package_category.category" },
       { text: "Description", value: "description" },
-      { text: "Terms", value: "terms" },
+      // { text: "Terms", value: "terms" },
       { text: "Rating", value: "rating" },
       { text: "Published", value: "published" },
       { text: "Action", value: "action" },
     ];
 
     return {
+      termCond: "",
       themeColor,
       headers,
       statusLoad: false,
@@ -236,6 +242,12 @@ export default {
       file: null,
       urlImage: previewImage
     };
+  },
+  watch:{
+    termCond(newSelected,oldSelected){
+      console.log(newSelected)
+      console.log(oldSelected)
+    }
   },
   computed: {
     loggedIn() {

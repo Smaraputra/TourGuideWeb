@@ -46,7 +46,9 @@
                     </div>
                     <div class="form-outline mb-4">
                         <label for="description_agent">Note (Only Agent)</label>
-                        <Field as="textarea" name="description_agent" type="text" class="form-control" v-model="facilities.description_agent"/>
+                        <Field name="terms" class="form-control" v-model="facilities.description_agent">
+                            <VueEditor v-model="facilities.description_agent" theme="snow"/>
+                        </Field>
                         <ErrorMessage name="description_agent" class="error-feedback" />
                     </div>
                     <div class="form-group">
@@ -69,6 +71,7 @@
 </template>
 
 <script>
+import { VueEditor } from "vue3-editor";
 import TourPackageFacilitiesService from "../../../services/tour-package-facilities.service";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
@@ -78,6 +81,7 @@ export default {
         Form,
         Field,
         ErrorMessage,
+        VueEditor
     },
     data() {
         const schema = yup.object().shape({
@@ -158,7 +162,7 @@ export default {
             this.successful = false;
             this.loading = true;
 
-            TourPackageFacilitiesService.update(schema, this.facilities.package_detail.id_tour_packages, this.facilities.id_package_details, this.$route.params.id_package_facilities).then(
+            TourPackageFacilitiesService.update(schema, this.facilities.package_detail.id_tour_packages, this.facilities.id_package_details, this.$route.params.id_package_facilities, this.facilities.description_agent).then(
                 (data) => {
                     this.message = "Facility of " + data.data.facilities + " successfully updated.";
                     this.successful = true;

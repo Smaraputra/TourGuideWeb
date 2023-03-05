@@ -57,10 +57,12 @@
                 <ErrorMessage name="description" class="error-feedback" />
               </div>
               <div class="form-outline mb-4">
-                <label for="terms">Terms and Conditions</label>
-                <Field as="textarea" name="terms" type="text" class="form-control" v-model=tourpackages.terms />
-                <ErrorMessage name="terms" class="error-feedback" />
-              </div>
+              <label for="terms">Terms and Conditions</label>
+              <Field name="terms" class="form-control" v-model="tourpackages.terms">
+                <VueEditor v-model="tourpackages.terms" theme="snow"/>
+              </Field>
+              <ErrorMessage name="terms" class="error-feedback" />
+            </div>
               <div class="form-outline mb-4">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" name="published" id="flexCheckDefault" v-model="checkeds">
@@ -399,6 +401,7 @@
 
 <script>
 import moment from 'moment'
+import { VueEditor } from "vue3-editor";
 import previewImage from "../../../assets/img/home/image_placeholder.png"
 import TourPackageService from "../../../services/tour-package.service";
 import TourPackageCategoryService from "../../../services/tour-package-category.service";
@@ -413,6 +416,7 @@ export default {
     Form,
     Field,
     ErrorMessage,
+    VueEditor
   },
   data() {
     const schemaPackage = yup.object().shape({
@@ -432,7 +436,7 @@ export default {
       terms: yup
         .string()
         .required("Terms and Conditions is required!")
-        .min(3, "Must be at least 3 characters!")
+        .min(1, "Terms and Conditions is required!")
         .max(2048, "Must be maximum 2048 characters!"),
     });
 

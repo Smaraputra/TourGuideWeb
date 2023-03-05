@@ -96,7 +96,7 @@
                                 </div>
                                 <h4 class="mt-4">Terms and Conditions</h4>
                                 <hr class="hr" />
-                                <p>{{ tourpackages.terms }}</p>
+                                <div id="content" v-html="tourpackages.terms"></div>
                             </div>
                         </div>
                     </div>

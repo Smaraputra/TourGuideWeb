@@ -99,7 +99,7 @@
                         <h4 class="">Description</h4>
                         <p>{{ tourpackage.description }}</p>
                         <h4 class="mt-4">Terms and Conditions</h4>
-                        <p>{{ tourpackage.terms }}</p>
+                        <div id="content" v-html="tourpackage.terms"></div>
                         <div class="row">
                             <div class="col-md-6">
                                 <h4 class="mt-4">Pickup Location</h4>

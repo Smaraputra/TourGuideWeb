@@ -15,7 +15,7 @@
                         </router-link>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">
-                        <strong>Tour Package Detail</strong>
+                        <strong>Tour Activity - Facility Detail</strong>
                     </li>
                 </ol>
             </nav>
@@ -317,7 +317,9 @@
                             </div>
                             <div class="form-outline mb-4">
                                 <label for="description_agent">Note (Only Agent)</label>
-                                <Field as="textarea" name="description_agent" type="text" class="form-control" />
+                                <Field name="terms" class="form-control" v-model="termCond">
+                                    <VueEditor v-model="termCond" theme="snow"/>
+                                </Field>
                                 <ErrorMessage name="description_agent" class="error-feedback" />
                             </div>
                             <div class="form-group">
@@ -338,6 +340,7 @@
 </template>
 
 <script>
+import { VueEditor } from "vue3-editor";
 import moment from "moment";
 import TourPackageDetailService from "../../../services/tour-package-detail.service";
 import TourDestinationService from "../../../services/tour-destination.service";
@@ -351,6 +354,7 @@ export default {
         Form,
         Field,
         ErrorMessage,
+        VueEditor
     },
     data() {
         const schemaDetail = yup.object().shape({
@@ -423,11 +427,12 @@ export default {
         const headers1 = [
             { text: "Facility", value: "facilities" },
             { text: "Description (Public)", value: "description_public" },
-            { text: "Note (Agent Only)", value: "description_agent" },
+            // { text: "Note (Agent Only)", value: "description_agent" },
             { text: "Action", value: "action" },
         ];
 
         return {
+            termCond: "",
             themeColor,
             headers,
             headers1,
@@ -515,7 +520,7 @@ export default {
             this.successful3 = false;
             this.loading3 = true;
 
-            TourPackageFacilitiesService.store(schemaFacility, this.tourpackagesdetails.id_tour_packages, this.$route.params.id_package_details).then(
+            TourPackageFacilitiesService.store(schemaFacility, this.tourpackagesdetails.id_tour_packages, this.$route.params.id_package_details, this.termCond).then(
                 () => {
                     this.message3 = "New package facility successfully created.";
                     this.successful3 = true;

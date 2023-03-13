@@ -122,12 +122,12 @@
                                             <label for="order_date">Date</label>
                                             <Field name="order_date" type="date" :min=mindate id="datefield"
                                                 class="form-control" />
-                                            <ErrorMessage name="order_date" class="error-feedback" />
+                                            <ErrorMessage name="order_date" class="error-feedback text-danger" />
                                         </div>
                                         <div class="form-outline mb-4">
                                             <label for="note">Order Note</label>
                                             <Field as="textarea" name="note" type="text" class="form-control" />
-                                            <ErrorMessage name="note" class="error-feedback" />
+                                            <ErrorMessage name="note" class="error-feedback text-danger" />
                                         </div>
                                         <div class="accordion">
                                             <div v-if="fees.length" class="mb-4">
@@ -146,7 +146,7 @@
                                                                 <label for="location">Location</label>
                                                                 <Field as="textarea" name="location" type="text"
                                                                     class="form-control" />
-                                                                <ErrorMessage name="location" class="error-feedback" />
+                                                                <ErrorMessage name="location" class="error-feedback text-danger" />
                                                             </div>
                                                             <div class="form-outline" id="form_custom">
                                                                 <GMapMap :center="center" :zoom="2"
@@ -166,7 +166,7 @@
                                                                                 type="text" class="form-control"
                                                                                 v-model="lat" disabled />
                                                                             <ErrorMessage name="latitude"
-                                                                                class="error-feedback" />
+                                                                                class="error-feedback text-danger" />
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6">
@@ -176,7 +176,7 @@
                                                                                 type="text" class="form-control"
                                                                                 v-model="long" disabled />
                                                                             <ErrorMessage name="longitude"
-                                                                                class="error-feedback" />
+                                                                                class="error-feedback text-danger" />
                                                                         </div>
                                                                     </div>
                                                                 </div>

@@ -39,6 +39,13 @@ class TourAgentService {
       }, { headers: authHeader() });
     return response.data;
   }
+  async adminDelete(id) {
+    const response = await axios
+      .post(API_URL + 'admindelete', {
+        curid: id
+      }, { headers: authHeader() });
+    return response.data;
+  }
   async getById(id) {
     const response = await axios
       .post(API_URL + 'getById', {

@@ -88,7 +88,7 @@
                                         {{ destination.name }}
                                     </option>
                                 </Field>
-                                <ErrorMessage name="id_payment_methods" class="error-feedback" />
+                                <ErrorMessage name="id_payment_methods" class="error-feedback text-danger" />
                             </div>
                             <div class="form-group">
                                 <button class="btn btn_theme btn-block" :disabled="loading">

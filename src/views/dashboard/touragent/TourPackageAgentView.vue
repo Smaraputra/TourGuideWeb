@@ -129,7 +129,7 @@
             <Field name="cover_image">
               <input name="cover_image" type="file" v-on:change="onChange" class="form-control" accept="image/*" />
             </Field>
-            <ErrorMessage name="cover_image" class="error-feedback" />
+            <ErrorMessage name="cover_image" class="error-feedback text-danger" />
           </div>
         </div>
         <div class="col-md-8">
@@ -138,7 +138,7 @@
             <div class="form-outline mb-4">
               <label for="package_name">Tour Packages Name</label>
               <Field name="package_name" type="text" class="form-control" />
-              <ErrorMessage name="package_name" class="error-feedback" />
+              <ErrorMessage name="package_name" class="error-feedback text-danger" />
             </div>
             <div class="form-outline mb-4" v-if="categories || categories.length">
               <label for="id_package_categories">Tour Package Category</label>
@@ -152,14 +152,14 @@
             <div class="form-outline mb-4">
               <label for="description">Description</label>
               <Field as="textarea" name="description" type="multiline" class="form-control" />
-              <ErrorMessage name="description" class="error-feedback" />
+              <ErrorMessage name="description" class="error-feedback text-danger" />
             </div>
             <div class="form-outline mb-4">
               <label for="terms">Terms and Conditions</label>
               <Field name="terms" class="form-control" v-model="termCond">
                 <VueEditor v-model="termCond" theme="snow"/>
               </Field>
-              <ErrorMessage name="terms" class="error-feedback" />
+              <ErrorMessage name="terms" class="error-feedback text-danger" />
             </div>
             <div class="form-group">
               <button class="btn btn_theme btn-block" :disabled="loading">
@@ -265,7 +265,7 @@ export default {
       this.$router.push("/dashboard");
     }
     this.loadPackage(),
-      this.loadCategory()
+    this.loadCategory()
     this.moment = moment
   },
   methods: {

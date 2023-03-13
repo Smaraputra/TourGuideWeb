@@ -28,26 +28,26 @@
                                 <div class="form-group mb-4">
                                     <label for="name">Full Name</label>
                                     <Field name="name" type="text" class="form-control" />
-                                    <ErrorMessage name="name" class="error-feedback" />
+                                    <ErrorMessage name="name" class="error-feedback text-danger" />
                                 </div>
                                 <div class="form-group mb-4">
                                     <label for="email">Email</label>
                                     <Field name="email" type="email" class="form-control" />
-                                    <ErrorMessage name="email" class="error-feedback" />
+                                    <ErrorMessage name="email" class="error-feedback text-danger" />
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-4">
                                         <div class="form-group">
                                             <label for="password">Password</label>
                                             <Field name="password" type="password" class="form-control" />
-                                            <ErrorMessage name="password" class="error-feedback" />
+                                            <ErrorMessage name="password" class="error-feedback text-danger" />
                                         </div>
                                     </div>
                                     <div class="col-md-6 mb-4">
                                         <div class="form-group">
                                             <label for="password_confirmed">Password Confirmation</label>
                                             <Field name="password_confirmed" type="password" class="form-control" />
-                                            <ErrorMessage name="password_confirmed" class="error-feedback" />
+                                            <ErrorMessage name="password_confirmed" class="error-feedback text-danger" />
                                         </div>
                                     </div>
                                 </div>
@@ -56,7 +56,7 @@
                                         <div class="form-group">
                                             <label for="phone">Phone Number</label>
                                             <Field name="phone" type="text" class="form-control" />
-                                            <ErrorMessage name="phone" class="error-feedback" />
+                                            <ErrorMessage name="phone" class="error-feedback text-danger" />
                                         </div>
                                     </div>
                                     <div class="col-md-6 mb-4">
@@ -72,7 +72,7 @@
                                 <div class="form-group mb-4">
                                     <label for="address">Address</label>
                                     <Field name="address" type="text" class="form-control" />
-                                    <ErrorMessage name="address" class="error-feedback" />
+                                    <ErrorMessage name="address" class="error-feedback text-danger" />
                                 </div>
 
                                 <div class="common_form_submit pt-4">
@@ -116,26 +116,26 @@
                                             <div class="form-outline mb-4">
                                                 <label for="name">Full Name</label>
                                                 <Field name="name" type="text" class="form-control" />
-                                                <ErrorMessage name="name" class="error-feedback" />
+                                                <ErrorMessage name="name" class="error-feedback text-danger" />
                                             </div>
                                             <div class="form-outline mb-4">
                                                 <label for="email">Email</label>
                                                 <Field name="email" type="email" class="form-control" />
-                                                <ErrorMessage name="email" class="error-feedback" />
+                                                <ErrorMessage name="email" class="error-feedback text-danger" />
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6 mb-4">
                                                     <div class="form-outline">
                                                         <label for="password">Password</label>
                                                         <Field name="password" type="password" class="form-control" />
-                                                        <ErrorMessage name="password" class="error-feedback" />
+                                                        <ErrorMessage name="password" class="error-feedback text-danger" />
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 mb-4">
                                                     <div class="form-outline">
                                                         <label for="password_confirmed">Password Confirmation</label>
                                                         <Field name="password_confirmed" type="password" class="form-control" />
-                                                        <ErrorMessage name="password_confirmed" class="error-feedback" />
+                                                        <ErrorMessage name="password_confirmed" class="error-feedback text-danger" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -144,7 +144,7 @@
                                                     <div class="form-outline">
                                                         <label for="phone">Phone Number</label>
                                                         <Field name="phone" type="text" class="form-control" />
-                                                        <ErrorMessage name="phone" class="error-feedback" />
+                                                        <ErrorMessage name="phone" class="error-feedback text-danger" />
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 mb-4">
@@ -160,7 +160,7 @@
                                             <div class="form-outline mb-4">
                                                 <label for="address">Address</label>
                                                 <Field name="address" type="text" class="form-control" />
-                                                <ErrorMessage name="address" class="error-feedback" />
+                                                <ErrorMessage name="address" class="error-feedback text-danger" />
                                             </div>
                                             <div class="form-group">
                                                 <button class="btn btn-primary btn-block color-main-background" :disabled="loading">

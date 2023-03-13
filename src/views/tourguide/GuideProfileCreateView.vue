@@ -38,12 +38,12 @@
                                     <div class="form-group mb-4">
                                         <label for="description">Professional Summary</label>
                                         <Field name="description" type="text" class="form-control" />
-                                        <ErrorMessage name="description" class="error-feedback" />
+                                        <ErrorMessage name="description" class="error-feedback text-danger" />
                                     </div>
                                     <div class="form-group mb-4">
                                         <label for="fee_out">Fee (IDR/Day)</label>
                                         <Field name="fee_out" type="number" class="form-control" />
-                                        <ErrorMessage name="fee_out" class="error-feedback" />
+                                        <ErrorMessage name="fee_out" class="error-feedback text-danger" />
                                     </div>
                                     <div class="form-group">
                                         <button class="btn btn_theme btn-block" :disabled="loading">
@@ -89,12 +89,12 @@
                                             <div class="form-group mb-4">
                                                 <label for="description">Professional Summary</label>
                                                 <Field name="description" type="text" class="form-control" />
-                                                <ErrorMessage name="description" class="error-feedback" />
+                                                <ErrorMessage name="description" class="error-feedback text-danger" />
                                             </div>
                                             <div class="form-group mb-4">
                                                 <label for="fee_out">Fee (IDR/Day)</label>
                                                 <Field name="fee_out" type="number" class="form-control" />
-                                                <ErrorMessage name="fee_out" class="error-feedback" />
+                                                <ErrorMessage name="fee_out" class="error-feedback text-danger" />
                                             </div>
                                             <div class="form-group">
                                                 <button class="btn btn_theme btn-block" :disabled="loading">

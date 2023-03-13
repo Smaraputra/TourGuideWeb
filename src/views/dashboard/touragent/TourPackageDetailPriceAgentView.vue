@@ -30,7 +30,7 @@
               <Field name="cover_image">
                 <input name="cover_image" type="file" v-on:change="onChange" class="form-control" accept="image/*" />
               </Field>
-              <ErrorMessage name="cover_image" class="error-feedback" />
+              <ErrorMessage name="cover_image" class="error-feedback text-danger" />
             </div>
           </div>
           <div class="col-md-8">
@@ -38,7 +38,7 @@
               <div class="form-outline mb-4">
                 <label for="package_name">Tour Packages Name</label>
                 <Field name="package_name" type="text" class="form-control" v-model="tourpackages.package_name" />
-                <ErrorMessage name="package_name" class="error-feedback" />
+                <ErrorMessage name="package_name" class="error-feedback text-danger" />
               </div>
               <div class="form-outline mb-4" v-if="categories || categories.length">
                 <label for="id_package_categories">Tour Packages Category</label>
@@ -54,14 +54,14 @@
                 <label for="description">Description</label>
                 <Field as="textarea" name="description" type="multiline" class="form-control"
                   v-model=tourpackages.description />
-                <ErrorMessage name="description" class="error-feedback" />
+                <ErrorMessage name="description" class="error-feedback text-danger" />
               </div>
               <div class="form-outline mb-4">
               <label for="terms">Terms and Conditions</label>
               <Field name="terms" class="form-control" v-model="tourpackages.terms">
                 <VueEditor v-model="tourpackages.terms" theme="snow"/>
               </Field>
-              <ErrorMessage name="terms" class="error-feedback" />
+              <ErrorMessage name="terms" class="error-feedback text-danger" />
             </div>
               <div class="form-outline mb-4">
                 <div class="form-check">
@@ -198,7 +198,7 @@
                 <Field name="image_package_detail">
                   <input name="image_package_detail" type="file" v-on:change="onChange2" class="form-control" accept="image/*" />
                 </Field>
-                <ErrorMessage name="image_package_detail" class="error-feedback" />
+                <ErrorMessage name="image_package_detail" class="error-feedback text-danger" />
               </div>
               <div class="form-outline mb-4" v-if="destinations || destinations.length">
                 <label for="id_tourist_destinations">Tour Destination</label>
@@ -213,17 +213,17 @@
               <div class="form-outline mb-4">
                 <label for="day">Day (Number)</label>
                 <Field name="day" type="number" class="form-control" />
-                <ErrorMessage name="day" class="error-feedback" />
+                <ErrorMessage name="day" class="error-feedback text-danger" />
               </div>
               <div class="form-outline mb-4">
                 <label for="tour_sequence">Tour Sequence</label>
                 <Field name="tour_sequence" type="number" class="form-control" />
-                <ErrorMessage name="tour_sequence" class="error-feedback" />
+                <ErrorMessage name="tour_sequence" class="error-feedback text-danger" />
               </div>
               <div class="form-outline mb-4">
                 <label for="duration">Duration</label>
                 <Field name="duration" type="time" class="form-control" />
-                <ErrorMessage name="duration" class="error-feedback" />
+                <ErrorMessage name="duration" class="error-feedback text-danger" />
               </div>
               <div class="form-group">
                 <button class="btn btn_theme btn-block" :disabled="loading2">
@@ -339,17 +339,17 @@
               <div class="form-outline mb-4">
                 <label for="pax_total">Pax Total</label>
                 <Field name="pax_total" type="number" class="form-control" />
-                <ErrorMessage name="pax_total" class="error-feedback" />
+                <ErrorMessage name="pax_total" class="error-feedback text-danger" />
               </div>
               <div class="form-outline mb-4">
                 <label for="transportation">Transportation</label>
                 <Field name="transportation" type="text" class="form-control" />
-                <ErrorMessage name="transportation" class="error-feedback" />
+                <ErrorMessage name="transportation" class="error-feedback text-danger" />
               </div>
               <div class="form-outline mb-4">
                 <label for="pickup_location">Pickup Location</label>
                 <Field as="textarea" name="pickup_location" type="text" class="form-control" />
-                <ErrorMessage name="pickup_location" class="error-feedback" />
+                <ErrorMessage name="pickup_location" class="error-feedback text-danger" />
               </div>
               <GMapMap :center="center" :zoom="2" map-type-id="terrain" style="width: 100%; height: 500px"
                 @click="mark">
@@ -361,26 +361,26 @@
                   <div class="form-outline mb-4">
                     <label for="latitude">Latitude</label>
                     <Field name="latitude" id="latIn" type="text" class="form-control" v-model="lat" disabled />
-                    <ErrorMessage name="latitude" class="error-feedback" />
+                    <ErrorMessage name="latitude" class="error-feedback text-danger" />
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-outline mb-4">
                     <label for="longitude">Longitude</label>
                     <Field name="longitude" id="longIn" type="text" class="form-control" v-model="long" disabled />
-                    <ErrorMessage name="longitude" class="error-feedback" />
+                    <ErrorMessage name="longitude" class="error-feedback text-danger" />
                   </div>
                 </div>
               </div>
               <div class="form-outline mb-4">
                 <label for="pickup_time">Pickup Time</label>
                 <Field name="pickup_time" type="time" class="form-control" />
-                <ErrorMessage name="pickup_time" class="error-feedback" />
+                <ErrorMessage name="pickup_time" class="error-feedback text-danger" />
               </div>
               <div class="form-outline mb-4">
                 <label for="price">Price</label>
                 <Field name="price" type="number" class="form-control" />
-                <ErrorMessage name="price" class="error-feedback" />
+                <ErrorMessage name="price" class="error-feedback text-danger" />
               </div>
               <div class="form-group">
                 <button class="btn btn_theme btn-block" :disabled="loading3">

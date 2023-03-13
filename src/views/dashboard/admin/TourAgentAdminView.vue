@@ -143,7 +143,7 @@ export default {
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    TourAgentService.delete(id).then(
+                    TourAgentService.adminDelete(id).then(
                         () => {
                             this.$swal.fire(
                                 'Deleted!',

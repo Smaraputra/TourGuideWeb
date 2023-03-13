@@ -97,13 +97,13 @@
                         <div>
                             <div class="form-outline mb-4">
                                 <label for="distance">Distances in Kilometer(Km)</label>
-                                <Field name="distance" type="text" class="form-control" />
-                                <ErrorMessage name="distance" class="error-feedback" />
+                                <Field name="distance" type="number" class="form-control" />
+                                <ErrorMessage name="distance" class="error-feedback text-danger" />
                             </div>
                             <div class="form-outline mb-4">
-                                <label for="fee">Additional Fee</label>
-                                <Field name="fee" type="multiline" class="form-control" />
-                                <ErrorMessage name="fee" class="error-feedback" />
+                                <label for="fee">Additional Fee (IDR)</label>
+                                <Field name="fee" type="number" class="form-control" />
+                                <ErrorMessage name="fee" class="error-feedback text-danger" />
                             </div>
                             <div class="form-group">
                                 <button class="btn btn_theme btn-block" :disabled="loading">

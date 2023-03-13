@@ -30,24 +30,24 @@
                             <Field name="image_tourist_destination">
                                 <input name="image_tourist_destination" type="file" v-on:change="onChange" class="form-control" accept="image/*" />
                             </Field>
-                            <ErrorMessage name="image_tourist_destination" class="error-feedback" />
+                            <ErrorMessage name="image_tourist_destination" class="error-feedback text-danger" />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-outline mb-4">
                             <label for="name">Tour Destination Name</label>
                             <Field name="name" type="text" class="form-control" v-model="destinations.name" />
-                            <ErrorMessage name="name" class="error-feedback" />
+                            <ErrorMessage name="name" class="error-feedback text-danger" />
                         </div>
                         <div class="form-outline mb-4">
                             <label for="description">Description</label>
                             <Field as="textarea" name="description" type="multiline" class="form-control" v-model="destinations.description"/>
-                            <ErrorMessage name="description" class="error-feedback" />
+                            <ErrorMessage name="description" class="error-feedback text-danger" />
                         </div>
                         <div class="form-outline mb-4">
                             <label for="address">Address</label>
                             <Field as="textarea" name="address" type="text" class="form-control" v-model="destinations.address" />
-                            <ErrorMessage name="address" class="error-feedback" />
+                            <ErrorMessage name="address" class="error-feedback text-danger" />
                         </div>
                     </div>
                     <GMapMap :center="center" :zoom="2" map-type-id="terrain" style="width: 100%; height: 400px" @click="mark">
@@ -59,14 +59,14 @@
                             <div class="form-outline mb-4">
                                 <label for="latitude">Latitude</label>
                                 <Field name="latitude" id="latIn" type="text" class="form-control" v-model="lat" disabled/>
-                                <ErrorMessage name="latitude" class="error-feedback" />
+                                <ErrorMessage name="latitude" class="error-feedback text-danger" />
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-outline mb-4">
                                 <label for="longitude">Longitude</label>
                                 <Field name="longitude" id="longIn" type="text" class="form-control" v-model="long" disabled/>
-                                <ErrorMessage name="longitude" class="error-feedback" />
+                                <ErrorMessage name="longitude" class="error-feedback text-danger" />
                             </div>
                         </div>
                     </div>

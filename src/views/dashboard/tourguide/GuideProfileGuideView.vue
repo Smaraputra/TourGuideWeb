@@ -32,12 +32,12 @@
             <div class="form-group mb-4">
               <label for="description">Description</label>
               <Field as="textarea" name="description" type="description" class="form-control" v-model="profile.description" />
-              <ErrorMessage name="description" class="error-feedback" />
+              <ErrorMessage name="description" class="error-feedback text-danger" />
             </div>
             <div class="form-group mb-4">
               <label for="fee_out">Fee (IDR/Day)</label>
               <Field name="fee_out" type="number" class="form-control" v-model="profile.fee_out" />
-              <ErrorMessage name="fee_out" class="error-feedback" />
+              <ErrorMessage name="fee_out" class="error-feedback text-danger" />
             </div>
 
             <div class="pt-2">

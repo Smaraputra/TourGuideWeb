@@ -96,12 +96,12 @@
                             <div class="form-outline mb-4">
                                 <label for="method">Payment Method</label>
                                 <Field name="method" type="text" class="form-control" />
-                                <ErrorMessage name="method" class="error-feedback" />
+                                <ErrorMessage name="method" class="error-feedback text-danger" />
                             </div>
                             <div class="form-outline mb-4">
                                 <label for="description">Description</label>
                                 <Field as="textarea" name="description" type="multiline" class="form-control" />
-                                <ErrorMessage name="description" class="error-feedback" />
+                                <ErrorMessage name="description" class="error-feedback text-danger" />
                             </div>
                             <div class="form-group">
                                 <button class="btn btn_theme btn-block" :disabled="loading">

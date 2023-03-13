@@ -37,19 +37,19 @@
                     <div class="form-outline mb-4">
                         <label for="facilities">Facility</label>
                         <Field name="facilities" type="text" class="form-control" v-model="facilities.facilities"/>
-                        <ErrorMessage name="facilities" class="error-feedback" />
+                        <ErrorMessage name="facilities" class="error-feedback text-danger" />
                     </div>
                     <div class="form-outline mb-4">
                         <label for="description_public">Description (Public)</label>
                         <Field as="textarea" name="description_public" type="text" class="form-control" v-model="facilities.description_public"/>
-                        <ErrorMessage name="description_public" class="error-feedback" />
+                        <ErrorMessage name="description_public" class="error-feedback text-danger" />
                     </div>
                     <div class="form-outline mb-4">
                         <label for="description_agent">Note (Only Agent)</label>
                         <Field name="terms" class="form-control" v-model="facilities.description_agent">
                             <VueEditor v-model="facilities.description_agent" theme="snow"/>
                         </Field>
-                        <ErrorMessage name="description_agent" class="error-feedback" />
+                        <ErrorMessage name="description_agent" class="error-feedback text-danger" />
                     </div>
                     <div class="form-group">
                         <button class="btn btn_theme btn-block me-2" :disabled="loading">

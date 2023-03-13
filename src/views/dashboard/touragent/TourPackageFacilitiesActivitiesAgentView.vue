@@ -40,7 +40,7 @@
                                 <input name="image_package_detail " type="file" v-on:change="onChange" class="form-control"
                                     accept="image/*" />
                             </Field>
-                            <ErrorMessage name="image_package_detail " class="error-feedback" />
+                            <ErrorMessage name="image_package_detail " class="error-feedback text-danger" />
                         </div>
                     </div>
                     <div class="col-md-8">
@@ -59,19 +59,19 @@
                         <div class="form-outline mb-4">
                             <label for="day">Day (Number)</label>
                             <Field name="day" type="number" class="form-control" v-model="tourpackagesdetails.day" />
-                            <ErrorMessage name="day" class="error-feedback" />
+                            <ErrorMessage name="day" class="error-feedback text-danger" />
                         </div>
                         <div class="form-outline mb-4">
                             <label for="tour_sequence">Tour Sequence</label>
                             <Field name="tour_sequence" type="number" class="form-control"
                                 v-model="tourpackagesdetails.tour_sequence" />
-                            <ErrorMessage name="tour_sequence" class="error-feedback" />
+                            <ErrorMessage name="tour_sequence" class="error-feedback text-danger" />
                         </div>
                         <div class="form-outline mb-4">
                             <label for="duration">Duration</label>
                             <Field name="duration" type="time" class="form-control"
                                 v-model="tourpackagesdetails.duration" />
-                            <ErrorMessage name="duration" class="error-feedback" />
+                            <ErrorMessage name="duration" class="error-feedback text-danger" />
                         </div>
                         <div class="form-group">
                             <button class="btn btn_theme btn-block me-2" :disabled="loading">
@@ -184,22 +184,22 @@
                             <div class="form-outline mb-4">
                                 <label for="start_time">Start Time</label>
                                 <Field name="start_time" type="time" class="form-control" />
-                                <ErrorMessage name="start_time" class="error-feedback" />
+                                <ErrorMessage name="start_time" class="error-feedback text-danger" />
                             </div>
                             <div class="form-outline mb-4">
                                 <label for="end_time">End Time</label>
                                 <Field name="end_time" type="time" class="form-control" />
-                                <ErrorMessage name="end_time" class="error-feedback" />
+                                <ErrorMessage name="end_time" class="error-feedback text-danger" />
                             </div>
                             <div class="form-outline mb-4">
                                 <label for="location">Location</label>
                                 <Field name="location" type="text" class="form-control" />
-                                <ErrorMessage name="location" class="error-feedback" />
+                                <ErrorMessage name="location" class="error-feedback text-danger" />
                             </div>
                             <div class="form-outline mb-4">
                                 <label for="activity">Activitiy</label>
                                 <Field as="textarea" name="activity" type="text" class="form-control" />
-                                <ErrorMessage name="activity" class="error-feedback" />
+                                <ErrorMessage name="activity" class="error-feedback text-danger" />
                             </div>
                             <div class="form-group">
                                 <button class="btn btn_theme btn-block" :disabled="loading2">
@@ -308,19 +308,19 @@
                             <div class="form-outline mb-4">
                                 <label for="facilities">Facility</label>
                                 <Field name="facilities" type="text" class="form-control" />
-                                <ErrorMessage name="facilities" class="error-feedback" />
+                                <ErrorMessage name="facilities" class="error-feedback text-danger" />
                             </div>
                             <div class="form-outline mb-4">
                                 <label for="description_public">Description (Public)</label>
                                 <Field as="textarea" name="description_public" type="text" class="form-control" />
-                                <ErrorMessage name="description_public" class="error-feedback" />
+                                <ErrorMessage name="description_public" class="error-feedback text-danger" />
                             </div>
                             <div class="form-outline mb-4">
                                 <label for="description_agent">Note (Only Agent)</label>
                                 <Field name="terms" class="form-control" v-model="termCond">
                                     <VueEditor v-model="termCond" theme="snow"/>
                                 </Field>
-                                <ErrorMessage name="description_agent" class="error-feedback" />
+                                <ErrorMessage name="description_agent" class="error-feedback text-danger" />
                             </div>
                             <div class="form-group">
                                 <button class="btn btn_theme btn-block" :disabled="loading3">

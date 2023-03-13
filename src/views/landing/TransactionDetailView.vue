@@ -29,25 +29,27 @@
             </section>
             <section class="container p-4">
                 <div class="row" v-if="transaction">
-                    <div class="col-md-12 mt-4" v-if="transaction['order_status'] == 'Active' || transaction['order_status'] == 'Finished' && (this.moment(new Date()).format('YYYY-MM-DD') > this.moment(new Date(transaction.end_date)).format('YYYY-MM-DD'))">
+                    <div class="col-md-12 mt-4" v-if="(this.moment(new Date()).format('YYYY-MM-DD') > this.moment(new Date(transaction.end_date)).format('YYYY-MM-DD'))">
                         <div class="card shadow border-0">
                             <div class="dashboard_common_table">
                                 <h3 class="mb-4">Thank you for trusting us. We tried our best to provide the best tour package dan guide!</h3>
                                 <div class="row" :class="transaction['order_status'] == 'Active' ? 'justify-content-md-center' : ''">
-                                    <div class="col-md-6 mb-2" v-if="transaction['order_status'] =='Active'">
-                                        <form @submit.prevent="handleFinishTour()" class="card shadow border-0 dashboard_common_table">
-                                            <h4 class="text-center">Have fun with your trip? Remember to finish your transaction by clicking the button below.</h4>
-                                            <button type="submit" class="mt-2 btn btn_theme btn-block text-white"
-                                                :disabled="loading5">
-                                                <span v-show="loading5" class="spinner-border spinner-border-sm"></span>
-                                                <font-awesome-icon icon="star" /><span> Finish Order</span>
-                                            </button>
-                                        </form>
-                                        <div v-if="message5" class="alert mt-2"
-                                            :class="successful5 ? 'alert-success' : 'alert-danger'">
-                                            {{ message5 }}
+                                    <template v-if="transaction['order_status'] == 'Active'">
+                                        <div class="col-md-6 mb-2">
+                                            <form @submit.prevent="handleFinishTour()" class="card shadow border-0 dashboard_common_table">
+                                                <h4 class="text-center">Have fun with your trip? Remember to finish your transaction by clicking the button below.</h4>
+                                                <button type="submit" class="mt-2 btn btn_theme btn-block text-white"
+                                                    :disabled="loading5">
+                                                    <span v-show="loading5" class="spinner-border spinner-border-sm"></span>
+                                                    <font-awesome-icon icon="star" /><span> Finish Order</span>
+                                                </button>
+                                            </form>
+                                            <div v-if="message5" class="alert mt-2"
+                                                :class="successful5 ? 'alert-success' : 'alert-danger'">
+                                                {{ message5 }}
+                                            </div>
                                         </div>
-                                    </div>
+                                    </template>
                                     <template v-if="transaction['order_status'] == 'Finished'">
                                         <div class="col-md-6 mb-2">
                                             <form @submit.prevent="handleSaveTour()" class="card shadow border-0 dashboard_common_table">
@@ -111,48 +113,48 @@
                                     <label for="package_name">Package</label>
                                     <Field name="package_name" type="text"
                                         v-model="transaction.tour_packages.package_name" class="form-control" disabled />
-                                    <ErrorMessage name="package_name" class="error-feedback" />
+                                    <ErrorMessage name="package_name" class="error-feedback text-danger" />
                                 </div>
                                 <div class="form-outline mb-4">
                                     <label for="id_package_prices">Pricing</label>
                                     <Field name="id_package_prices" type="text" :value="transaction.package_price.transportation + ' ('
                                     + transaction.package_price.pax_total + ' Person)'" class="form-control" disabled />
-                                    <ErrorMessage name="id_package_prices" class="error-feedback" />
+                                    <ErrorMessage name="id_package_prices" class="error-feedback text-danger" />
                                 </div>
                                 <div class="form-outline mb-4">
                                     <label for="agent_name">Tour Agents</label>
                                     <Field name="agent_name" type="text" v-model="transaction.tour_agents.agent_name"
                                         class="form-control" disabled />
-                                    <ErrorMessage name="agent_name" class="error-feedback" />
+                                    <ErrorMessage name="agent_name" class="error-feedback text-danger" />
                                 </div>
                                 <div class="form-outline mb-4">
                                     <label for="note">Note</label>
                                     <Field as="textarea" name="note" type="text" v-model="transaction['note']"
                                         class="form-control" disabled />
-                                    <ErrorMessage name="note" class="error-feedback" />
+                                    <ErrorMessage name="note" class="error-feedback text-danger" />
                                 </div>
                                 <div class="form-outline mb-4">
                                     <label for="order_date">Order Date</label>
                                     <Field name="order_date" type="text" v-model="transaction['order_date']"
                                         class="form-control" disabled />
-                                    <ErrorMessage name="order_date" class="error-feedback" />
+                                    <ErrorMessage name="order_date" class="error-feedback text-danger" />
                                 </div>
                                 <div class="form-outline mb-4">
                                     <label for="additional_fee">Additional Fee</label>
                                     <Field name="additional_fee" type="text"
                                         :value="'Rp. ' + transaction['additional_fee']" class="form-control" disabled />
-                                    <ErrorMessage name="additional_fee" class="error-feedback" />
+                                    <ErrorMessage name="additional_fee" class="error-feedback text-danger" />
                                 </div>
                                 <div class="form-outline mb-4">
                                     <label for="total_price">Total Price</label>
                                     <Field name="total_price" type="text" :value="$filters.formatPrice(transaction['total_price'])"
                                         class="form-control" disabled />
-                                    <ErrorMessage name="total_price" class="error-feedback" />
+                                    <ErrorMessage name="total_price" class="error-feedback text-danger" />
                                 </div>
                                 <!-- <div class="form-outline mb-4" v-if="transaction['rating_package'] != null && transaction['rating_package'] > 0 && transaction['order_status'] == 'Finished'">
                                     <label for="rating_package">Rating</label>
                                     <Field name="rating_package" type="text" class="form-control" :value="transaction['rating_package'] + ' Stars'" disabled/>
-                                    <ErrorMessage name="rating_package" class="error-feedback" />
+                                    <ErrorMessage name="rating_package" class="error-feedback text-danger" />
                                 </div> -->
                             </div>
                         </div>
@@ -275,7 +277,7 @@
                                                 <input name="payment_proof" type="file" v-on:change="onChange"
                                                     class="form-control" accept="image/*" />
                                             </Field>
-                                            <ErrorMessage name="payment_proof" class="error-feedback" />
+                                            <ErrorMessage name="payment_proof" class="error-feedback text-danger" />
                                         </div>
                                         <div class="form-group mt-4">
                                             <button class="btn btn_theme btn-block"

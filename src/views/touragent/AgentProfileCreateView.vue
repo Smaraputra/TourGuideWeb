@@ -29,27 +29,27 @@
                                     <div class="form-outline mb-4">
                                         <label for="agent_name">Tour Agent Name</label>
                                         <Field name="agent_name" type="text" class="form-control" />
-                                        <ErrorMessage name="agent_name" class="error-feedback" />
+                                        <ErrorMessage name="agent_name" class="error-feedback text-danger" />
                                     </div>
                                     <div class="form-outline mb-4">
-                                        <label for="description">Description</label>
+                                        <label for="description">Tour Agent Description</label>
                                         <Field name="description" type="text" class="form-control" />
-                                        <ErrorMessage name="description" class="error-feedback" />
+                                        <ErrorMessage name="description" class="error-feedback text-danger" />
                                     </div>
                                     <div class="form-outline mb-4">
-                                        <label for="email">Email</label>
+                                        <label for="email">Tour Agent Email</label>
                                         <Field name="email" type="email" class="form-control" />
-                                        <ErrorMessage name="email" class="error-feedback" />
+                                        <ErrorMessage name="email" class="error-feedback text-danger" />
                                     </div>
                                     <div class="form-outline mb-4">
-                                        <label for="phone">Phone Number</label>
+                                        <label for="phone">Tour Agent Phone Number</label>
                                         <Field name="phone" type="text" class="form-control" />
-                                        <ErrorMessage name="phone" class="error-feedback" />
+                                        <ErrorMessage name="phone" class="error-feedback text-danger" />
                                     </div>
                                     <div class="form-outline mb-4">
-                                        <label for="address">Address</label>
+                                        <label for="address">Tour Agent Address</label>
                                         <Field name="address" type="text" class="form-control" />
-                                        <ErrorMessage name="address" class="error-feedback" />
+                                        <ErrorMessage name="address" class="error-feedback text-danger" />
                                     </div>
                                     <div class="form-group">
                                         <button class="btn btn_theme btn-block" :disabled="loading">
@@ -86,27 +86,27 @@
                                             <div class="form-outline mb-4">
                                                 <label for="agent_name">Tour Agent Name</label>
                                                 <Field name="agent_name" type="text" class="form-control" />
-                                                <ErrorMessage name="agent_name" class="error-feedback" />
+                                                <ErrorMessage name="agent_name" class="error-feedback text-danger" />
                                             </div>
                                             <div class="form-outline mb-4">
                                                 <label for="description">Description</label>
                                                 <Field name="description" type="text" class="form-control" />
-                                                <ErrorMessage name="description" class="error-feedback" />
+                                                <ErrorMessage name="description" class="error-feedback text-danger" />
                                             </div>
                                             <div class="form-outline mb-4">
                                                 <label for="email">Email</label>
                                                 <Field name="email" type="email" class="form-control" />
-                                                <ErrorMessage name="email" class="error-feedback" />
+                                                <ErrorMessage name="email" class="error-feedback text-danger" />
                                             </div>
                                             <div class="form-outline mb-4">
                                                 <label for="phone">Phone Number</label>
                                                 <Field name="phone" type="text" class="form-control" />
-                                                <ErrorMessage name="phone" class="error-feedback" />
+                                                <ErrorMessage name="phone" class="error-feedback text-danger" />
                                             </div>
                                             <div class="form-outline mb-4">
                                                 <label for="address">Address</label>
                                                 <Field name="address" type="text" class="form-control" />
-                                                <ErrorMessage name="address" class="error-feedback" />
+                                                <ErrorMessage name="address" class="error-feedback text-danger" />
                                             </div>
                                             <div class="form-group">
                                                 <button class="btn btn_theme btn-block" :disabled="loading">

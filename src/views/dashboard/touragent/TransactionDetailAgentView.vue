@@ -35,44 +35,44 @@
                         <label for="package_name">Package</label>
                         <Field name="package_name" type="text" v-model="transaction.tour_packages.package_name"
                             class="form-control" disabled />
-                        <ErrorMessage name="package_name" class="error-feedback" />
+                        <ErrorMessage name="package_name" class="error-feedback text-danger" />
                     </div>
                     <div class="form-outline mb-4">
                         <label for="id_package_prices">Pricing</label>
                         <Field name="id_package_prices" type="text" :value="transaction.package_price.transportation + ' ('
                             + transaction.package_price.pax_total + ' Person)'" class="form-control" disabled />
-                        <ErrorMessage name="id_package_prices" class="error-feedback" />
+                        <ErrorMessage name="id_package_prices" class="error-feedback text-danger" />
                     </div>
                     <div class="form-outline mb-4">
                         <label for="agent_name">Costumer Info</label>
                         <Field name="agent_name" type="text"
                             :value="transaction.users.name + ' (' + transaction.users.phone + ')'" class="form-control"
                             disabled />
-                        <ErrorMessage name="agent_name" class="error-feedback" />
+                        <ErrorMessage name="agent_name" class="error-feedback text-danger" />
                     </div>
                     <div class="form-outline mb-4">
                         <label for="note">Note</label>
                         <Field as="textarea" name="note" type="text" v-model="transaction['note']" class="form-control"
                             disabled />
-                        <ErrorMessage name="note" class="error-feedback" />
+                        <ErrorMessage name="note" class="error-feedback text-danger" />
                     </div>
                     <div class="form-outline mb-4">
                         <label for="order_date">Order Date</label>
                         <Field name="order_date" type="text" v-model="transaction['order_date']" class="form-control"
                             disabled />
-                        <ErrorMessage name="order_date" class="error-feedback" />
+                        <ErrorMessage name="order_date" class="error-feedback text-danger" />
                     </div>
                     <div class="form-outline mb-4">
                         <label for="additional_fee">Additional Fee</label>
                         <Field name="additional_fee" type="text" :value="'Rp. ' + transaction['additional_fee']"
                             class="form-control" disabled />
-                        <ErrorMessage name="additional_fee" class="error-feedback" />
+                        <ErrorMessage name="additional_fee" class="error-feedback text-danger" />
                     </div>
                     <div class="form-outline mb-4">
                         <label for="total_price">Total Price</label>
                         <Field name="total_price" type="text" :value="$filters.formatPrice(transaction['total_price'])"
                             class="form-control" disabled />
-                        <ErrorMessage name="total_price" class="error-feedback" />
+                        <ErrorMessage name="total_price" class="error-feedback text-danger" />
                     </div>
                     <hr class="hr">
                     <div class="form-outline mb-4"
@@ -80,13 +80,13 @@
                         <label for="rating_package">Rating</label>
                         <Field name="rating_package" type="text" class="form-control"
                             :value="transaction['rating_package'] + ' Stars'" disabled />
-                        <ErrorMessage name="rating_package" class="error-feedback" />
+                        <ErrorMessage name="rating_package" class="error-feedback text-danger" />
                     </div>
                     <div class="form-outline mb-4" v-if="transaction.tour_packages.package_category.guide_included == 'Yes'">
                         <label for="guide_fee">Guide Fee</label>
                         <Field name="guide_fee" type="text" :value="transaction.guide_fee ? $filters.formatPrice(transaction.guide_fee) : 'No guide selected yet.'"
                             class="form-control" disabled />
-                        <ErrorMessage name="guide_fee" class="error-feedback" />
+                        <ErrorMessage name="guide_fee" class="error-feedback text-danger" />
                     </div>
                 </div>
             </div>
@@ -348,7 +348,7 @@
                                                                                         :value="guide.id_guides"
                                                                                         v-model="slt_guide_end" />
                                                                                     <ErrorMessage name="slt_guide"
-                                                                                        class="error-feedback" />
+                                                                                        class="error-feedback text-danger" />
                                                                                 </td>
                                                                             </tr>
                                                                         </tbody>

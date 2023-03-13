@@ -63,22 +63,22 @@
                     <div class="form-group mb-4">
                       <label for="name">Full Name</label>
                       <Field name="name" type="text" class="form-control" v-model="currentUser.data.name" />
-                      <ErrorMessage name="name" class="error-feedback" />
+                      <ErrorMessage name="name" class="error-feedback text-danger" />
                     </div>
                     <div class="form-group mb-4">
                       <label for="email">Email</label>
                       <Field name="email" disabled type="email" class="form-control" v-model="currentUser.data.email" />
-                      <ErrorMessage name="email" class="error-feedback" />
+                      <ErrorMessage name="email" class="error-feedback text-danger" />
                     </div>
                     <div class="form-group mb-4">
                       <label for="phone">Phone Number</label>
                       <Field name="phone" type="text" class="form-control" v-model="currentUser.data.phone" />
-                      <ErrorMessage name="phone" class="error-feedback" />
+                      <ErrorMessage name="phone" class="error-feedback text-danger" />
                     </div>
                     <div class="form-group mb-4">
                       <label for="address">Address</label>
                       <Field name="address" type="text" class="form-control" v-model="currentUser.data.address" />
-                      <ErrorMessage name="address" class="error-feedback" />
+                      <ErrorMessage name="address" class="error-feedback text-danger" />
                     </div>
 
                     <div class="pt-2">
@@ -105,14 +105,14 @@
                         <div class="form-group mb-4">
                           <label for="oldpassword">Old Password</label>
                           <Field name="oldpassword" type="password" class="form-control"/>
-                          <ErrorMessage name="oldpassword" class="error-feedback" />
+                          <ErrorMessage name="oldpassword" class="error-feedback text-danger" />
                         </div>
                       </div>
                       <div class="col-lg-6">
                         <div class="form-group mb-4">
                           <label for="newpassword">New Password</label>
                           <Field name="newpassword" type="password" class="form-control"/>
-                          <ErrorMessage name="newpassword" class="error-feedback" />
+                          <ErrorMessage name="newpassword" class="error-feedback text-danger" />
                         </div>
                       </div>
                     </div>

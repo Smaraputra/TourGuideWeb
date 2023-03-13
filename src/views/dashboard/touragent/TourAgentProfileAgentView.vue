@@ -32,27 +32,27 @@
             <div class="form-group mb-4">
               <label for="agent_name">Tour Agent Name</label>
               <Field name="agent_name" type="text" class="form-control" v-model="profile.agent_name" />
-              <ErrorMessage name="agent_name" class="error-feedback" />
+              <ErrorMessage name="agent_name" class="error-feedback text-danger" />
             </div>
             <div class="form-group mb-4">
               <label for="description">Description</label>
               <Field as="textarea" name="description" type="description" class="form-control" v-model="profile.description" />
-              <ErrorMessage name="description" class="error-feedback" />
+              <ErrorMessage name="description" class="error-feedback text-danger" />
             </div>
             <div class="form-group mb-4">
               <label for="email">Email</label>
               <Field name="email" disabled type="email" class="form-control" v-model="profile.email" />
-              <ErrorMessage name="email" class="error-feedback" />
+              <ErrorMessage name="email" class="error-feedback text-danger" />
             </div>
             <div class="form-group mb-4">
               <label for="phone">Phone Number</label>
               <Field name="phone" type="text" class="form-control" v-model="profile.phone" />
-              <ErrorMessage name="phone" class="error-feedback" />
+              <ErrorMessage name="phone" class="error-feedback text-danger" />
             </div>
             <div class="form-group mb-4">
               <label for="address">Address</label>
               <Field name="address" type="text" class="form-control" v-model="profile.address" />
-              <ErrorMessage name="address" class="error-feedback" />
+              <ErrorMessage name="address" class="error-feedback text-danger" />
             </div>
 
             <div class="pt-2">

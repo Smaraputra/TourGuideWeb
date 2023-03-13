@@ -116,6 +116,13 @@ export default {
   components: {
 
   },
+  watch:{
+    package_name(newName){
+      if(newName){
+        this.searchFilter()
+      }
+    }
+  },
   data() {
     return {
       categories: [],

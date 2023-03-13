@@ -28,13 +28,13 @@
                                 <div class="form-group">
                                     <label for="email">Email</label>
                                     <Field name="email" type="text" class="form-control" />
-                                    <ErrorMessage name="email" class="error-feedback" />
+                                    <ErrorMessage name="email" class="error-feedback text-danger" />
                                 </div>
 
                                 <div class="form-group pt-4">
                                     <label for="password">Password</label>
                                     <Field name="password" type="password" class="form-control" />
-                                    <ErrorMessage name="password" class="error-feedback" />
+                                    <ErrorMessage name="password" class="error-feedback text-danger" />
                                 </div>
 
                                 <div class="common_form_submit pt-4">
@@ -78,13 +78,13 @@
                                         <div class="form-group">
                                             <label for="email">Email</label>
                                             <Field name="email" type="text" class="form-control" />
-                                            <ErrorMessage name="email" class="error-feedback" />
+                                            <ErrorMessage name="email" class="error-feedback text-danger" />
                                         </div>
 
                                         <div class="form-group pt-4">
                                             <label for="password">Password</label>
                                             <Field name="password" type="password" class="form-control" />
-                                            <ErrorMessage name="password" class="error-feedback" />
+                                            <ErrorMessage name="password" class="error-feedback text-danger" />
                                         </div>
 
                                         <div class="form-group pt-4">

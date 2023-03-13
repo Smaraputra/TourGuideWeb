@@ -24,12 +24,12 @@
                 <div v-if="fees">
                     <div class="form-outline mb-4">
                         <label for="distance">Distances in Kilometer(Km)</label>
-                        <Field name="distance" type="text" class="form-control" v-model="fees.distance"/>
+                        <Field name="distance" type="number" class="form-control" v-model="fees.distance"/>
                         <ErrorMessage name="distance" class="error-feedback" />
                     </div>
                     <div class="form-outline mb-4">
-                        <label for="fee">Additional Fee</label>
-                        <Field name="fee" type="multiline" class="form-control" v-model="fees.fee"/>
+                        <label for="fee">Additional Fee (IDR)</label>
+                        <Field name="fee" type="number" class="form-control" v-model="fees.fee"/>
                         <ErrorMessage name="fee" class="error-feedback" />
                     </div>
                     <div class="form-group">

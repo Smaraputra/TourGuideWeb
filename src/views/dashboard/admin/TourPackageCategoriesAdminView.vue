@@ -98,19 +98,19 @@
                             <div class="form-outline mb-4">
                                 <label for="category">Tour Package Category</label>
                                 <Field name="category" type="text" class="form-control" />
-                                <ErrorMessage name="category" class="error-feedback" />
+                                <ErrorMessage name="category" class="error-feedback text-danger" />
                             </div>
                             <div class="form-outline mb-4">
                                 <label for="description">Description</label>
                                 <Field as="textarea" name="description" type="multiline" class="form-control" />
-                                <ErrorMessage name="description" class="error-feedback" />
+                                <ErrorMessage name="description" class="error-feedback text-danger" />
                             </div>
                             <div class="form-outline mb-4">
                                 <label for="guide_included">Guide Included</label>
                                 <Field name="guide_included" as="select" class="form-control form-select">
                                     <option disabled selected value>-Select Guide Included Status-</option>
-                                    <option value="Included">Included</option>
-                                    <option value="Not Included">Not Included</option>
+                                    <option value="Yes">Included</option>
+                                    <option value="No">Not Included</option>
                                 </Field>
                             </div>
                             <div class="form-group">

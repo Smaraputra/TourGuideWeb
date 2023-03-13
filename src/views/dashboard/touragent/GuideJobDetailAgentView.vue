@@ -34,32 +34,32 @@
                         <label for="package_name">Package</label>
                         <Field name="package_name" type="text" :value="transaction.tour_packages.package_name"
                             class="form-control" disabled />
-                        <ErrorMessage name="package_name" class="error-feedback" />
+                        <ErrorMessage name="package_name" class="error-feedback text-danger" />
                     </div>
                     <div class="form-outline mb-4">
                         <label for="id_package_prices">Pricing</label>
                         <Field name="id_package_prices" type="text" :value="transaction.package_price.transportation + ' ('
                         + transaction.package_price.pax_total + ' Person)'" class="form-control" disabled />
-                        <ErrorMessage name="id_package_prices" class="error-feedback" />
+                        <ErrorMessage name="id_package_prices" class="error-feedback text-danger" />
                     </div>
                     <div class="form-outline mb-4">
                         <label for="agent_name">Costumer Info</label>
                         <Field name="agent_name" type="text"
                             :value="transaction.users.name + ' (' + transaction.users.phone + ')'" class="form-control"
                             disabled />
-                        <ErrorMessage name="agent_name" class="error-feedback" />
+                        <ErrorMessage name="agent_name" class="error-feedback text-danger" />
                     </div>
                     <div class="form-outline mb-4">
                         <label for="note">Note</label>
                         <Field as="textarea" name="note" type="text" v-model="transaction['note']" class="form-control"
                             disabled />
-                        <ErrorMessage name="note" class="error-feedback" />
+                        <ErrorMessage name="note" class="error-feedback text-danger" />
                     </div>
                     <div class="form-outline mb-4">
                         <label for="order_date">Order Date</label>
                         <Field name="order_date" type="text" v-model="transaction['order_date']" class="form-control"
                             disabled />
-                        <ErrorMessage name="order_date" class="error-feedback" />
+                        <ErrorMessage name="order_date" class="error-feedback text-danger" />
                     </div>
                 </div>
             </div>

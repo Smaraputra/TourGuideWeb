@@ -25,12 +25,12 @@
                     <div class="form-outline mb-4">
                         <label for="category">Tour Package Category</label>
                         <Field name="category" type="text" class="form-control" v-model="categories.category"/>
-                        <ErrorMessage name="category" class="error-feedback" />
+                        <ErrorMessage name="category" class="error-feedback text-danger" />
                     </div>
                     <div class="form-outline mb-4">
                         <label for="description">Description</label>
                         <Field as="textarea" name="description" type="multiline" class="form-control" v-model="categories.description" />
-                        <ErrorMessage name="description" class="error-feedback" />
+                        <ErrorMessage name="description" class="error-feedback text-danger" />
                     </div>
                     <div class="form-outline mb-4">
                         <label for="guide_included">Guide Included</label>

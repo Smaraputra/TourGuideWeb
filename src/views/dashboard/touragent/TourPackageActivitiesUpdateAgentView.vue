@@ -37,22 +37,22 @@
                     <div class="form-outline mb-4">
                         <label for="start_time">Start Time</label>
                         <Field name="start_time" type="time" class="form-control" v-model="activities.start_time"/>
-                        <ErrorMessage name="start_time" class="error-feedback" />
+                        <ErrorMessage name="start_time" class="error-feedback text-danger" />
                     </div>
                     <div class="form-outline mb-4">
                         <label for="end_time">End Time</label>
                         <Field name="end_time" type="time" class="form-control" v-model="activities.end_time"/>
-                        <ErrorMessage name="end_time" class="error-feedback" />
+                        <ErrorMessage name="end_time" class="error-feedback text-danger" />
                     </div>
                     <div class="form-outline mb-4">
                         <label for="location">Location</label>
                         <Field name="location" type="text" class="form-control" v-model="activities.location"/>
-                        <ErrorMessage name="location" class="error-feedback" />
+                        <ErrorMessage name="location" class="error-feedback text-danger" />
                     </div>
                     <div class="form-outline mb-4">
                         <label for="activity">Activitiy</label>
                         <Field as="textarea" name="activity" type="text" class="form-control" v-model="activities.activity"/>
-                        <ErrorMessage name="activity" class="error-feedback" />
+                        <ErrorMessage name="activity" class="error-feedback text-danger" />
                     </div>
                     <div class="form-group">
                         <button class="btn btn_theme btn-block me-2" :disabled="loading">

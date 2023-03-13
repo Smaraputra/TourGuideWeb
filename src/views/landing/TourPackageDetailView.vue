@@ -234,6 +234,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import PaymentMethodDetailService from "../../services/payment-method-detail.service";
 import TourPackageService from "../../services/tour-package.service";
 import TourAgentService from "../../services/tour-agent.service";
@@ -309,6 +310,7 @@ export default {
     mounted() {
         this.geolocate();
         this.setMinDate()
+        this.moment = moment
     },
     created() {
         this.loadPackageId()

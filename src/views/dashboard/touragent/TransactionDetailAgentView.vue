@@ -280,8 +280,10 @@
                                                                     <template #item-knowledge="item">
                                                                         <template v-if="item.dest.guide_destination.length>0">
                                                                             <template v-for="(dest, index) in item.dest.guide_destination" :key="index">
-                                                                                {{ dest.tourist_destination.name ? dest.tourist_destination.name : '' }}
-                                                                                <span v-if="index+1 != item.dest.guide_destination.length">, </span>
+                                                                                <template v-if="dest.tourist_destination">
+                                                                                    {{dest.tourist_destination.name}}
+                                                                                    <span v-if="index+1 != item.dest.guide_destination.length">, </span>
+                                                                                </template>
                                                                             </template>
                                                                         </template>
                                                                         <template v-else>

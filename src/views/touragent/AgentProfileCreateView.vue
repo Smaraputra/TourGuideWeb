@@ -43,7 +43,7 @@
                                     </div>
                                     <div class="form-outline mb-4">
                                         <label for="phone">Tour Agent Phone Number</label>
-                                        <Field name="phone" type="text" class="form-control" />
+                                        <Field name="phone" type="number" class="form-control" />
                                         <ErrorMessage name="phone" class="error-feedback text-danger" />
                                     </div>
                                     <div class="form-outline mb-4">

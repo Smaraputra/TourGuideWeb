@@ -107,7 +107,7 @@ export default {
             } else if (response.data.message == 2) {
               this.$swal.fire(
                 'Not Verified',
-                'Please wait until your Tour Guide account is verified by admin.',
+                'Please wait until your tour agent account is verified by admin.',
                 'info'
               )
               this.$router.push('/')
@@ -154,14 +154,14 @@ export default {
             } else if (response.data.message == 2) {
               this.$swal.fire(
                 'Not Active',
-                'Your Tour Guide account is not active or not yet verified by Tour Agent.',
+                'Your tour guide account is not active or not yet verified by Tour Agent.',
                 'info'
               )
               this.$router.push('/')
             } else if (response.data.message == 3) {
               this.$swal.fire(
                 'Profil Incomplete!',
-                'Fill this form to finish creating your Tour Guide account.',
+                'Fill this form to finish creating your tour guide account.',
                 'info'
               )
               this.$router.push('/register-guide')

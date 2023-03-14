@@ -55,7 +55,7 @@
                                     <div class="col-md-6 mb-4">
                                         <div class="form-group">
                                             <label for="phone">Phone Number</label>
-                                            <Field name="phone" type="text" class="form-control" />
+                                            <Field name="phone" type="number" class="form-control" />
                                             <ErrorMessage name="phone" class="error-feedback text-danger" />
                                         </div>
                                     </div>

@@ -24,7 +24,7 @@
                             <h3 class="mt-2">Please login using your account to continue.</h3>
                         </div>
                         <div class="mt-4 p-2">
-                            <Form @submit="handleLogin" :validation-schema="schema">                                
+                            <Form @submit="handleLogin" :validation-schema="schema">
                                 <div class="form-group">
                                     <label for="email">Email</label>
                                     <Field name="email" type="text" class="form-control" />
@@ -43,7 +43,7 @@
                                         <font-awesome-icon icon="sign-in-alt" /><span> Login</span>
                                     </button>
                                 </div>
-                            
+
                                 <div class="form-group mt-2">
                                     <div v-if="message" class="alert alert-danger" role="alert">
                                         {{ message }}
@@ -124,89 +124,147 @@
 </template>
 
 <style scoped>
-    /* section  {
+/* section  {
         background-image: url("../../assets/img/login/login.jpg");
     } */
 </style>
 
 <script>
-    import { Form, Field, ErrorMessage } from "vee-validate";
-    import * as yup from "yup";
+import TourAgentService from "../../services/tour-agent.service";
+import TourGuideService from "../../services/tour-guide.service";
+import { Form, Field, ErrorMessage } from "vee-validate";
+import * as yup from "yup";
 
-    export default {
-        name: "LoginUser",
-        components: {
-            Form,
-            Field,
-            ErrorMessage,
-        },
-        data() {
-            const schema = yup.object().shape({
-                email: yup.string().required("Email is required!"),
-                password: yup.string().required("Password is required!"),
-            });
+export default {
+    name: "LoginUser",
+    components: {
+        Form,
+        Field,
+        ErrorMessage,
+    },
+    data() {
+        const schema = yup.object().shape({
+            email: yup.string().required("Email is required!"),
+            password: yup.string().required("Password is required!"),
+        });
 
-            return {
-                loading: false,
-                message: "",
-                schema,
-            };
+        return {
+            loading: false,
+            message: "",
+            schema,
+        };
+    },
+    computed: {
+        loggedIn() {
+            return this.$store.state.auth.status.loggedIn;
         },
-        computed: {
-            loggedIn() {
-                return this.$store.state.auth.status.loggedIn;
-            },
-        },
-        created() {
-            if (this.loggedIn) {
-                this.$router.push("/");
-            }
-        },
-        methods: {
-            handleLogin(user) {
-                this.loading = true;
+    },
+    created() {
+        if (this.loggedIn) {
+            this.$router.push("/");
+        }
+    },
+    methods: {
+        handleLogin(user) {
+            this.loading = true;
 
-                this.$store.dispatch("login", user).then(
-                    (data) => {
-                        const Toast = this.$swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000,
-                            timerProgressBar: true,
-                            didOpen: (toast) => {
-                                toast.addEventListener('mouseenter', this.$swal.stopTimer)
-                                toast.addEventListener('mouseleave', this.$swal.resumeTimer)
-                            }
-                        })
-
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'Signed in successfully.'
-                        })
-                        
-                        if(data.role_id==1){
-                            this.$router.push("/dashboard");
-                        }else if(data.role_id==2){
-                            this.$router.push("/dashboard");
-                        }else if(data.role_id==3){
-                            this.$router.push("/dashboard");
-                        }else if(data.role_id==4){
-                            this.$router.push("/packages");
+            this.$store.dispatch("login", user).then(
+                (data) => {
+                    const Toast = this.$swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                            toast.addEventListener('mouseleave', this.$swal.resumeTimer)
                         }
-                        
-                    },
-                    (error) => {
-                        this.loading = false;
-                        this.message =
-                            (error.response &&
-                                error.response.data &&
-                                error.response.data.message) ||
-                            error.message ||
-                            error.toString();
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Signed in successfully.'
+                    })
+
+                    if (data.role_id == 1) {
+                        this.$router.push("/dashboard");
+                    } else if (data.role_id == 2) {
+                        TourAgentService.checkTourAgent().then(
+                            (response) => {
+                                if (response.data.message == 1) {
+                                    this.$router.push("/dashboard");
+                                } else if (response.data.message == 2) {
+                                    this.$swal.fire(
+                                        'Not Verified',
+                                        'Please wait until your tour agent account is verified by admin.',
+                                        'info'
+                                    )
+                                    this.$router.push('/')
+                                } else if (response.data.message == 3) {
+                                    this.$swal.fire(
+                                        'Profil Incomplete!',
+                                        'Fill this form to finish creating your Tour Agent account.',
+                                        'info'
+                                    )
+                                    this.$router.push('/register-agent')
+                                }
+                            },
+                            (error) => {
+                                this.content =
+                                    (error.response &&
+                                        error.response.data &&
+                                        error.response.data.message) ||
+                                    error.message ||
+                                    error.toString();
+                            }
+                        );
+                    } else if (data.role_id == 3) {
+                        TourGuideService.checkTourGuide().then(
+                            (response) => {
+                                if (response.data.message == 1) {
+                                    this.$router.push("/dashboard");
+                                } else if (response.data.message == 2) {
+                                    this.$swal.fire(
+                                        'Not Active',
+                                        'Your tour guide account is not active or not yet verified by Tour Agent.',
+                                        'info'
+                                    )
+                                    this.$router.push('/')
+                                } else if (response.data.message == 3) {
+                                    this.$swal.fire(
+                                        'Profil Incomplete!',
+                                        'Fill this form to finish creating your tour guide account.',
+                                        'info'
+                                    )
+                                    this.$router.push('/register-guide')
+                                }
+                            },
+                            (error) => {
+                                this.content =
+                                    (error.response &&
+                                        error.response.data &&
+                                        error.response.data.message) ||
+                                    error.message ||
+                                    error.toString();
+                            }
+                        );
+                    } else if (data.role_id == 4) {
+                        this.$router.push("/packages");
                     }
-                );
-            },
+
+                },
+                (error) => {
+                    this.loading = false;
+                    this.message =
+                        (error.response &&
+                            error.response.data &&
+                            error.response.data.message) ||
+                        error.message ||
+                        error.toString();
+                }
+            );
         },
-    };
+    },
+};
 </script>

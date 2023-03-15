@@ -2,8 +2,10 @@ import axios from "axios";
 import authHeader from "./auth-header";
 import fileHeader from "./file-header";
 import apiUrl from "./api-url";
+// import urlHost from "./url-host";
 
 const API_URL = apiUrl()
+// const URL_HOST = urlHost()
 
 class AuthService {
   async login(user) {
@@ -61,6 +63,40 @@ class AuthService {
       }, { headers: fileHeader() });
     return response.data;
   }
+
+  // checkToken(){
+  //   axios.get(URL_HOST + '/sanctum/csrf-cookie').then(
+  //   () => {
+
+  //   })
+  //   .catch(() => {
+  //     alert('Please relog your account.')
+  //   })
+    
+  //   axios.interceptors.request.use(
+  //     config => {
+  //       return config
+  //     },
+  //     error => {
+  //       return Promise.reject(error)
+  //     }
+  //   )
+    
+  //   axios.interceptors.response.use(
+  //     response => {
+  //       console.log(response)
+  //       return response
+  //     },
+  //     error => {
+  //       console.log(error)
+  //       if (error.response.status === 401) {
+  //         tho
+  //       }
+    
+  //       return Promise.reject(error)
+  //     }
+  //   )
+  // }
 }
 
 export default new AuthService();

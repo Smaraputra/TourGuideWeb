@@ -240,7 +240,7 @@ export default {
                 confirmButtonText: btntxt
             }).then((result) => {
                 if (result.isConfirmed) {
-                    GuideSelectionService.verifyByGuide(id, approve).then(
+                    GuideSelectionService.verifyByAgent(id, approve).then(
                         () => {
                             this.$swal.fire(
                                 'Approved!',

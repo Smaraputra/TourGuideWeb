@@ -118,7 +118,7 @@ export default {
         .min(3, "Must be at least 3 characters!")
         .max(255, "Must be maximum 255 characters!"),
       phone: yup
-        .string()
+        .number()
         .required("Phone number is required!"),
     });
     return {

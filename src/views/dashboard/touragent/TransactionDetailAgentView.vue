@@ -278,7 +278,7 @@
                                                                         {{item.rating ? item.rating : 'No rating yet.' }}   
                                                                     </template>
                                                                     <template #item-knowledge="item">
-                                                                        <template v-if="item.dest.guide_destination.length>0">
+                                                                        <template v-if="item.dest && item.dest.guide_destination.length>0">
                                                                             <template v-for="(dest, index) in item.dest.guide_destination" :key="index">
                                                                                 <template v-if="dest.tourist_destination">
                                                                                     {{dest.tourist_destination.name}}

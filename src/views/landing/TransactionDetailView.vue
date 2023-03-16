@@ -72,7 +72,7 @@
                                                 {{ message3 }}
                                             </div>
                                         </div>
-                                        <div class="col-md-6" v-if="transaction.tour_packages.package_category.guide_included == 'Yes'">
+                                        <div class="col-md-6" v-if="transaction.tour_packages.package_category.guide_included == 'Yes' && transaction.guide_fee">
                                             <form @submit.prevent="handleSaveGuide()" class="card shadow border-0 dashboard_common_table">
                                                 <p class="text-center">Rate your guide!</p>
                                                 <fieldset class="rating"> 

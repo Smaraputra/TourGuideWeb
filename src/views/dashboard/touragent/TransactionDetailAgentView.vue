@@ -82,6 +82,13 @@
                             :value="transaction['rating_package'] + ' Stars'" disabled />
                         <ErrorMessage name="rating_package" class="error-feedback text-danger" />
                     </div>
+                    <div class="form-outline mb-4"
+                        v-if="transaction.tour_packages.package_category.guide_included == 'Yes'">
+                        <label for="rating_package">Guide Rating</label>
+                        <Field name="rating_package" type="text" class="form-control"
+                            :value="guideRating!=0 ? (guideRating + ' Stars') : 'Not set yet.' " disabled />
+                        <ErrorMessage name="rating_package" class="error-feedback text-danger" />
+                    </div>
                     <div class="form-outline mb-4" v-if="transaction.tour_packages.package_category.guide_included == 'Yes'">
                         <label for="guide_fee">Guide Fee</label>
                         <Field name="guide_fee" type="text" :value="transaction.guide_fee ? $filters.formatPrice(transaction.guide_fee) : 'No guide selected yet.'"
@@ -133,10 +140,7 @@
                                             <div class="card border-0" style="border-radius: 15px;" v-if="tourpackage">
                                                 <div class="card-body"
                                                     v-if="tourpackage.package_category['guide_included'] === 'Yes'">
-                                                    <div v-if="transaction['order_status'] != 'Active'">
-                                                        <h5>This order is not active yet.</h5>
-                                                    </div>
-                                                    <div v-else>
+                                                    <div v-if="transaction['order_status'] == 'Active' || transaction['order_status'] == 'Finished'">
                                                         <h5 class="mb-2 color-main">Guide Selection Process</h5>
                                                         <EasyDataTable
                                                             v-model:items-selected="slt_guide_end"
@@ -391,6 +395,9 @@
                                                                 </div>
                                                             </div> -->
                                                     </div>
+                                                    <div v-else>
+                                                        <h5>This order is not active yet.</h5>
+                                                    </div>
                                                 </div>
                                                 <div class="card-body" v-else>
                                                     <h5>This package does not include tour guide.</h5>
@@ -539,7 +546,9 @@ export default {
             tourduration: null,
             enddate: null,
             tourpackagesdetails: [],
-            guidelist: []
+            guidelist: [],
+            guideRating: 0,
+            guideRatingStatus: false,
         };
     },
     computed: {
@@ -663,6 +672,11 @@ export default {
             OrderService.getOneByIdAgent(this.$route.params.id_orders).then(
                 (response) => {
                     this.transaction = response.data
+                    this.transaction.guideRating = response.data.guide_selections.filter(function(items) {
+                        return items.status == 'Chosen';
+                    })
+                    this.guideRating = this.transaction.guideRating[0] && this.transaction.guideRating[0].guide_services[0] ? this.transaction.guideRating[0].guide_services[0].rating_guide : 0
+                    this.guideRatingStatus = this.guideRating != 0 ? true : false
                     console.log(this.transaction)
                     TourPackageService.getByIdDetail(this.transaction.tour_packages.id_tour_packages).then(
                         (response) => {

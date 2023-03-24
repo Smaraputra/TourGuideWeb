@@ -140,23 +140,23 @@
                         </div>
                     </div>
                     <template v-if="guide">
-                        <div v-if="guide.guide_approval == 'Waiting Approval' && guide.status == 'Waiting Approval'">
+                        <div v-if="guide.agent_approval == 'Waiting Approval' && guide.status == 'Waiting Approval'">
                             <tr>
                                 <td>
                                     <div class="mt-2">
-                                <button class="btn btn-success" @click="approval(guide.id_guide_selections, 'Approved')">
-                                    <font-awesome-icon icon="check" style="width: 20px; height: 20px;" />
-                                    Approve
-                                </button>
-                            </div>
+                                        <button class="btn btn-success" @click="approval(guide.id_guide_selections, 'Approved')">
+                                            <font-awesome-icon icon="check" style="width: 20px; height: 20px;" />
+                                            Approve
+                                        </button>
+                                    </div>
                                 </td>
                                 <td>
                                     <div class="mt-2 mx-2">
-                                <button class="btn btn-danger" @click="approval(guide.id_guide_selections, 'Rejected')">
-                                    <font-awesome-icon icon="times" style="width: 20px; height: 20px;" />
-                                    Reject
-                                </button>
-                            </div>
+                                        <button class="btn btn-danger" @click="approval(guide.id_guide_selections, 'Rejected')">
+                                            <font-awesome-icon icon="times" style="width: 20px; height: 20px;" />
+                                            Reject
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         </div>

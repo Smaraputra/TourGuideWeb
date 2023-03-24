@@ -69,7 +69,7 @@
                             :value="guideRating + ' Stars'" disabled />
                         <ErrorMessage name="rating_package" class="error-feedback text-danger" />
                     </div>
-                    <div class="form-outline mb-4" v-if="transaction.tour_packages.package_category.guide_included == 'Yes'">
+                    <div class="form-outline mb-4" v-if="transaction.tour_packages.package_category.guide_included == 'Yes' && selectedGuide && selectedGuide.users.id == currentUser.id">
                         <label for="guide_fee">Guide Fee</label>
                         <Field name="guide_fee" type="text" :value="transaction.guide_fee ? $filters.formatPrice(transaction.guide_fee) : 'No guide selected yet.'"
                             class="form-control" disabled />

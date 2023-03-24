@@ -30,6 +30,7 @@ export const auth = {
     // },
     logoutExpired({ commit }) {
       commit('logout');
+      localStorage.removeItem("user");
     },
     logout({ commit }) {
       return AuthService.logout().then(

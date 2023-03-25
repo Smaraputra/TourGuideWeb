@@ -264,7 +264,8 @@
             <template #item-action="item">
               <div class="operation-wrapper" style="min-width: 100px;">
                 <div class="d-flex pr-2 pt-2 pb-2">
-                  <router-link to="#" class="btn btn-success">
+                  <router-link class="btn btn-success"
+                    :to="{ name: 'tour-package-price-see', params: { id_package_prices: item.id_package_prices } }">
                     <font-awesome-icon icon="pencil" />
                   </router-link>
                   <button class="btn btn-danger mx-2" @click="deleteDataPackagesPrice(item.id_package_prices)">
@@ -378,7 +379,7 @@
                 <ErrorMessage name="pickup_time" class="error-feedback text-danger" />
               </div>
               <div class="form-outline mb-4">
-                <label for="price">Price</label>
+                <label for="price">Price (IDR)</label>
                 <Field name="price" type="number" class="form-control" />
                 <ErrorMessage name="price" class="error-feedback text-danger" />
               </div>

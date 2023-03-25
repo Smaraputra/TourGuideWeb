@@ -32,6 +32,7 @@ import TourAgentProfileAgentView from "../views/dashboard/touragent/TourAgentPro
 import TourDestinationRequestAgentView from "../views/dashboard/touragent/TourDestinationRequestAgentView.vue";
 import TourPackageAgentView from "../views/dashboard/touragent/TourPackageAgentView.vue";
 import TourPackageDetailPriceAgentView from "../views/dashboard/touragent/TourPackageDetailPriceAgentView.vue";
+import TourPackagePriceUpdateAgentView from "../views/dashboard/touragent/TourPackagePriceUpdateAgentView.vue";
 import TourPackageFacilitiesActivitiesAgentView from "../views/dashboard/touragent/TourPackageFacilitiesActivitiesAgentView.vue";
 import TourFacilitiesAgentView from "../views/dashboard/touragent/TourPackageFacilitiesUpdateAgentView.vue";
 import TourActivitiesAgentView from "../views/dashboard/touragent/TourPackageActivitiesUpdateAgentView.vue";
@@ -197,6 +198,11 @@ const routes = [
         path: "tour-package/:id_tour_packages",
         name: "tour-package-see",
         component: TourPackageDetailPriceAgentView,
+      },
+      {
+        path: "tour-package-price/:id_package_prices",
+        name: "tour-package-price-see",
+        component: TourPackagePriceUpdateAgentView,
       },
       {
         path: "tour-package-detail/:id_package_details",

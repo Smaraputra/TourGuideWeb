@@ -428,7 +428,7 @@ export default {
             this.total = this.addFee + this.initial
         },
         addTransaction(schemaTransaction) {
-            if (!this.currentUser) {
+            if (this.currentUser == null) {
                 this.$swal.fire(
                     'Action Aborted!',
                     'You are not logged in.',

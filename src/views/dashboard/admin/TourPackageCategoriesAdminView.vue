@@ -110,7 +110,7 @@
                                 <Field name="guide_included" as="select" class="form-control form-select">
                                     <option disabled selected value>-Select Guide Included Status-</option>
                                     <option value="Yes">Included</option>
-                                    <option value="No">Not Included</option>
+                                    <option value="Not Included">Not Included</option>
                                 </Field>
                             </div>
                             <div class="form-group">

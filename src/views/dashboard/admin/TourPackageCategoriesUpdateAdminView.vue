@@ -85,8 +85,6 @@ export default {
             guide_included: yup
                 .string()
                 .required("Guide included status is required!")
-                .min(3, "Must be at least 3 characters!")
-                .max(2048, "Must be maximum 2048 characters!"),
         });
 
         return {

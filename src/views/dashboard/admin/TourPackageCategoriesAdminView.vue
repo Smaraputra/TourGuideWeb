@@ -225,6 +225,8 @@ export default {
             })
         },
         addCategory(schema) {
+            console.log(schema)
+            console.log("AAAAAAAAAAAAAAAAAAAAAAAAAA")
             this.message = "";
             this.successful = false;
             this.loading = true;

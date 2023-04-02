@@ -696,6 +696,19 @@ export default {
                                             }
                                         });
                                     });
+                                    let arraySelected = []
+                                    let filteredData = []
+                                    response.data2.forEach(data2 => {
+                                        arraySelected.push(data2.id_guides)
+                                    });
+                                    console.log(arraySelected)
+                                    response.data.forEach(data => {
+                                        if(!(arraySelected.includes(data.id_guides))){
+                                            filteredData.push(data)
+                                            console.log(data)
+                                        }
+                                    });
+                                    this.guidelist = filteredData
                                     console.log(this.guidelist)
                                 },
                                 (error) => {

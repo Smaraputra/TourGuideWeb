@@ -74,6 +74,12 @@
                             class="form-control" disabled />
                         <ErrorMessage name="total_price" class="error-feedback text-danger" />
                     </div>
+                    <div class="form-outline mb-4">
+                        <label for="accomodation">Accommodation</label>
+                        <Field name="accomodation" type="text" v-model="transaction['accomodation']"
+                            class="form-control" disabled />
+                        <ErrorMessage name="accomodation" class="error-feedback text-danger" />
+                    </div>
                     <hr class="hr">
                     <div class="form-outline mb-4"
                         v-if="transaction['rating_package'] != null && transaction['rating_package'] != 0">
@@ -139,7 +145,7 @@
                                         <div class="col-md-12 col-lg-12 col-xl-12">
                                             <div class="card border-0" style="border-radius: 15px;" v-if="tourpackage">
                                                 <div class="card-body"
-                                                    v-if="tourpackage.package_category['guide_included'] === 'Yes'">
+                                                    v-if="tourpackage.package_category['guide_included'] === 'Yes' && transaction['accomodation'] === 'Default'">
                                                     <div v-if="transaction['order_status'] == 'Active' || transaction['order_status'] == 'Finished'">
                                                         <h5 class="mb-2 color-main">Guide Selection Process</h5>
                                                         <EasyDataTable
@@ -289,6 +295,14 @@
                                                                                     <span v-if="index+1 != item.dest.guide_destination.length">, </span>
                                                                                 </template>
                                                                             </template>
+                                                                        </template>
+                                                                        <template v-else>
+                                                                            Not set yet.
+                                                                        </template>
+                                                                    </template>
+                                                                    <template #item-language="item">
+                                                                        <template v-if="item.languages && item.languages.length > 0">
+                                                                            {{ item.languages.map(lang => lang.language.language).join(', ') }}
                                                                         </template>
                                                                         <template v-else>
                                                                             Not set yet.
@@ -460,6 +474,34 @@
                         </div>
                     </div>
                 </div>
+                <br>
+                <div class="col-md-12">
+                    <div class="dashboard_common_table">
+                        <h3 class="mb-2">Customer Note</h3>
+                        <Form @submit="addNote" :validation-schema="schema">
+                            <p>Send note to customer about payment rejection or guide selection (Optional).</p>
+                            <br>
+                            <div>
+                                <div class="form-outline mb-4">
+                                    <label for="agent_note">Agent to Customer Note</label>
+                                    <Field as="textarea" name="agent_note" type="text" v-model="transaction['agent_note']" class="form-control " />
+                                    <ErrorMessage name="agent_note" class="error-feedback text-danger" />
+                                </div>
+                                <div class="form-group mt-4">
+                                    <button class="btn btn_theme btn-lg btn-block"
+                                        :disabled="loading">
+                                        <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+                                        <font-awesome-icon icon="" /><span>Send</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div v-if="message" class="alert mt-2"
+                                :class="successful ? 'alert-success' : 'alert-danger'">
+                                {{ message }}
+                            </div>
+                        </Form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -473,7 +515,7 @@ import GuideSelectionService from "../../../services/guide-selection.service";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import TourTimeline from "../../../components/global/TourTimeline.vue";
 import { ref } from 'vue';
-// import * as yup from "yup";
+import * as yup from "yup";
 // import { Form, Field, ErrorMessage } from "vee-validate";
 // import * as rules from "@vee-validate/rules";
 
@@ -502,6 +544,13 @@ export default {
         //     slt_guide: yup.array()
         //         .required("Assign at least 1 guide.").nullable(),
         // });
+        const schema = yup.object().shape({
+            agent_note: yup
+                .string()
+                .required("Agent Note is required!")
+                .min(3, "Must be at least 3 characters!")
+                .max(2048, "Must be maximum 2048 characters!"),
+        });
         const themeColor = "#184fa7";
         const headers = [
             { text: "Photo", value: "photo" },
@@ -510,6 +559,7 @@ export default {
             { text: "Tour Agent", value: "agent_name" },
             // { text: "Description", value: "guide_description" },
             { text: "Knowledge", value: "knowledge" },
+            { text: "Language", value: "language" },
             { text: "Rating", value: "rating" },
         ];
         const headers1 = [
@@ -528,7 +578,7 @@ export default {
             headers1,
             statusLoad: false,
             slt_guide_end,
-            // schema,
+            schema,
             choosen: null,
             selectedGuide: [],
             alreadyAssigned: [],
@@ -695,6 +745,10 @@ export default {
                                                 guide.dest = dest
                                             }
                                         });
+                                        const languageData = response.data3.find(data3 => data3.id_guides === guide.id_guides);
+                                        if (languageData) {
+                                            guide.languages = languageData.guide_language;
+                                        }
                                     });
                                     let arraySelected = []
                                     let filteredData = []
@@ -801,7 +855,56 @@ export default {
                     this.slt_guide_end = []
                 }
             )
-        }
+        },
+        addNote(schema) {
+            if (this.currentUser == null) {
+                this.$swal.fire(
+                    'Action Aborted!',
+                    'You are not logged in.',
+                    'error'
+                )
+                this.$router.push("/login");
+            } else if (this.currentUser.role_id != 2) {
+                this.$swal.fire(
+                    'Action Aborted!',
+                    'You are not a tour agent.',
+                    'error'
+                )
+            } else if (this.currentUser != null && this.currentUser.role_id == 2 && this.total != 0) {
+                this.message = "";
+                this.successful = false;
+                this.loading = true;
+
+                OrderService.storeByAgent(this.$route.params.id_orders, schema.agent_note).then(
+                    () => {
+                        this.message = "Note sent.";
+                        this.successful = true;
+                        this.loading = false;
+                        this.$swal.fire(
+                            'Success!',
+                            'Note sent.',
+                            'success'
+                        )
+                    },
+                    (error) => {
+                        this.message =
+                            (error.response &&
+                                error.response.data &&
+                                error.response.data.message) ||
+                            error.message ||
+                            error.toString();
+                        this.successful = false;
+                        this.loading = false;
+                        this.$swal.fire(
+                            'Fail!',
+                            'Note is not sent.',
+                            'error'
+                        )
+                    }
+                );
+            }
+
+        },
     }
 };
 

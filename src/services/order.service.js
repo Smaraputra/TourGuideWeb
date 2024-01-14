@@ -60,6 +60,18 @@ class TourOrderService {
     return response.data;
   }
 
+  async storeByAgent(id_orders, agent_note) {
+    const response = await axios.post(
+      API_URL + "storeByAgent",
+      {
+        id_orders: id_orders,
+        agent_note: agent_note,
+      },
+      { headers: authHeader() }
+    );
+    return response.data;
+  }
+
   async uploadPayment(payment,id) {
     const response = await axios.post(
       API_URL + "uploadPayment",

@@ -33,6 +33,7 @@ class TourFacilitiesService {
         facilities: fac.facilities,
         description_agent: term,
         description_public: fac.description_public,
+        facility_price: fac.facility_price,
       }, { headers: authHeader() });
     return response.data;
   }
@@ -45,6 +46,7 @@ class TourFacilitiesService {
         facilities: fac.facilities,
         description_agent: term,
         description_public: fac.description_public,
+        facility_price: fac.facility_price,
       }, { headers: authHeader() });
     return response.data;
   }

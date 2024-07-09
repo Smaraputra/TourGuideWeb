@@ -316,6 +316,11 @@
                                 <ErrorMessage name="description_public" class="error-feedback text-danger" />
                             </div>
                             <div class="form-outline mb-4">
+                                <label for="facility_price">Facility Price</label>
+                                <Field name="facility_price" type="number" class="form-control" />
+                                <ErrorMessage name="facility_price" class="error-feedback text-danger" />
+                            </div>
+                            <div class="form-outline mb-4">
                                 <label for="description_agent">Note (Only Agent)</label>
                                 <Field name="terms" class="form-control" v-model="termCond">
                                     <VueEditor v-model="termCond" theme="snow"/>
@@ -427,6 +432,7 @@ export default {
         const headers1 = [
             { text: "Facility", value: "facilities" },
             { text: "Description (Public)", value: "description_public" },
+            { text: "Facility Price", value: "facility_price" },
             // { text: "Note (Agent Only)", value: "description_agent" },
             { text: "Action", value: "action" },
         ];

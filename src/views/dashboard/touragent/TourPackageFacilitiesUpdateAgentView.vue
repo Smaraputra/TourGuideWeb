@@ -45,6 +45,11 @@
                         <ErrorMessage name="description_public" class="error-feedback text-danger" />
                     </div>
                     <div class="form-outline mb-4">
+                        <label for="facility_price">Facility Price</label>
+                        <Field name="facility_price" type="number" class="form-control" v-model="facilities.facility_price"/>
+                        <ErrorMessage name="facility_price" class="error-feedback text-danger" />
+                    </div>
+                    <div class="form-outline mb-4">
                         <label for="description_agent">Note (Only Agent)</label>
                         <Field name="terms" class="form-control" v-model="facilities.description_agent">
                             <VueEditor v-model="facilities.description_agent" theme="snow"/>
